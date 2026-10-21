@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "folder_name",
+  "land",
+  "parent_folder",
+  "is_root",
+  "folder_path"
+ ],
+ "fields": [
+  {
+   "fieldname": "folder_name",
+   "fieldtype": "Data",
+   "label": "Folder Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "land",
+   "fieldtype": "Link",
+   "label": "Land / Project",
+   "options": "Sijil Land",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "parent_folder",
+   "fieldtype": "Link",
+   "label": "Parent Folder",
+   "options": "Sijil Folder",
+   "search_index": 1
+  },
+  {
+   "fieldname": "is_root",
+   "fieldtype": "Check",
+   "label": "Is Root",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "folder_path",
+   "fieldtype": "Data",
+   "label": "Folder Path",
+   "read_only": 1,
+   "no_copy": 1,
+   "hidden": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Folder",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:FLD-{#######}",
+ "naming_rule": "Expression",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil User",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "title_field": "folder_name",
+ "search_fields": "land"
+}

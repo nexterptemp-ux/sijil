@@ -1,0 +1,237 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "description",
+  "case",
+  "land",
+  "originating_event",
+  "cb_fu",
+  "assigned_to",
+  "due_date",
+  "priority",
+  "status",
+  "reminder_days_before",
+  "completion_section",
+  "completion_date",
+  "outcome",
+  "cb_fu2",
+  "result_event",
+  "next_followup",
+  "integration_section",
+  "todo",
+  "calendar_event",
+  "last_reminder_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Follow-up Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "case",
+   "fieldtype": "Link",
+   "label": "Case",
+   "options": "Sijil Case",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "land",
+   "fieldtype": "Link",
+   "label": "Land / Project",
+   "options": "Sijil Land",
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "originating_event",
+   "fieldtype": "Link",
+   "label": "Originating Event",
+   "options": "Sijil Case Event",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cb_fu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh\nUrgent",
+   "default": "Medium",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nCompleted\nCancelled",
+   "default": "Open",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "reminder_days_before",
+   "fieldtype": "Int",
+   "label": "Remind (Days Before Due Date)",
+   "default": "1"
+  },
+  {
+   "fieldname": "completion_section",
+   "fieldtype": "Section Break",
+   "label": "Completion"
+  },
+  {
+   "fieldname": "completion_date",
+   "fieldtype": "Date",
+   "label": "Completion Date",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Text",
+   "label": "Actual Outcome",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cb_fu2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "result_event",
+   "fieldtype": "Link",
+   "label": "Resulting Event",
+   "options": "Sijil Case Event",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "next_followup",
+   "fieldtype": "Link",
+   "label": "Next Follow-up",
+   "options": "Sijil Follow Up",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "integration_section",
+   "fieldtype": "Section Break",
+   "label": "ERPNext Integration",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "todo",
+   "fieldtype": "Link",
+   "label": "ToDo",
+   "options": "ToDo",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "calendar_event",
+   "fieldtype": "Link",
+   "label": "Calendar Event",
+   "options": "Event",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "last_reminder_on",
+   "fieldtype": "Date",
+   "label": "Last Reminder Sent",
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Follow Up",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:FUP-{#####}",
+ "naming_rule": "Expression",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil User",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "search_fields": "case,assigned_to,due_date",
+ "track_changes": 1
+}

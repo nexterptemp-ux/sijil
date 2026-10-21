@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "related_case",
+  "relation_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "related_case",
+   "fieldtype": "Link",
+   "label": "Related Case",
+   "options": "Sijil Case",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "relation_type",
+   "fieldtype": "Select",
+   "label": "Relation Type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "default": "Related",
+   "options": "Related\nDepends On\nBlocks\nDuplicate Of\nFollows"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Case Relation",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "editable_grid": 1,
+ "istable": 1
+}

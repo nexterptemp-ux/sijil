@@ -1,0 +1,258 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "reference_no",
+  "land",
+  "case_type",
+  "cb_case1",
+  "status",
+  "priority",
+  "owner_user",
+  "project",
+  "situation_section",
+  "current_situation",
+  "situation_updated_on",
+  "parties_section",
+  "external_organization",
+  "cb_case2",
+  "external_contact",
+  "dates_section",
+  "start_date",
+  "target_date",
+  "cb_case3",
+  "last_update_date",
+  "next_followup_date",
+  "description_section",
+  "description",
+  "relations_section",
+  "relations"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Case Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "label": "Reference Number",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "land",
+   "fieldtype": "Link",
+   "label": "Land / Project",
+   "options": "Sijil Land",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "case_type",
+   "fieldtype": "Link",
+   "label": "Case Type",
+   "options": "Sijil Case Type",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "cb_case1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Not Started\nIn Progress\nAwaiting Action\nOn Hold\nCompleted\nCancelled",
+   "default": "Not Started",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "Low\nMedium\nHigh\nUrgent",
+   "default": "Medium",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "owner_user",
+   "fieldtype": "Link",
+   "label": "Internal Owner",
+   "options": "User",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "ERPNext Project",
+   "options": "Project",
+   "fetch_from": "land.project",
+   "read_only": 1
+  },
+  {
+   "fieldname": "situation_section",
+   "fieldtype": "Section Break",
+   "label": "Current Situation"
+  },
+  {
+   "fieldname": "current_situation",
+   "fieldtype": "Text",
+   "label": "Current Situation",
+   "description": "A narrative of where the case stands right now. Updated automatically when a development changes it."
+  },
+  {
+   "fieldname": "situation_updated_on",
+   "fieldtype": "Datetime",
+   "label": "Situation Updated On",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "parties_section",
+   "fieldtype": "Section Break",
+   "label": "External Party"
+  },
+  {
+   "fieldname": "external_organization",
+   "fieldtype": "Link",
+   "label": "External Responsible Organization",
+   "options": "Sijil External Organization",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "cb_case2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "external_contact",
+   "fieldtype": "Link",
+   "label": "External Contact",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "dates_section",
+   "fieldtype": "Section Break",
+   "label": "Dates"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "default": "Today"
+  },
+  {
+   "fieldname": "target_date",
+   "fieldtype": "Date",
+   "label": "Target Date"
+  },
+  {
+   "fieldname": "cb_case3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_update_date",
+   "fieldtype": "Date",
+   "label": "Last Meaningful Update",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "next_followup_date",
+   "fieldtype": "Date",
+   "label": "Next Follow-up",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description_section",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "relations_section",
+   "fieldtype": "Section Break",
+   "label": "Related Cases"
+  },
+  {
+   "fieldname": "relations",
+   "fieldtype": "Table",
+   "label": "Related Cases",
+   "options": "Sijil Case Relation"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Case",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:CASE-{#####}",
+ "naming_rule": "Expression",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil User",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "search_fields": "land,status,reference_no,owner_user",
+ "track_changes": 1
+}

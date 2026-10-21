@@ -1,0 +1,258 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "case",
+  "land",
+  "event_date",
+  "event_time",
+  "cb_event",
+  "event_type",
+  "communication_method",
+  "is_milestone",
+  "content_section",
+  "title",
+  "description",
+  "external_organization",
+  "outcome",
+  "effect_section",
+  "situation_update",
+  "cb_effect",
+  "status_after",
+  "audit_section",
+  "recorded_by",
+  "recorded_on",
+  "source_followup",
+  "cb_audit",
+  "entry_status",
+  "corrects",
+  "superseded_by",
+  "correction_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "case",
+   "fieldtype": "Link",
+   "label": "Case",
+   "options": "Sijil Case",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "land",
+   "fieldtype": "Link",
+   "label": "Land / Project",
+   "options": "Sijil Land",
+   "read_only": 1,
+   "fetch_from": "case.land",
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "event_date",
+   "fieldtype": "Date",
+   "label": "Actual Event Date",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "event_time",
+   "fieldtype": "Time",
+   "label": "Event Time"
+  },
+  {
+   "fieldname": "cb_event",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "event_type",
+   "fieldtype": "Select",
+   "label": "Event Type",
+   "default": "Update",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "options": "Update\nContact\nMilestone\nSubmission\nApproval\nRejection\nMeeting\nDocument Received\nNo Progress\nCorrespondence\nOther"
+  },
+  {
+   "fieldname": "communication_method",
+   "fieldtype": "Select",
+   "label": "Communication Method",
+   "options": "\nPhone\nEmail\nMeeting\nWhatsApp\nOfficial Letter\nGovernment Portal\nSite Visit\nOther"
+  },
+  {
+   "fieldname": "is_milestone",
+   "fieldtype": "Check",
+   "label": "Milestone"
+  },
+  {
+   "fieldname": "content_section",
+   "fieldtype": "Section Break",
+   "label": "Development"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Event Title",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Detailed Description"
+  },
+  {
+   "fieldname": "external_organization",
+   "fieldtype": "Link",
+   "label": "Relevant External Organization",
+   "options": "Sijil External Organization"
+  },
+  {
+   "fieldname": "outcome",
+   "fieldtype": "Small Text",
+   "label": "Outcome"
+  },
+  {
+   "fieldname": "effect_section",
+   "fieldtype": "Section Break",
+   "label": "Resulting Change"
+  },
+  {
+   "fieldname": "situation_update",
+   "fieldtype": "Text",
+   "label": "New Current Situation",
+   "description": "Optional. When filled in, the case's current situation is updated to this text."
+  },
+  {
+   "fieldname": "cb_effect",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status_after",
+   "fieldtype": "Select",
+   "label": "New Case Status",
+   "options": "\nNot Started\nIn Progress\nAwaiting Action\nOn Hold\nCompleted\nCancelled"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "recorded_on",
+   "fieldtype": "Datetime",
+   "label": "Recorded On",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "source_followup",
+   "fieldtype": "Link",
+   "label": "Originating Follow-up",
+   "options": "Sijil Follow Up",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cb_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "entry_status",
+   "fieldtype": "Select",
+   "label": "Record Status",
+   "options": "Active\nSuperseded",
+   "default": "Active",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "corrects",
+   "fieldtype": "Link",
+   "label": "Corrects Event",
+   "options": "Sijil Case Event",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "superseded_by",
+   "fieldtype": "Link",
+   "label": "Superseded By",
+   "options": "Sijil Case Event",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "correction_reason",
+   "fieldtype": "Small Text",
+   "label": "Correction Reason",
+   "read_only": 1,
+   "no_copy": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Case Event",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:EVT-{#######}",
+ "naming_rule": "Expression",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "permlevel": 0,
+   "read": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Sijil Manager",
+   "permlevel": 0,
+   "read": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Sijil User",
+   "permlevel": 0,
+   "read": 1,
+   "create": 1,
+   "report": 1,
+   "print": 1,
+   "email": 1
+  }
+ ],
+ "title_field": "title",
+ "search_fields": "case,event_type,event_date",
+ "track_changes": 1
+}

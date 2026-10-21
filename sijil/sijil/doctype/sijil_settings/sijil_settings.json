@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "general_section",
+  "default_company",
+  "stale_case_days",
+  "cb_general",
+  "default_reminder_days",
+  "restrict_to_assigned_lands",
+  "integration_section",
+  "enable_project_integration",
+  "auto_create_project",
+  "enable_task_sync",
+  "cb_integration",
+  "enable_todo",
+  "enable_calendar",
+  "enable_notifications",
+  "enable_email_reminders",
+  "folders_section",
+  "folder_templates"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "stale_case_days",
+   "fieldtype": "Int",
+   "label": "Days Without Update Before a Case Is Stale",
+   "default": "14"
+  },
+  {
+   "fieldname": "cb_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_reminder_days",
+   "fieldtype": "Int",
+   "label": "Default Reminder (Days Before Due Date)",
+   "default": "1"
+  },
+  {
+   "fieldname": "restrict_to_assigned_lands",
+   "fieldtype": "Check",
+   "label": "Restrict Users to Their Assigned Lands",
+   "default": "0",
+   "description": "When enabled, users without the Sijil Manager role only see lands where they are listed as responsible, and records they own or are assigned to."
+  },
+  {
+   "fieldname": "integration_section",
+   "fieldtype": "Section Break",
+   "label": "ERPNext Integrations"
+  },
+  {
+   "fieldname": "enable_project_integration",
+   "fieldtype": "Check",
+   "label": "Link Lands to ERPNext Projects",
+   "default": "1"
+  },
+  {
+   "fieldname": "auto_create_project",
+   "fieldtype": "Check",
+   "label": "Create an ERPNext Project Automatically for Each New Land",
+   "default": "0",
+   "depends_on": "enable_project_integration"
+  },
+  {
+   "fieldname": "enable_task_sync",
+   "fieldtype": "Check",
+   "label": "Sync Tasks with ERPNext Tasks",
+   "default": "1",
+   "depends_on": "enable_project_integration"
+  },
+  {
+   "fieldname": "cb_integration",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enable_todo",
+   "fieldtype": "Check",
+   "label": "Create ToDo Assignments for Follow-ups and Tasks",
+   "default": "1"
+  },
+  {
+   "fieldname": "enable_calendar",
+   "fieldtype": "Check",
+   "label": "Create Calendar Events for Follow-ups",
+   "default": "1"
+  },
+  {
+   "fieldname": "enable_notifications",
+   "fieldtype": "Check",
+   "label": "Send System Notifications for Reminders",
+   "default": "1"
+  },
+  {
+   "fieldname": "enable_email_reminders",
+   "fieldtype": "Check",
+   "label": "Send Email Reminders",
+   "default": "0"
+  },
+  {
+   "fieldname": "folders_section",
+   "fieldtype": "Section Break",
+   "label": "Default Document Folders"
+  },
+  {
+   "fieldname": "folder_templates",
+   "fieldtype": "Table",
+   "label": "Folder Template",
+   "options": "Sijil Folder Template",
+   "description": "These folders are created automatically inside every new land."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Settings",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1,
+   "print": 1,
+   "email": 1
+  },
+  {
+   "role": "Sijil Manager",
+   "permlevel": 0,
+   "read": 1,
+   "write": 1
+  }
+ ],
+ "issingle": 1,
+ "description": "Global settings for SIJIL"
+}
