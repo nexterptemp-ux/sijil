@@ -19,7 +19,7 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 | F5 | Follow-ups centre and completion flow | F4 | Done |
 | F6 | Tasks | F3 | Done |
 | F7 | Document library, upload, versions, linking | F3, F4 | Done |
-| F8 | Reports, integrations and settings screens (legacy SPA removal after E1) | F2–F7 | Authorized (2026-10-21) |
+| F8 | Reports, integrations and settings screens (legacy SPA removal after E1) | F2–F7 | Done (removal pending E1) |
 | E1 | Local environment (WSL bench) and first live run | P0 (can move earlier) | Not authorized |
 | E2 | Backend tests for invariants and permissions | E1 | Not authorized |
 | E3 | Staging acceptance (AC-01…AC-07), Arabic PDF | E1, E2, F8 | Not authorized |

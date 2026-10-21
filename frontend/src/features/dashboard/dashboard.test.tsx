@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
@@ -23,6 +23,6 @@ describe("dashboard", () => {
 		await userEvent.click(await screen.findByRole("button", { name: "Search" }));
 		await userEvent.type(screen.getByRole("combobox"), "Master plan");
 		await userEvent.click(await screen.findByRole("option", { name: /Master Plan Approval/ }));
-		expect(router.state.location.pathname).toBe("/cases/CASE-00001");
+		await waitFor(() => expect(router.state.location.pathname).toBe("/cases/CASE-00001"));
 	});
 });

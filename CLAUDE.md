@@ -50,6 +50,7 @@ Path-scoped rules in `.claude/rules/` load automatically for backend, frontend, 
 
 ## Current state (keep short — details in STATUS)
 - Backend: complete first implementation, **never run on a live Frappe site**.
-- Frontend: plain-JS SPA inside a Desk page (`/app/sijil-app`), to be **replaced by React + TypeScript**
-  in `frontend/` (ADR-003).
-- Local environment: not set up yet (planned last, see ROADMAP).
+- Frontend: **React + TypeScript** app in `frontend/`, served at `/sijil` (ADR-003). All screens built (F1–F8)
+  but tested **only against the in-memory mock backend** (`npm run dev:mock`). The legacy Desk-page SPA
+  (`/app/sijil-app`) stays until E1 passes — bug fixes only.
+- Local environment (E1) and backend tests (E2): not done yet; the owner runs E1.

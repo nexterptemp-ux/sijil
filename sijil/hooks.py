@@ -15,7 +15,7 @@ add_to_apps_screen = [
 		"name": "sijil",
 		"logo": "/assets/sijil/images/sijil-logo.svg",
 		"title": "Sijil",
-		"route": "/app/sijil-app",
+		"route": "/sijil",
 		"has_permission": "sijil.permissions.has_app_permission",
 	}
 ]

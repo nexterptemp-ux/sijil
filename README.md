@@ -11,22 +11,22 @@ history report on demand.
 One Frappe custom app (`sijil/`): DocTypes for lands, cases, an **append-only case history**, follow-ups,
 tasks and a versioned document library; business workflows in `sijil/services`; a purpose-specific API in
 `sijil/api`; record-level permissions in `sijil/permissions.py`; ERPNext integration (Projects, Tasks, ToDo,
-Calendar, notifications, parties) in `sijil/integrations`. The UI is moving from a legacy Desk-page SPA to a
-**React + TypeScript** app in `frontend/` (planned). Details: [docs/architecture/overview.md](docs/architecture/overview.md).
+Calendar, notifications, parties) in `sijil/integrations`. The UI is a **React + TypeScript** app in `frontend/`, served by Frappe at `/sijil`
+(the older Desk-page screen at `/app/sijil-app` stays until the new app is verified on a real site). Details: [docs/architecture/overview.md](docs/architecture/overview.md).
 
 ## Repository
 | Path | What |
 |---|---|
 | `sijil/` | The Frappe app (backend, legacy UI, translations, templates) |
-| `frontend/` | React app — not created yet (roadmap F1) |
+| `frontend/` | React + TypeScript app (all screens), see [frontend/README.md](frontend/README.md) |
 | `docs/` | Product, architecture, decisions, roadmap, status — start at [docs/README.md](docs/README.md) |
 | `design/reference/` | Original HTML prototype (unchanged) |
 | `scripts/` | Dev checks (DocType validation, translation coverage) |
 | `CLAUDE.md`, `.claude/` | Coding-agent guide, scoped rules, skills |
 
 ## Current status
-The backend and legacy UI were written in full but have **never run on a live Frappe site**; there are no
-tests yet. See [docs/STATUS.md](docs/STATUS.md) for exactly what is verified, and
+The backend was written in full but has **never run on a live Frappe site**, and has no tests yet. The React
+app covers every screen and has 36 passing tests, but only against an in-memory mock backend. See [docs/STATUS.md](docs/STATUS.md) for exactly what is verified, and
 [docs/ROADMAP.md](docs/ROADMAP.md) for what comes next.
 
 ## Development
@@ -39,7 +39,12 @@ bench --site <site> migrate
 bench build --app sijil
 bench --site <site> execute sijil.install.make_demo_data   # optional: Konooz Jeddah scenario
 ```
-Open `/app/sijil-app` (legacy UI). Set the user language to Arabic for the RTL interface.
+Open `/sijil`. Set the user language to Arabic (or use the language button) for the RTL interface.
+
+Try the React app without Frappe, using sample data:
+```bash
+cd frontend && npm install && npm run dev:mock     # http://localhost:8080/sijil/
+```
 
 Checks that run without a bench:
 ```bash

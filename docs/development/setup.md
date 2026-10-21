@@ -56,9 +56,16 @@ bench --site sijil.localhost install-app sijil && bench --site sijil.localhost m
 bench --site sijil.localhost execute sijil.install.make_demo_data
 bench start
 ```
-Open `http://sijil.localhost:8000/app/sijil-app` (legacy UI). After F1 the React app is at
-`http://sijil.localhost:8000/sijil`, or with hot reload at `http://localhost:8080` via `npm run dev` in
-`frontend/` (proxied to the bench).
+Open **`http://sijil.localhost:8000/sijil`** (the React app; `bench build --app sijil` builds it). The legacy
+screen is still at `/app/sijil-app` until E1 is done.
+
+React with hot reload against the bench:
+```bash
+bench --site sijil.localhost set-config ignore_csrf 1   # local site only
+cd ~/frappe-bench/apps/sijil/frontend && npm install && npm run dev
+```
+Then open `http://localhost:8080/sijil/` and log in through it. Without a bench at all:
+`npm run dev:mock` (in-memory sample data).
 
 ## Edit → see loop
 | Changed | Do |

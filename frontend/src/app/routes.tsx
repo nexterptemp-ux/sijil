@@ -1,15 +1,7 @@
+import type * as React from "react";
 import { Link, useRouteError, type RouteObject } from "react-router-dom";
 import { EmptyState, ErrorState } from "@/components/states";
 import { Button } from "@/components/ui/button";
-import { CasePage } from "@/features/cases/CasePage";
-import { CasesPage } from "@/features/cases/CasesPage";
-import { DashboardPage } from "@/features/dashboard/DashboardPage";
-import { DocumentsHome, LibraryPage } from "@/features/documents/LibraryPage";
-import { FollowUpsPage } from "@/features/followups/FollowUpsPage";
-import { LandPage } from "@/features/lands/LandPage";
-import { LandsPage } from "@/features/lands/LandsPage";
-import { TaskPage } from "@/features/tasks/TaskPage";
-import { TasksPage } from "@/features/tasks/TasksPage";
 import { t } from "@/i18n";
 import { AppShell } from "./AppShell";
 
@@ -44,8 +36,9 @@ function RouteError() {
 	return <ErrorState error={error} onRetry={() => window.location.reload()} className="mt-16" />;
 }
 
-function Placeholder({ title }: { title: string }) {
-	return <EmptyState className="mt-16" title={t(title)} hint={t("This screen is being built.")} />;
+/** Each screen is its own chunk so phones download only what they open. */
+function page<M extends Record<string, unknown>>(load: () => Promise<M>, name: keyof M & string) {
+	return () => load().then((m) => ({ Component: m[name] as React.ComponentType }));
 }
 
 export const routes: RouteObject[] = [
@@ -53,18 +46,21 @@ export const routes: RouteObject[] = [
 		element: <AppShell />,
 		errorElement: <RouteError />,
 		children: [
-			{ index: true, element: <DashboardPage /> },
-			{ path: "lands", element: <LandsPage /> },
-			{ path: "lands/:name", element: <LandPage /> },
-			{ path: "cases", element: <CasesPage /> },
-			{ path: "cases/:name", element: <CasePage /> },
-			{ path: "followups", element: <FollowUpsPage /> },
-			{ path: "tasks", element: <TasksPage /> },
-			{ path: "tasks/:name", element: <TaskPage /> },
-			{ path: "documents", element: <DocumentsHome /> },
-			{ path: "documents/:land", element: <LibraryPage /> },
-			{ path: "reports/*", element: <Placeholder title="Reports" /> },
-			{ path: "settings", element: <Placeholder title="Settings" /> },
+			{ index: true, lazy: page(() => import("@/features/dashboard/DashboardPage"), "DashboardPage") },
+			{ path: "lands", lazy: page(() => import("@/features/lands/LandsPage"), "LandsPage") },
+			{ path: "lands/:name", lazy: page(() => import("@/features/lands/LandPage"), "LandPage") },
+			{ path: "cases", lazy: page(() => import("@/features/cases/CasesPage"), "CasesPage") },
+			{ path: "cases/:name", lazy: page(() => import("@/features/cases/CasePage"), "CasePage") },
+			{ path: "followups", lazy: page(() => import("@/features/followups/FollowUpsPage"), "FollowUpsPage") },
+			{ path: "tasks", lazy: page(() => import("@/features/tasks/TasksPage"), "TasksPage") },
+			{ path: "tasks/:name", lazy: page(() => import("@/features/tasks/TaskPage"), "TaskPage") },
+			{ path: "documents", lazy: page(() => import("@/features/documents/LibraryPage"), "DocumentsHome") },
+			{ path: "documents/:land", lazy: page(() => import("@/features/documents/LibraryPage"), "LibraryPage") },
+			{ path: "reports", lazy: page(() => import("@/features/reports/ReportsPage"), "ReportsPage") },
+			{ path: "reports/case/:name", lazy: () => import("@/features/reports/HistoryReportPage").then((m) => ({ element: <m.HistoryReportPage kind="case" /> })) },
+			{ path: "reports/land/:name", lazy: () => import("@/features/reports/HistoryReportPage").then((m) => ({ element: <m.HistoryReportPage kind="land" /> })) },
+			{ path: "reports/:report", lazy: page(() => import("@/features/reports/ReportView"), "ReportView") },
+			{ path: "settings", lazy: page(() => import("@/features/administration/SettingsPage"), "SettingsPage") },
 			{ path: "*", element: <NotFound /> },
 		],
 	},

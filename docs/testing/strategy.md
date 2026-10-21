@@ -22,7 +22,7 @@ python scripts/check_translations.py
 python -m compileall -q sijil
 ```
 
-After F1 (in `frontend/`):
+Frontend (in `frontend/`; tests use the in-memory mock backend via `src/test/render.tsx`):
 ```bash
 npm run typecheck
 npm run lint
