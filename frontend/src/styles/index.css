@@ -52,6 +52,11 @@
 		background: hsl(var(--primary) / 0.15);
 	}
 
+	/* dir="auto" fields are LTR while empty; keep empty fields (and their placeholder) in the page direction. */
+	html[dir="rtl"] [dir="auto"]:placeholder-shown {
+		direction: rtl;
+	}
+
 	/* Numbers line up in tables and counters. */
 	.tabular {
 		font-variant-numeric: tabular-nums;
