@@ -5,4 +5,12 @@ import type { QueryKey } from "@tanstack/react-query";
  * activity, the dashboard and follow-up lists). Invalidating the whole domain is cheap at this scale and
  * avoids stale screens; use narrower keys only for isolated data.
  */
-export const DOMAIN: QueryKey[] = [["dashboard"], ["lands"], ["cases"], ["followups"], ["tasks"], ["documents"], ["search"]];
+export const DOMAIN: QueryKey[] = [
+	["dashboard"],
+	["lands"],
+	["cases"],
+	["followups"],
+	["tasks"],
+	["documents"],
+	["search"],
+];

@@ -12,13 +12,12 @@ A folder named {0} already exists here.,يوجد هنا مجلد باسم {0} ب
 A follow-up must belong to a case or a land / project.,يجب أن ترتبط المتابعة بمعاملة أو بأرض / مشروع.
 A narrative of where the case stands right now. Updated automatically when a development changes it.,وصف لما وصلت إليه المعاملة الآن. يتحدّث تلقائياً عندما يغيّره تطور جديد.
 A new land gets its own ERPNext Project.,تحصل كل أرض جديدة على مشروع خاص بها في ERPNext.
-A newer version (v{0}) exists,توجد نسخة أحدث (الإصدار {0})
+A newer version (v{0}) exists,توجد نسخة أحدث (النسخة {0})
 A newer version exists; this record keeps the version it was linked to.,يوجد إصدار أحدث؛ هذا السجل يحتفظ بالإصدار الذي ارتبط به.
 A reason is required to correct a recorded event.,يلزم ذكر سبب لتصحيح حدث مسجّل.
 Account,الحساب
 Active,نشط
 Active Lands and Projects,الأراضي والمشاريع النشطة
-Active lands,الأراضي النشطة
 Actual Event Date,التاريخ الفعلي للحدث
 Actual Outcome,النتيجة الفعلية
 Actual date,التاريخ الفعلي
@@ -32,6 +31,7 @@ Add organization,إضافة جهة
 Add related case,إضافة معاملة مرتبطة
 Address,العنوان
 All,الكل
+All documents in this folder,كل المستندات في هذا المجلد
 All open,كل المفتوحة
 All settings in Desk,جميع الإعدادات في Desk
 All statuses,جميع الحالات
@@ -345,6 +345,7 @@ Last Meaningful Update,آخر تحديث مهم
 Last Reminder Sent,آخر تذكير مُرسل
 Latest Developments Across Cases,آخر التطورات عبر المعاملات
 Latest development,آخر تطور
+Latest recorded across all cases,آخر ما سُجِّل في جميع المعاملات
 Latest update,الأحدث تحديثاً
 Leave empty to create one automatically if enabled in settings.,اتركه فارغًا لإنشائه تلقائيًا إذا كان ذلك مفعّلًا في الإعدادات.
 Leave empty to use the file name.,اتركه فارغاً لاستخدام اسم الملف.
@@ -511,7 +512,7 @@ Open library,فتح المكتبة
 Open report,فتح التقرير
 Open tasks,المهام المفتوحة
 Open the classic screen,فتح الشاشة الكلاسيكية
-Open v{0},فتح الإصدار {0}
+Open v{0},فتح النسخة {0}
 Operational lists and complete history reports,قوائم تشغيلية وتقارير سجل كاملة
 Operational reports,التقارير التشغيلية
 "Operational reports. Open a case or a land to print its full history report (Arabic RTL, print and PDF).",تقارير تشغيلية. افتح معاملة أو أرضاً لطباعة تقرير تاريخها الكامل (عربي من اليمين لليسار، طباعة وPDF).
@@ -536,6 +537,7 @@ Outstanding Tasks,المهام المعلّقة
 Overdue,متأخرة
 Overdue Follow-ups,المتابعات المتأخرة
 Overdue Tasks,المهام المتأخرة
+Overdue and due today,المتأخرة والمستحقة اليوم
 Overdue follow-up: {0},متابعة متأخرة: {0}
 Overdue follow-ups,المتابعات المتأخرة
 Overdue task: {0},مهمة متأخرة: {0}
@@ -830,7 +832,6 @@ Well done — all follow-ups are on schedule.,أحسنت — جميع المتا
 What actually happened?,ماذا حدث فعلًا؟
 "What needs to be checked, by whom and when",ما الذي يجب متابعته، ومن يتابعه، ومتى
 What needs your attention across all lands and cases.,ما يحتاج اهتمامك عبر جميع الأراضي والمعاملات.
-What needs your attention today,ما يحتاج إلى اهتمامك اليوم
 WhatsApp,واتساب
 "When enabled, users without the Sijil Manager role only see lands where they are listed as responsible, and records they own or are assigned to.",عند التفعيل، لا يرى المستخدمون الذين ليس لديهم دور مدير سجل إلا الأراضي التي هم مسؤولون عنها والسجلات التي أنشؤوها أو أُسندت إليهم.
 Where things stand right now. Later changes are recorded as developments.,أين وصلت الأمور الآن. تُسجَّل التغييرات اللاحقة كتطورات.
@@ -857,11 +858,12 @@ follow-ups,متابعات
 follow-ups completed,متابعات مكتملة
 open cases,معاملات مفتوحة
 overdue,متأخرة
-pinned to v{0},مثبّت على الإصدار {0}
+pinned to v{0},مثبّت على النسخة {0}
 synced from ERPNext Task,مزامنة من مهمة ERPNext
 tasks,مهام
 total,الإجمالي
-v{0},إ{0}
+v{0},نسخة {0}
+{0} active lands,{0} أراضٍ نشطة
 {0} cannot be edited or deleted once recorded. Use the correction workflow instead.,لا يمكن تعديل {0} أو حذفها بعد تسجيلها. استخدم مسار التصحيح بدلاً من ذلك.
 {0} cases,{0} معاملة
 {0} documents,{0} مستندات

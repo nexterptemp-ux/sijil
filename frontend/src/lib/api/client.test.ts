@@ -6,7 +6,9 @@ const json = (status: number, body: unknown) =>
 
 describe("parseResponse", () => {
 	it("returns the message of a successful call", async () => {
-		await expect(parseResponse(json(200, { message: { name: "CASE-00001" } }))).resolves.toEqual({ name: "CASE-00001" });
+		await expect(parseResponse(json(200, { message: { name: "CASE-00001" } }))).resolves.toEqual({
+			name: "CASE-00001",
+		});
 	});
 
 	it("maps a Frappe validation error to ApiError with the translated server message", async () => {
@@ -24,7 +26,9 @@ describe("parseResponse", () => {
 	});
 
 	it("flags permission errors", async () => {
-		const error = (await parseResponse(json(403, { exc_type: "PermissionError" })).catch((e: unknown) => e)) as ApiError;
+		const error = (await parseResponse(json(403, { exc_type: "PermissionError" })).catch(
+			(e: unknown) => e,
+		)) as ApiError;
 		expect(error.isPermission).toBe(true);
 	});
 

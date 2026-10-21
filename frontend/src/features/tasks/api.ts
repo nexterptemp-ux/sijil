@@ -61,7 +61,8 @@ export interface TaskFilters {
 
 export const tasksApi = {
 	list: (f: TaskFilters) => call<Page<TaskRow>>("tasks.list_tasks", compact({ ...f, mine: f.mine ? 1 : undefined })),
-	counts: (mine = false) => call<{ open: number; overdue: number; completed: number }>("tasks.task_counts", { mine: mine ? 1 : 0 }),
+	counts: (mine = false) =>
+		call<{ open: number; overdue: number; completed: number }>("tasks.task_counts", { mine: mine ? 1 : 0 }),
 	get: (name: string) => call<TaskDetail>("tasks.get_task", { name }),
 	save: (data: TaskInput) => call<{ name: string }>("tasks.save_task", { data }),
 	setStatus: (name: string, status: TaskStatus, completion_notes?: string) =>

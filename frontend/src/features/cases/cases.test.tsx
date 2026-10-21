@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
-import { isoDate } from "@/mocks/db";
+import { DEMO, isoDate } from "@/mocks/db";
 import { renderApp } from "@/test/render";
 
 beforeEach(() => rememberLang("en"));
@@ -12,19 +12,19 @@ const MASTER = "CASE-00001";
 describe("cases list", () => {
 	it("filters by status from the URL", async () => {
 		renderApp("/cases?status=Awaiting+Action");
-		expect((await screen.findAllByText("Utility Connections")).length).toBeGreaterThan(0);
-		expect(screen.queryByText("Master Plan Approval")).not.toBeInTheDocument();
+		expect((await screen.findAllByText(DEMO.utilities)).length).toBeGreaterThan(0);
+		expect(screen.queryByText(DEMO.masterPlan)).not.toBeInTheDocument();
 	});
 });
 
 describe("case workspace", () => {
 	it("puts the current situation, next action and history on one screen", async () => {
 		renderApp(`/cases/${MASTER}`);
-		expect(await screen.findByText("The Secretary/Mayor's signature has been obtained; formal approval is pending.")).toBeInTheDocument();
+		expect(await screen.findByText(DEMO.situation)).toBeInTheDocument();
 		expect(screen.getByText("Next required action")).toBeInTheDocument();
-		expect(await screen.findByRole("article", { name: "Secretary/Mayor signature obtained" })).toBeInTheDocument();
+		expect(await screen.findByRole("article", { name: DEMO.signature })).toBeInTheDocument();
 		// The superseded original stays visible next to its correction.
-		const original = screen.getByRole("article", { name: "At the Mayor's office" });
+		const original = screen.getByRole("article", { name: DEMO.wrongEntry });
 		expect(within(original).getByText("Superseded")).toBeInTheDocument();
 	});
 
@@ -61,18 +61,18 @@ describe("case workspace", () => {
 
 	it("corrects a development only with a reason, keeping the original (AC-02)", async () => {
 		const { db } = renderApp(`/cases/${MASTER}`);
-		const card = await screen.findByRole("article", { name: "Secretary/Mayor signature obtained" });
+		const card = await screen.findByRole("article", { name: DEMO.signature });
 		await userEvent.click(within(card).getByRole("button", { name: "Correct" }));
 		const dialog = await screen.findByRole("dialog");
 		const title = within(dialog).getByLabelText(/Title/);
 		await userEvent.clear(title);
-		await userEvent.type(title, "Secretary/Mayor signature obtained (letter dated)");
+		await userEvent.type(title, `${DEMO.signature} (بتاريخ الخطاب)`);
 		await userEvent.click(within(dialog).getByRole("button", { name: "Record correction" }));
 		expect(await within(dialog).findByText("This field is required.")).toBeInTheDocument();
 		await userEvent.type(within(dialog).getByLabelText(/Reason for correction/), "Added the letter date");
 		await userEvent.click(within(dialog).getByRole("button", { name: "Record correction" }));
 		await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
-		const original = db.events.find((e) => e.title === "Secretary/Mayor signature obtained")!;
+		const original = db.events.find((e) => e.title === DEMO.signature)!;
 		expect(original.entry_status).toBe("Superseded");
 		const corrected = db.events.find((e) => e.name === original.superseded_by)!;
 		expect(corrected.corrects).toBe(original.name);

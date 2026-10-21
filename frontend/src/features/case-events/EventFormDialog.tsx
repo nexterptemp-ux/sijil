@@ -60,7 +60,9 @@ export function EventFormDialog({
 			title: correcting?.title ?? "",
 			event_type: correcting?.event_type ?? "Update",
 			communication_method: correcting?.communication_method ?? "",
-			external_organization: correcting ? (correcting.external_organization ?? null) : (caseDoc.external_organization ?? null),
+			external_organization: correcting
+				? (correcting.external_organization ?? null)
+				: (caseDoc.external_organization ?? null),
 			description: stripHtml(correcting?.description),
 			outcome: correcting?.outcome ?? "",
 			is_milestone: Boolean(correcting?.is_milestone),
@@ -81,9 +83,14 @@ export function EventFormDialog({
 	}, [open, initial, form]);
 
 	const close = () => onOpenChange(false);
-	const record = useApiMutation(casesApi.recordEvent, { invalidate: DOMAIN, success: t("Development recorded"), onSuccess: close });
+	const record = useApiMutation(casesApi.recordEvent, {
+		invalidate: DOMAIN,
+		success: t("Development recorded"),
+		onSuccess: close,
+	});
 	const correct = useApiMutation(
-		({ name, data, reason }: { name: string; data: Partial<EventInput>; reason: string }) => casesApi.correctEvent(name, data, reason),
+		({ name, data, reason }: { name: string; data: Partial<EventInput>; reason: string }) =>
+			casesApi.correctEvent(name, data, reason),
 		{ invalidate: DOMAIN, success: t("Correction recorded"), onSuccess: close },
 	);
 	const pending = record.isPending || correct.isPending;
@@ -129,15 +136,27 @@ export function EventFormDialog({
 					title={correcting ? t("Correct a development") : t("Record a development")}
 					description={
 						correcting
-							? t("The original entry stays in the history, marked as corrected. Explain why it is being corrected.")
+							? t(
+									"The original entry stays in the history, marked as corrected. Explain why it is being corrected.",
+								)
 							: t("Record what actually happened. Use a follow-up for things that still need to happen.")
 					}
 				/>
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
 						{correcting && (
-							<Field label={t("Reason for correction")} required htmlFor="ev_reason" error={err.reason && required}>
-								<Textarea id="ev_reason" rows={2} aria-invalid={Boolean(err.reason)} {...form.register("reason")} />
+							<Field
+								label={t("Reason for correction")}
+								required
+								htmlFor="ev_reason"
+								error={err.reason && required}
+							>
+								<Textarea
+									id="ev_reason"
+									rows={2}
+									aria-invalid={Boolean(err.reason)}
+									{...form.register("reason")}
+								/>
 							</Field>
 						)}
 						<div className="grid gap-4 sm:grid-cols-2">
@@ -145,15 +164,40 @@ export function EventFormDialog({
 								label={t("Actual date")}
 								required
 								htmlFor="ev_date"
-								error={err.event_date && (err.event_date.message === "future" ? t("An event records something that already happened. Use a follow-up for future actions.") : required)}
+								error={
+									err.event_date &&
+									(err.event_date.message === "future"
+										? t(
+												"An event records something that already happened. Use a follow-up for future actions.",
+											)
+										: required)
+								}
 							>
-								<Input id="ev_date" type="date" max={boot.today} aria-invalid={Boolean(err.event_date)} {...form.register("event_date")} />
+								<Input
+									id="ev_date"
+									type="date"
+									max={boot.today}
+									aria-invalid={Boolean(err.event_date)}
+									{...form.register("event_date")}
+								/>
 							</Field>
 							<Field label={t("Time")} htmlFor="ev_time">
 								<Input id="ev_time" type="time" {...form.register("event_time")} />
 							</Field>
-							<Field label={t("Title")} required htmlFor="ev_title" error={err.title && required} className="sm:col-span-2">
-								<Input id="ev_title" dir="auto" aria-invalid={Boolean(err.title)} placeholder={t("e.g. The approval reached the Mayor's office")} {...form.register("title")} />
+							<Field
+								label={t("Title")}
+								required
+								htmlFor="ev_title"
+								error={err.title && required}
+								className="sm:col-span-2"
+							>
+								<Input
+									id="ev_title"
+									dir="auto"
+									aria-invalid={Boolean(err.title)}
+									placeholder={t("e.g. The approval reached the Mayor's office")}
+									{...form.register("title")}
+								/>
 							</Field>
 							<Field label={t("Type")} htmlFor="ev_type">
 								<Select id="ev_type" {...form.register("event_type")}>
@@ -178,7 +222,14 @@ export function EventFormDialog({
 								<Controller
 									control={form.control}
 									name="external_organization"
-									render={({ field }) => <LookupSelect id="ev_org" doctype="Sijil External Organization" value={field.value} onChange={field.onChange} />}
+									render={({ field }) => (
+										<LookupSelect
+											id="ev_org"
+											doctype="Sijil External Organization"
+											value={field.value}
+											onChange={field.onChange}
+										/>
+									)}
 								/>
 							</Field>
 							<Field label={t("Details")} htmlFor="ev_desc" className="sm:col-span-2">
@@ -188,9 +239,13 @@ export function EventFormDialog({
 								<Input id="ev_outcome" dir="auto" {...form.register("outcome")} />
 							</Field>
 						</div>
-						{!correcting && <AttachDocuments land={caseDoc.land} value={documents} onChange={setDocuments} />}
+						{!correcting && (
+							<AttachDocuments land={caseDoc.land} value={documents} onChange={setDocuments} />
+						)}
 						{correcting && correcting.documents.length > 0 && (
-							<p className="text-xs text-muted-foreground">{t("Documents linked to the original entry are carried over to the correction.")}</p>
+							<p className="text-xs text-muted-foreground">
+								{t("Documents linked to the original entry are carried over to the correction.")}
+							</p>
 						)}
 						<label className="flex items-center gap-2 text-sm">
 							<Checkbox {...form.register("is_milestone")} />
@@ -203,7 +258,11 @@ export function EventFormDialog({
 							</label>
 							{changeSituation && (
 								<div className="mt-3 grid gap-3 sm:grid-cols-3">
-									<Field label={t("New current situation")} htmlFor="ev_situation" className="sm:col-span-2">
+									<Field
+										label={t("New current situation")}
+										htmlFor="ev_situation"
+										className="sm:col-span-2"
+									>
 										<Textarea id="ev_situation" rows={3} {...form.register("situation_update")} />
 									</Field>
 									<Field label={t("New status")} htmlFor="ev_status">

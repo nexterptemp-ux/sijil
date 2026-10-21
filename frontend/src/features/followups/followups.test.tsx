@@ -2,6 +2,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
+import { DEMO } from "@/mocks/db";
 import { renderApp } from "@/test/render";
 
 beforeEach(() => rememberLang("en"));
@@ -9,8 +10,8 @@ beforeEach(() => rememberLang("en"));
 describe("follow-ups", () => {
 	it("shows counts per scope and filters to overdue", async () => {
 		renderApp("/followups?scope=overdue");
-		expect(await screen.findByText("Ask Saudi Electricity for the site visit date")).toBeInTheDocument();
-		expect(screen.queryByText("Confirm the consultant's scope document")).not.toBeInTheDocument();
+		expect(await screen.findByText(DEMO.overdueFollowup)).toBeInTheDocument();
+		expect(screen.queryByText(DEMO.upcomingFollowup)).not.toBeInTheDocument();
 		expect(screen.getByRole("tab", { name: /Overdue/ })).toHaveAttribute("aria-selected", "true");
 	});
 

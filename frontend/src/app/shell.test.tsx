@@ -2,6 +2,7 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
+import { DEMO } from "@/mocks/db";
 import { renderApp } from "@/test/render";
 
 describe("app shell", () => {
@@ -9,7 +10,7 @@ describe("app shell", () => {
 		rememberLang("en");
 		renderApp("/");
 		expect(await screen.findByRole("link", { name: "Cases" })).toBeInTheDocument();
-		expect(screen.getAllByText("Sara Al-Harbi").length).toBeGreaterThan(0);
+		expect(screen.getAllByText(DEMO.me).length).toBeGreaterThan(0);
 		expect(document.documentElement.dir).toBe("ltr");
 	});
 

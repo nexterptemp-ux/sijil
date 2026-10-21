@@ -19,7 +19,8 @@ export interface ReportResult {
 export const reportsApi = {
 	available: () => call<{ key: string; name: string }[]>("reports.available"),
 	run: (report: string, filters: Record<string, string>) => call<ReportResult>("reports.run", { report, filters }),
-	caseHistory: (caseName: string) => call<{ title: string; html: string }>("reports.case_history", { case: caseName }),
+	caseHistory: (caseName: string) =>
+		call<{ title: string; html: string }>("reports.case_history", { case: caseName }),
 	landHistory: (land: string) => call<{ title: string; html: string }>("reports.land_history", { land }),
 	casePdfUrl: (caseName: string) => methodUrl("reports.case_history_pdf", { case: caseName }),
 	landPdfUrl: (land: string) => methodUrl("reports.land_history_pdf", { land }),

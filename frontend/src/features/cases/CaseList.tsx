@@ -13,7 +13,13 @@ function NextFollowUp({ date }: { date?: string | null }) {
 	if (!date) return <span className="text-muted-foreground">—</span>;
 	const days = daysBetween(boot.today, date);
 	return (
-		<span className={cn("inline-flex items-center gap-1", days < 0 && "font-semibold text-danger", days === 0 && "font-semibold text-warning")}>
+		<span
+			className={cn(
+				"inline-flex items-center gap-1",
+				days < 0 && "font-semibold text-danger",
+				days === 0 && "font-semibold text-warning",
+			)}
+		>
 			<CalendarClock className="size-3.5" aria-hidden />
 			{formatDate(date)}
 		</span>
@@ -24,49 +30,67 @@ function NextFollowUp({ date }: { date?: string | null }) {
 export function CaseList({ rows, showLand = true }: { rows: CaseRow[]; showLand?: boolean }) {
 	return (
 		<>
-			<div className="hidden overflow-x-auto md:block">
+			<div className="-mx-px hidden overflow-x-auto md:block">
 				<table className="w-full text-sm">
 					<thead>
-						<tr className="border-b border-border text-start text-xs text-muted-foreground">
-							<th className="px-3 py-2 text-start font-semibold">{t("Case")}</th>
-							{showLand && <th className="px-3 py-2 text-start font-semibold">{t("Land / Project")}</th>}
-							<th className="px-3 py-2 text-start font-semibold">{t("Current Situation")}</th>
-							<th className="px-3 py-2 text-start font-semibold">{t("Internal Owner")}</th>
-							<th className="px-3 py-2 text-start font-semibold">{t("Status")}</th>
-							<th className="px-3 py-2 text-start font-semibold">{t("Next Follow-up")}</th>
+						<tr className="border-b border-border/70 bg-surface-2 text-start text-[12px] text-muted-foreground">
+							<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">{t("Case")}</th>
+							{showLand && (
+								<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">
+									{t("Land / Project")}
+								</th>
+							)}
+							<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">
+								{t("Current Situation")}
+							</th>
+							<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">
+								{t("Internal Owner")}
+							</th>
+							<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">{t("Status")}</th>
+							<th className="whitespace-nowrap px-4 py-2.5 text-start font-bold">
+								{t("Next Follow-up")}
+							</th>
 						</tr>
 					</thead>
-					<tbody className="divide-y divide-border">
+					<tbody className="divide-y divide-border/70">
 						{rows.map((c) => (
-							<tr key={c.name} className="hover:bg-muted/50">
-								<td className="max-w-64 px-3 py-3 align-top">
-									<Link to={`/cases/${c.name}`} className="font-semibold hover:text-primary" dir="auto">
+							<tr key={c.name} className="transition-colors hover:bg-primary-soft/40">
+								<td className="max-w-64 px-4 py-3.5 align-top">
+									<Link
+										to={`/cases/${c.name}`}
+										className="font-semibold hover:text-primary"
+										dir="auto"
+									>
 										{c.title}
 									</Link>
 									<div className="mt-0.5 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-										{c.reference_no && <span dir="auto">{c.reference_no}</span>}
+										{c.reference_no && (
+											<span className="tabular rounded bg-muted px-1.5 font-semibold" dir="ltr">
+												{c.reference_no}
+											</span>
+										)}
 										<PriorityBadge priority={c.priority} />
 									</div>
 								</td>
 								{showLand && (
-									<td className="px-3 py-3 align-top" dir="auto">
+									<td className="px-4 py-3.5 align-top" dir="auto">
 										<Link to={`/lands/${c.land}`} className="hover:text-primary">
 											{c.land_name || c.land}
 										</Link>
 									</td>
 								)}
-								<td className="max-w-80 px-3 py-3 align-top text-muted-foreground">
+								<td className="max-w-80 px-4 py-3.5 align-top text-[13px] leading-6 text-foreground/70">
 									<p className="line-clamp-2" dir="auto">
 										{c.current_situation || "—"}
 									</p>
 								</td>
-								<td className="px-3 py-3 align-top">
+								<td className="px-4 py-3.5 align-top">
 									<Person name={c.owner_name} fallback={c.owner_user} />
 								</td>
-								<td className="px-3 py-3 align-top">
+								<td className="px-4 py-3.5 align-top">
 									<CaseStatusBadge status={c.status} />
 								</td>
-								<td className="whitespace-nowrap px-3 py-3 align-top text-xs">
+								<td className="whitespace-nowrap px-4 py-3.5 align-top text-xs">
 									<NextFollowUp date={c.next_followup_date} />
 								</td>
 							</tr>

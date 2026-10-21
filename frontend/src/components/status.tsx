@@ -25,17 +25,30 @@ const STATE_TONE: Record<string, BadgeTone> = {
 	Archived: "neutral",
 };
 
-const PRIORITY_TONE: Record<string, BadgeTone> = { Low: "neutral", Medium: "neutral", High: "warning", Urgent: "danger" };
+const PRIORITY_TONE: Record<string, BadgeTone> = {
+	Low: "neutral",
+	Medium: "neutral",
+	High: "warning",
+	Urgent: "danger",
+};
 
 export function CaseStatusBadge({ status }: { status?: string | null }) {
 	if (!status) return null;
-	return <Badge tone={CASE_TONE[status] ?? "neutral"}>{tv(status)}</Badge>;
+	return (
+		<Badge tone={CASE_TONE[status] ?? "neutral"} dot>
+			{tv(status)}
+		</Badge>
+	);
 }
 
 /** Follow-up derived state, task status, land status. */
 export function StateBadge({ state }: { state?: string | null }) {
 	if (!state) return null;
-	return <Badge tone={STATE_TONE[state] ?? "neutral"}>{tv(state)}</Badge>;
+	return (
+		<Badge tone={STATE_TONE[state] ?? "neutral"} dot>
+			{tv(state)}
+		</Badge>
+	);
 }
 
 export function PriorityBadge({ priority, hideNormal = true }: { priority?: string | null; hideNormal?: boolean }) {

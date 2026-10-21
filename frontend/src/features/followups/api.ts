@@ -40,8 +40,21 @@ export interface FollowUpInput {
 export interface CompleteFollowUpInput {
 	name: string;
 	outcome: string;
-	event?: { title?: string; event_type?: string; communication_method?: string; is_milestone?: number; situation_update?: string; status_after?: string };
-	next_followup?: { due_date: string; title?: string; description?: string; assigned_to?: string; priority?: Priority } | null;
+	event?: {
+		title?: string;
+		event_type?: string;
+		communication_method?: string;
+		is_milestone?: number;
+		situation_update?: string;
+		status_after?: string;
+	};
+	next_followup?: {
+		due_date: string;
+		title?: string;
+		description?: string;
+		assigned_to?: string;
+		priority?: Priority;
+	} | null;
 	documents?: Array<string | { document: string; version?: string }>;
 }
 
@@ -51,7 +64,10 @@ export const followupsApi = {
 	counts: (mine = false) => call<FollowUpCounts>("followups.followup_counts", { mine: mine ? 1 : 0 }),
 	save: (data: FollowUpInput) => call<{ name: string }>("followups.save_followup", { data }),
 	complete: ({ name, ...rest }: CompleteFollowUpInput) =>
-		call<{ followup: string; event: string | null; next_followup: string | null }>("followups.complete", { name, ...rest }),
+		call<{ followup: string; event: string | null; next_followup: string | null }>("followups.complete", {
+			name,
+			...rest,
+		}),
 	cancel: (name: string, reason?: string) => call<{ name: string }>("followups.cancel", { name, reason }),
 	reschedule: (name: string, due_date: string, assigned_to?: string | null) =>
 		call<{ name: string }>("followups.reschedule", compact({ name, due_date, assigned_to })),

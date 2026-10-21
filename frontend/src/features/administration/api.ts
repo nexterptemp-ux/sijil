@@ -13,7 +13,8 @@ export interface Integration {
 
 export const integrationsApi = {
 	list: () => call<Integration[]>("integrations.get_integrations"),
-	set: (flag: string, value: boolean) => call<Integration[]>("integrations.set_integration", { flag, value: value ? 1 : 0 }),
+	set: (flag: string, value: boolean) =>
+		call<Integration[]>("integrations.set_integration", { flag, value: value ? 1 : 0 }),
 	linkPendingTasks: () => call<{ synced: number }>("integrations.link_pending_tasks"),
 };
 

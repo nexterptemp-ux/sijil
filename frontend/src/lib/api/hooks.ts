@@ -30,7 +30,8 @@ export function useApiMutation<TArgs, TResult>(
 		mutationFn: fn,
 		onSuccess: async (result, args) => {
 			await Promise.all((options.invalidate ?? []).map((key) => qc.invalidateQueries({ queryKey: key })));
-			if (options.success) toast.success(typeof options.success === "function" ? options.success(result) : options.success);
+			if (options.success)
+				toast.success(typeof options.success === "function" ? options.success(result) : options.success);
 			options.onSuccess?.(result, args);
 		},
 		onError: notifyError,

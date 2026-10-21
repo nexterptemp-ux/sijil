@@ -47,7 +47,11 @@ export function CasesPage() {
 		start: page * PAGE,
 		page_length: PAGE,
 	};
-	const query = useQuery({ queryKey: caseKeys.list(filters), queryFn: () => casesApi.list(filters), placeholderData: keepPreviousData });
+	const query = useQuery({
+		queryKey: caseKeys.list(filters),
+		queryFn: () => casesApi.list(filters),
+		placeholderData: keepPreviousData,
+	});
 	const active = [s.status, s.priority, s.land, s.mine, s.stale].filter(Boolean).length;
 
 	return (
@@ -65,27 +69,56 @@ export function CasesPage() {
 				}
 			/>
 			<div className="mb-3 flex flex-col gap-2 sm:flex-row">
-				<SearchInput value={s.search} onChange={(search) => update({ search })} placeholder={t("Search by title or reference")} className="flex-1" />
+				<SearchInput
+					value={s.search}
+					onChange={(search) => update({ search })}
+					placeholder={t("Search by title or reference")}
+					className="flex-1"
+				/>
 				<div className="flex gap-2">
-					<Select value={s.scope} onChange={(e) => update({ scope: e.target.value })} aria-label={t("Show")} className="flex-1 sm:w-36" disabled={Boolean(s.status)}>
+					<Select
+						value={s.scope}
+						onChange={(e) => update({ scope: e.target.value })}
+						aria-label={t("Show")}
+						className="flex-1 sm:w-36"
+						disabled={Boolean(s.status)}
+					>
 						<option value="open">{t("Open")}</option>
 						<option value="closed">{t("Closed")}</option>
 						<option value="">{t("All")}</option>
 					</Select>
-					<Select value={s.order} onChange={(e) => update({ order: e.target.value })} aria-label={t("Sort by")} className="flex-1 sm:w-48">
+					<Select
+						value={s.order}
+						onChange={(e) => update({ order: e.target.value })}
+						aria-label={t("Sort by")}
+						className="flex-1 sm:w-48"
+					>
 						<option value="updated">{t("Recently updated")}</option>
 						<option value="stale">{t("Longest without update")}</option>
 						<option value="followup">{t("Next follow-up")}</option>
 						<option value="title">{t("Title")}</option>
 					</Select>
-					<Button variant={active ? "secondary" : "outline"} onClick={() => setShowFilters((v) => !v)} aria-expanded={showFilters}>
+					<Button
+						variant={active ? "secondary" : "outline"}
+						onClick={() => setShowFilters((v) => !v)}
+						aria-expanded={showFilters}
+					>
 						<SlidersHorizontal />
 						<span className="max-sm:sr-only">{t("Filters")}</span>
-						{active > 0 && <span className="rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">{active}</span>}
+						{active > 0 && (
+							<span className="rounded-full bg-primary px-1.5 text-[10px] text-primary-foreground">
+								{active}
+							</span>
+						)}
 					</Button>
 				</div>
 			</div>
-			<div className={cn("mb-4 grid gap-3 rounded-lg border border-border bg-surface p-3 sm:grid-cols-2 lg:grid-cols-4", !showFilters && !active && "hidden")}>
+			<div
+				className={cn(
+					"mb-4 grid gap-3 rounded-lg border border-border bg-surface p-3 sm:grid-cols-2 lg:grid-cols-4",
+					!showFilters && !active && "hidden",
+				)}
+			>
 				<Select value={s.status} onChange={(e) => update({ status: e.target.value })} aria-label={t("Status")}>
 					<option value="">{t("Any status")}</option>
 					{boot.options.case_status.map((o) => (
@@ -94,7 +127,11 @@ export function CasesPage() {
 						</option>
 					))}
 				</Select>
-				<Select value={s.priority} onChange={(e) => update({ priority: e.target.value })} aria-label={t("Priority")}>
+				<Select
+					value={s.priority}
+					onChange={(e) => update({ priority: e.target.value })}
+					aria-label={t("Priority")}
+				>
 					<option value="">{t("Any priority")}</option>
 					{boot.options.priority.map((o) => (
 						<option key={o} value={o}>
@@ -102,19 +139,30 @@ export function CasesPage() {
 						</option>
 					))}
 				</Select>
-				<LookupSelect doctype="Sijil Land" value={s.land} onChange={(v) => update({ land: v ?? "" })} placeholder={t("Any land / project")} />
+				<LookupSelect
+					doctype="Sijil Land"
+					value={s.land}
+					onChange={(v) => update({ land: v ?? "" })}
+					placeholder={t("Any land / project")}
+				/>
 				<div className="flex flex-wrap items-center gap-4 text-sm">
 					<label className="flex items-center gap-2">
-						<Checkbox checked={s.mine === "1"} onChange={(e) => update({ mine: e.target.checked ? "1" : "" })} />
+						<Checkbox
+							checked={s.mine === "1"}
+							onChange={(e) => update({ mine: e.target.checked ? "1" : "" })}
+						/>
 						{t("My cases")}
 					</label>
 					<label className="flex items-center gap-2">
-						<Checkbox checked={s.stale === "1"} onChange={(e) => update({ stale: e.target.checked ? "1" : "" })} />
+						<Checkbox
+							checked={s.stale === "1"}
+							onChange={(e) => update({ stale: e.target.checked ? "1" : "" })}
+						/>
 						{t("Without recent updates")}
 					</label>
 				</div>
 			</div>
-			<Card className="px-3 py-1 sm:px-1">
+			<Card className="overflow-hidden px-4 py-1 md:px-0 md:py-0">
 				{query.isLoading ? (
 					<LoadingRows rows={6} className="py-3" />
 				) : query.error ? (

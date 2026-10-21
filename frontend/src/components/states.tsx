@@ -31,16 +31,26 @@ export function EmptyState({
 	className?: string;
 }) {
 	return (
-		<div className={cn("flex flex-col items-center gap-2 px-4 py-10 text-center", className)}>
-			<div className="text-muted-foreground [&_svg]:size-8">{icon ?? <Inbox />}</div>
-			<p className="font-semibold">{title}</p>
-			{hint && <p className="max-w-sm text-sm text-muted-foreground">{hint}</p>}
+		<div className={cn("flex flex-col items-center gap-1.5 px-4 py-8 text-center", className)}>
+			<div className="mb-1 flex size-11 items-center justify-center rounded-full bg-muted text-muted-foreground ring-8 ring-muted/40 [&_svg]:size-5">
+				{icon ?? <Inbox />}
+			</div>
+			<p className="text-sm font-semibold">{title}</p>
+			{hint && <p className="max-w-sm text-xs leading-5 text-muted-foreground">{hint}</p>}
 			{action && <div className="mt-2">{action}</div>}
 		</div>
 	);
 }
 
-export function ErrorState({ error, onRetry, className }: { error: unknown; onRetry?: () => void; className?: string }) {
+export function ErrorState({
+	error,
+	onRetry,
+	className,
+}: {
+	error: unknown;
+	onRetry?: () => void;
+	className?: string;
+}) {
 	const denied = error instanceof ApiError && error.isPermission;
 	const missing = error instanceof ApiError && error.isNotFound;
 	return (

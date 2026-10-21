@@ -22,7 +22,8 @@ export const metaApi = {
 export const metaKeys = {
 	boot: ["boot"] as const,
 	users: ["users"] as const,
-	lookup: (doctype: string, txt: string, filters?: Record<string, string>) => ["lookup", doctype, txt, filters] as const,
+	lookup: (doctype: string, txt: string, filters?: Record<string, string>) =>
+		["lookup", doctype, txt, filters] as const,
 	label: (doctype: string, name: string) => ["label", doctype, name] as const,
 	search: (q: string) => ["search", q] as const,
 };

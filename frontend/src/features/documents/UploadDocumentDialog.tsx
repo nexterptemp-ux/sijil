@@ -91,10 +91,18 @@ export function UploadDocumentDialog({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
-				<DialogHeader title={t("Upload document")} description={t("The file is stored once in the land's library and can be linked to any record.")} />
+				<DialogHeader
+					title={t("Upload document")}
+					description={t("The file is stored once in the land's library and can be linked to any record.")}
+				/>
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
-						<Field label={t("File")} required htmlFor="doc_file" error={touched && !file ? t("Choose a file to upload.") : undefined}>
+						<Field
+							label={t("File")}
+							required
+							htmlFor="doc_file"
+							error={touched && !file ? t("Choose a file to upload.") : undefined}
+						>
 							<label
 								htmlFor="doc_file"
 								className="flex cursor-pointer flex-col items-center gap-1 rounded-md border-2 border-dashed border-input px-4 py-6 text-center text-sm hover:border-primary/50"
@@ -102,7 +110,8 @@ export function UploadDocumentDialog({
 								<Upload className="size-5 text-muted-foreground" aria-hidden />
 								{file ? (
 									<span className="font-medium" dir="auto">
-										{file.name} <span className="text-muted-foreground">({formatFileSize(file.size)})</span>
+										{file.name}{" "}
+										<span className="text-muted-foreground">({formatFileSize(file.size)})</span>
 									</span>
 								) : (
 									<span className="text-muted-foreground">{t("Tap to choose a file")}</span>
@@ -146,18 +155,35 @@ export function UploadDocumentDialog({
 								</Select>
 							</Field>
 							<Field label={t("Reference No")} htmlFor="doc_ref">
-								<Input id="doc_ref" dir="auto" value={reference} onChange={(e) => setReference(e.target.value)} />
+								<Input
+									id="doc_ref"
+									dir="auto"
+									value={reference}
+									onChange={(e) => setReference(e.target.value)}
+								/>
 							</Field>
 							<Field label={t("Document Date")} htmlFor="doc_date">
-								<Input id="doc_date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+								<Input
+									id="doc_date"
+									type="date"
+									value={date}
+									onChange={(e) => setDate(e.target.value)}
+								/>
 							</Field>
 						</div>
 						<Field label={t("Description")} htmlFor="doc_desc">
-							<Textarea id="doc_desc" rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
+							<Textarea
+								id="doc_desc"
+								rows={2}
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+							/>
 						</Field>
 						<label className="flex items-center gap-2 text-sm">
 							<Checkbox checked={confidential} onChange={(e) => setConfidential(e.target.checked)} />
-							{t("Confidential — only managers, the uploader and the land's responsible employees can see it")}
+							{t(
+								"Confidential — only managers, the uploader and the land's responsible employees can see it",
+							)}
 						</label>
 					</DialogBody>
 					<DialogFooter>

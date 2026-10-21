@@ -32,7 +32,15 @@ export interface CaseDetail extends CaseRow {
 	project?: string | null;
 	relations: { related_case: string; relation_type: string; title?: string | null; status?: string | null }[];
 	open_followups: FollowUp[];
-	tasks: { name: string; title: string; status: string; priority: string; due_date?: string | null; assigned_to: string; assigned_to_name?: string | null }[];
+	tasks: {
+		name: string;
+		title: string;
+		status: string;
+		priority: string;
+		due_date?: string | null;
+		assigned_to: string;
+		assigned_to_name?: string | null;
+	}[];
 	documents: LinkedDocument[];
 	stats: { events: number; followups_total: number; followups_done: number; tasks_open: number; documents: number };
 	last_event: { name: string; title: string; event_date: string; recorded_by: string } | null;
@@ -116,10 +124,18 @@ export interface EventInput {
 
 export const casesApi = {
 	list: (f: CaseFilters) =>
-		call<Page<CaseRow>>("cases.list_cases", compact({ ...f, mine: f.mine ? 1 : undefined, stale: f.stale ? 1 : undefined })),
+		call<Page<CaseRow>>(
+			"cases.list_cases",
+			compact({ ...f, mine: f.mine ? 1 : undefined, stale: f.stale ? 1 : undefined }),
+		),
 	get: (name: string) => call<CaseDetail>("cases.get_case", { name }),
 	events: (caseName: string, start = 0, page_length = 15, include_superseded = true) =>
-		call<Page<CaseEvent>>("cases.list_events", { case: caseName, start, page_length, include_superseded: include_superseded ? 1 : 0 }),
+		call<Page<CaseEvent>>("cases.list_events", {
+			case: caseName,
+			start,
+			page_length,
+			include_superseded: include_superseded ? 1 : 0,
+		}),
 	save: (data: CaseInput) => call<{ name: string }>("cases.save_case", { data }),
 	recordEvent: (data: EventInput) => call<{ name: string }>("cases.record_event", { data }),
 	correctEvent: (name: string, data: Partial<EventInput>, reason: string) =>

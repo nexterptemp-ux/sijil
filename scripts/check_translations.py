@@ -51,7 +51,8 @@ def unescape(s):
 def scan_code():
 	found = {}
 	for path in ROOT.rglob("*"):
-		if "node_modules" in path.parts or path.suffix not in {".py", ".js", ".html"}:
+		# public/frontend is the generated React build (scanned from frontend/src instead).
+		if "node_modules" in path.parts or "frontend" in path.parts or path.suffix not in {".py", ".js", ".html"}:
 			continue
 		text = path.read_text(encoding="utf-8")
 		for rx in (PY_RE, JS_RE):

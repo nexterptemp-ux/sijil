@@ -89,12 +89,15 @@ export interface LibraryFilters {
 }
 
 export const documentsApi = {
-	library: (f: LibraryFilters) => call<Library>("documents.library", compact({ ...f, recursive: f.recursive ? 1 : undefined })),
+	library: (f: LibraryFilters) =>
+		call<Library>("documents.library", compact({ ...f, recursive: f.recursive ? 1 : undefined })),
 	get: (name: string) => call<DocumentDetail>("documents.get_document", { name }),
-	update: (name: string, data: Record<string, unknown>) => call<{ name: string }>("documents.update_document", { name, data }),
+	update: (name: string, data: Record<string, unknown>) =>
+		call<{ name: string }>("documents.update_document", { name, data }),
 	createFolder: (land: string, folder_name: string, parent?: string | null) =>
 		call<{ name: string }>("documents.create_folder", compact({ land, folder_name, parent })),
-	renameFolder: (name: string, folder_name: string) => call<{ name: string }>("documents.rename_folder", { name, folder_name }),
+	renameFolder: (name: string, folder_name: string) =>
+		call<{ name: string }>("documents.rename_folder", { name, folder_name }),
 	moveFolder: (name: string, parent: string) => call<{ name: string }>("documents.move_folder", { name, parent }),
 	deleteFolder: (name: string) => call<{ name: string }>("documents.delete_folder", { name }),
 	moveDocument: (name: string, folder: string) => call<{ name: string }>("documents.move_document", { name, folder }),
@@ -114,18 +117,36 @@ export const documentsApi = {
 		if (notes) form.append("notes", notes);
 		return upload<{ version: string }>("documents.upload_version", form);
 	},
-	link: (document: string, linked_doctype: LinkableDoctype, linked_name: string, opts: { document_version?: string; follow_latest?: boolean; note?: string } = {}) =>
+	link: (
+		document: string,
+		linked_doctype: LinkableDoctype,
+		linked_name: string,
+		opts: { document_version?: string; follow_latest?: boolean; note?: string } = {},
+	) =>
 		call<{ name: string }>(
 			"documents.link_document",
-			compact({ document, linked_doctype, linked_name, document_version: opts.document_version, follow_latest: opts.follow_latest ? 1 : 0, note: opts.note }),
+			compact({
+				document,
+				linked_doctype,
+				linked_name,
+				document_version: opts.document_version,
+				follow_latest: opts.follow_latest ? 1 : 0,
+				note: opts.note,
+			}),
 		),
 	unlink: (link: string) => call<{ name: string }>("documents.unlink_document", { link }),
-	linked: (linked_doctype: LinkableDoctype, linked_name: string) => call<LinkedDocument[]>("documents.linked_documents", { linked_doctype, linked_name }),
+	linked: (linked_doctype: LinkableDoctype, linked_name: string) =>
+		call<LinkedDocument[]>("documents.linked_documents", { linked_doctype, linked_name }),
 	search: (land: string, query?: string, limit = 20) =>
-		call<{ name: string; title: string; document_type?: string | null; version_count: number; current_version?: string | null }[]>(
-			"documents.search_documents",
-			compact({ land, query, limit }),
-		),
+		call<
+			{
+				name: string;
+				title: string;
+				document_type?: string | null;
+				version_count: number;
+				current_version?: string | null;
+			}[]
+		>("documents.search_documents", compact({ land, query, limit })),
 };
 
 export const documentKeys = {

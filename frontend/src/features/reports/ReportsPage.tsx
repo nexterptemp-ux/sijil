@@ -15,14 +15,18 @@ export function ReportsPage() {
 	return (
 		<>
 			<PageHeader title={t("Reports")} subtitle={t("Operational lists and complete history reports")} />
-			<div className="grid gap-6 lg:grid-cols-3">
+			<div className="grid gap-6 lg:grid-cols-3 [&>*]:min-w-0">
 				<div className="space-y-3 lg:col-span-2">
 					<h2 className="text-sm font-bold text-muted-foreground">{t("Operational reports")}</h2>
 					<QueryView query={query}>
 						{(reports) => (
 							<div className="grid gap-3 sm:grid-cols-2">
 								{reports.map((r) => (
-									<Link key={r.key} to={`/reports/${r.key}`} className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+									<Link
+										key={r.key}
+										to={`/reports/${r.key}`}
+										className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+									>
 										<Card className="flex h-full items-center gap-3 p-4 hover:border-primary/40">
 											<BarChart3 className="size-5 shrink-0 text-primary" aria-hidden />
 											<span className="flex-1 font-semibold">{tv(r.name)}</span>
@@ -53,11 +57,18 @@ function HistoryPicker({ kind }: { kind: "case" | "land" }) {
 			<CardBody className="space-y-3">
 				<p className="text-xs text-muted-foreground">
 					{kind === "case"
-						? t("Every development of one case by actual date, with who recorded it, documents, follow-ups and outstanding actions.")
+						? t(
+								"Every development of one case by actual date, with who recorded it, documents, follow-ups and outstanding actions.",
+							)
 						: t("Developments across all cases of one land / project.")}
 				</p>
 				<Field label={kind === "case" ? t("Case") : t("Land / Project")} htmlFor={`hist_${kind}`}>
-					<LookupSelect id={`hist_${kind}`} doctype={kind === "case" ? "Sijil Case" : "Sijil Land"} value={value} onChange={setValue} />
+					<LookupSelect
+						id={`hist_${kind}`}
+						doctype={kind === "case" ? "Sijil Case" : "Sijil Land"}
+						value={value}
+						onChange={setValue}
+					/>
 				</Field>
 				<Button size="sm" disabled={!value} onClick={() => value && navigate(`/reports/${kind}/${value}`)}>
 					<FileClock />

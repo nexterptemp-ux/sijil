@@ -1,5 +1,6 @@
 // In-memory data for `npm run dev:mock` and tests. Field names match the DocTypes exactly;
 // see docs/architecture/domain-model.md. Dates are relative to the real current date.
+// Content is Arabic, as real users will enter it; a few English entries keep mixed text tested.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type Row = Record<string, any>;
@@ -17,6 +18,27 @@ export function nowStamp(): string {
 }
 
 export const ME = "manager@sijil.test";
+
+/** Names used by the seed — tests refer to these instead of repeating the strings. */
+export const DEMO = {
+	me: "سارة الحربي",
+	ahmed: "م. أحمد حسن",
+	konooz: "كنوز جدة",
+	riyadh: "أرض الرياض الاستثمارية",
+	masterPlan: "اعتماد المخطط",
+	utilities: "توصيل الخدمات",
+	situation: "تم الحصول على توقيع الأمين، وجارٍ استخراج الموافقة النهائية بناءً على التوقيع.",
+	technicalReview: "انتهاء المراجعة الفنية للمخطط",
+	wrongEntry: "المعاملة لدى مكتب الأمين",
+	signature: "الحصول على توقيع الأمين",
+	overdueFollowup: "متابعة موعد زيارة الشركة السعودية للكهرباء للموقع",
+	upcomingFollowup: "تأكيد وثيقة نطاق عمل الاستشاري",
+	overdueTask: "مراجعة تقديم الاستشاري للمخطط",
+	govApprovals: "الاعتمادات الحكومية",
+	signatureFolder: "توقيع الأمين",
+	signedLetter: "خطاب توقيع الأمين",
+	prelimPlan: "المخطط المبدئي",
+};
 
 export interface MockDb {
 	users: Row[];
@@ -37,20 +59,20 @@ export interface MockDb {
 }
 
 const FOLDER_TEMPLATE = [
-	"Ownership Documents",
-	"Ownership Documents/Title Deeds",
-	"Ownership Documents/Surveys",
-	"Master Plans",
-	"Master Plans/Preliminary Plans",
-	"Master Plans/Approved Plans",
-	"Government Approvals",
-	"Government Approvals/Municipality",
-	"Government Approvals/Secretary - Mayor Signature",
-	"Correspondence",
-	"Correspondence/Incoming",
-	"Correspondence/Outgoing",
-	"Permits",
-	"Consultant Documents",
+	"مستندات الملكية",
+	"مستندات الملكية/الصكوك",
+	"مستندات الملكية/الرفع المساحي",
+	"المخططات",
+	"المخططات/المخططات المبدئية",
+	"المخططات/المخططات المعتمدة",
+	"الاعتمادات الحكومية",
+	"الاعتمادات الحكومية/الأمانة",
+	"الاعتمادات الحكومية/توقيع الأمين",
+	"المراسلات",
+	"المراسلات/الوارد",
+	"المراسلات/الصادر",
+	"الرخص",
+	"مستندات الاستشاري",
 ];
 
 export function nextName(db: MockDb, prefix: string, digits: number): string {
@@ -87,16 +109,30 @@ export function createLandFolders(db: MockDb, land: Row) {
 	return byPath;
 }
 
+const ORG = {
+	consultant: "المكتب الهندسي الاستشاري",
+	municipality: "أمانة محافظة جدة",
+	electricity: "الشركة السعودية للكهرباء",
+	ufuq: "مكتب الأفق للاستشارات",
+	water: "شركة المياه الوطنية",
+};
+
 export function seed(): MockDb {
 	const db: MockDb = {
 		users: [
-			{ name: ME, full_name: "Sara Al-Harbi", user_image: null },
-			{ name: "ahmed@sijil.test", full_name: "Eng. Ahmed Hassan", user_image: null },
-			{ name: "mohammed@sijil.test", full_name: "Eng. Mohammed Saleh", user_image: null },
-			{ name: "khalid@sijil.test", full_name: "Eng. Khalid Omar", user_image: null },
-			{ name: "noura@sijil.test", full_name: "Noura Al-Qahtani", user_image: null },
+			{ name: ME, full_name: DEMO.me, user_image: null },
+			{ name: "ahmed@sijil.test", full_name: DEMO.ahmed, user_image: null },
+			{ name: "mohammed@sijil.test", full_name: "م. محمد صالح", user_image: null },
+			{ name: "khalid@sijil.test", full_name: "م. خالد العمري", user_image: null },
+			{ name: "noura@sijil.test", full_name: "نورة القحطاني", user_image: null },
+			{ name: "faisal@sijil.test", full_name: "فيصل الزهراني", user_image: null },
 		],
-		settings: { stale_case_days: 14, default_reminder_days: 1, restrict_to_assigned_lands: 0, default_company: "Sijil Development Co." },
+		settings: {
+			stale_case_days: 14,
+			default_reminder_days: 1,
+			restrict_to_assigned_lands: 0,
+			default_company: "شركة سجل للتطوير العقاري",
+		},
 		lands: [],
 		cases: [],
 		events: [],
@@ -107,40 +143,56 @@ export function seed(): MockDb {
 		versions: [],
 		links: [],
 		organizations: [
-			{ name: "Engineering Consultancy", organization_name: "Engineering Consultancy", organization_type: "Consultant" },
-			{ name: "Jeddah Municipality", organization_name: "Jeddah Municipality", organization_type: "Municipality" },
-			{ name: "Saudi Electricity", organization_name: "Saudi Electricity", organization_type: "Utility Provider" },
-			{ name: "مكتب الأفق للاستشارات", organization_name: "مكتب الأفق للاستشارات", organization_type: "Consultant" },
+			{ name: ORG.consultant, organization_name: ORG.consultant, organization_type: "Consultant" },
+			{ name: ORG.municipality, organization_name: ORG.municipality, organization_type: "Municipality" },
+			{ name: ORG.electricity, organization_name: ORG.electricity, organization_type: "Utility Provider" },
+			{ name: ORG.ufuq, organization_name: ORG.ufuq, organization_type: "Consultant" },
+			{ name: ORG.water, organization_name: ORG.water, organization_type: "Utility Provider" },
 		],
 		counters: {},
 		manager: true,
 	};
 	const d = (n: number) => isoDate(n);
 
-	const landSpecs: [string, string, string, string][] = [
-		["Konooz Jeddah", "KNZ-01", "Jeddah", "Active"],
-		["Abraj Omar", "ABO-02", "Makkah", "Active"],
-		["North Jeddah Development", "NJD-03", "Jeddah", "Active"],
-		["Al Rawdah Land", "RWD-04", "Jeddah", "On Hold"],
-		["واحة مكة السكنية", "MKR-05", "Makkah", "Active"],
-		["Riyadh Investment Land", "RIL-06", "Riyadh", "Active"],
-		["Taif Development Project", "TDP-07", "Taif", "Completed"],
+	const landSpecs: [string, string, string, string, string][] = [
+		[
+			DEMO.konooz,
+			"KNZ-01",
+			"جدة",
+			"Active",
+			"أرض سكنية تجارية شمال جدة بمساحة 120 ألف م²، في مرحلة اعتماد المخطط.",
+		],
+		["أبراج عمر", "ABO-02", "مكة المكرمة", "Active", "مشروع أبراج فندقية قرب المنطقة المركزية."],
+		["تطوير شمال جدة", "NJD-03", "جدة", "Active", "مخطط سكني من 14 قطعة قيد تنسيق الخدمات."],
+		["أرض الروضة", "RWD-04", "جدة", "On Hold", "أرض بانتظار قرار لجنة الملاك بشأن التطوير."],
+		["واحة مكة السكنية", "MKR-05", "مكة المكرمة", "Active", "مشروع سكني متكامل في المرحلة التنظيمية."],
+		[DEMO.riyadh, "RIL-06", "الرياض", "Active", "أرض استثمارية بانتظار تأكيد استخدامات الأراضي."],
+		[
+			"Taif Development Project",
+			"TDP-07",
+			"الطائف",
+			"Completed",
+			"Completed residential development (English record kept for mixed-language display).",
+		],
 	];
 	const folders: Record<string, Record<string, Row>> = {};
-	for (const [land_name, land_code, city, status] of landSpecs) {
+	for (const [land_name, land_code, city, status, description] of landSpecs) {
 		const land: Row = {
 			name: nextName(db, "LAND", 5),
 			land_name,
 			land_code,
 			city,
 			status,
-			company: "Sijil Development Co.",
+			company: "شركة سجل للتطوير العقاري",
 			project: land_code === "KNZ-01" ? "PROJ-0001" : null,
-			location: `${city}, Saudi Arabia`,
-			description: `Land development file for ${land_name}.`,
+			location: `${city}، المملكة العربية السعودية`,
+			description,
 			notes: "",
-			responsibles: [{ user: "ahmed@sijil.test", responsibility: "Development Engineer" }],
-			organizations: [{ organization: "Engineering Consultancy", role: "Planning consultant" }],
+			responsibles: [
+				{ user: "ahmed@sijil.test", responsibility: "مهندس التطوير" },
+				{ user: "noura@sijil.test", responsibility: "العلاقات الحكومية" },
+			],
+			organizations: [{ organization: ORG.consultant, role: "استشاري التخطيط" }],
 			owner: ME,
 			modified: `${d(-2)} 10:00:00`,
 		};
@@ -162,7 +214,7 @@ export function seed(): MockDb {
 			project: land.project,
 			current_situation: "",
 			situation_updated_on: null,
-			external_organization: "Engineering Consultancy",
+			external_organization: ORG.consultant,
 			external_contact: null,
 			start_date: d(-60),
 			target_date: null,
@@ -178,74 +230,78 @@ export function seed(): MockDb {
 		return row;
 	};
 
-	const master = mkCase(konooz, "Master Plan Approval", {
+	const master = mkCase(konooz, DEMO.masterPlan, {
 		case_type: "Master Plan Approval",
-		reference_no: "MP-2026-114",
+		reference_no: "MP-1448-114",
 		priority: "High",
 		start_date: d(-35),
 		target_date: d(45),
-		description: "Approval of the Konooz Jeddah master plan through the engineering consultancy.",
+		external_contact: "م. فهد الغامدي",
+		description: "اعتماد المخطط العام لأرض كنوز جدة عبر المكتب الهندسي الاستشاري، وصولًا إلى الموافقة الرسمية.",
 	});
-	const sketch = mkCase(konooz, "Organizational Sketch Approval", {
+	const sketch = mkCase(konooz, "اعتماد الكروكي التنظيمي", {
 		case_type: "Organizational Sketch Approval",
 		status: "Completed",
 		owner_user: "mohammed@sijil.test",
-		external_organization: "Jeddah Municipality",
+		external_organization: ORG.municipality,
+		reference_no: "KR-2231",
 	});
-	mkCase(konooz, "Building Permit", {
+	mkCase(konooz, "إصدار رخصة البناء", {
 		case_type: "Building Permit",
 		status: "Not Started",
 		owner_user: "khalid@sijil.test",
-		external_organization: "Jeddah Municipality",
-		current_situation: "Waiting for the master plan approval before applying.",
+		external_organization: ORG.municipality,
+		current_situation: "بانتظار اكتمال اعتماد المخطط قبل التقديم على الرخصة.",
 		relations: [{ related_case: "CASE-00001", relation_type: "Depends On" }],
 	});
-	const utility = mkCase(konooz, "Utility Connections", {
+	const utility = mkCase(konooz, DEMO.utilities, {
 		case_type: "Utility Connections",
 		status: "Awaiting Action",
-		external_organization: "Saudi Electricity",
-		current_situation: "Electricity load study submitted; awaiting the provider's site visit.",
+		external_organization: ORG.electricity,
+		current_situation: "تم تقديم دراسة الأحمال الكهربائية، وبانتظار زيارة الشركة للموقع.",
 		last_update_date: d(-20),
 	});
-	const abrajPlan = mkCase(abraj, "Municipality Approval", {
+	const abrajPlan = mkCase(abraj, "موافقة الأمانة على المخططات", {
 		case_type: "Municipality Approval",
 		owner_user: "mohammed@sijil.test",
-		external_organization: "Jeddah Municipality",
-		current_situation: "Drawings returned with two comments; consultant is revising.",
+		external_organization: ORG.municipality,
+		current_situation: "أُعيدت المخططات بملاحظتين، والاستشاري يعمل على التعديل.",
 		last_update_date: d(-5),
+		priority: "High",
 	});
-	mkCase(north, "Land Subdivision", {
+	mkCase(north, "فرز الأرض", {
 		case_type: "Land Subdivision",
 		status: "On Hold",
-		current_situation: "On hold until the owners' committee approves the subdivision layout.",
+		current_situation: "موقوفة حتى اعتماد لجنة الملاك لمخطط الفرز.",
 		last_update_date: d(-40),
 	});
-	mkCase(rawdah, "Consultant Coordination", {
+	mkCase(rawdah, "التنسيق مع الاستشاري", {
 		case_type: "Consultant Coordination",
 		owner_user: "noura@sijil.test",
-		current_situation: "Kick-off meeting held; consultant preparing the scope.",
+		current_situation: "عُقد اجتماع البداية، والاستشاري يُعد وثيقة نطاق العمل.",
 		last_update_date: d(-3),
 	});
-	mkCase(makkah, "اعتماد المخطط التنظيمي", {
+	const makkahCase = mkCase(makkah, "اعتماد المخطط التنظيمي", {
 		case_type: "Master Plan Approval",
-		external_organization: "مكتب الأفق للاستشارات",
+		external_organization: ORG.ufuq,
 		current_situation: "تم تقديم المخطط للمراجعة الفنية، وبانتظار ملاحظات الجهة.",
 		last_update_date: d(-8),
 	});
-	mkCase(riyadh, "Government Correspondence", {
+	const riyadhCase = mkCase(riyadh, "المراسلات الحكومية", {
 		case_type: "Government Correspondence",
 		priority: "Urgent",
 		owner_user: ME,
-		current_situation: "Official letter sent requesting the zoning confirmation.",
+		current_situation: "أُرسل خطاب رسمي لطلب تأكيد استخدامات الأرض.",
 		last_update_date: d(-16),
 	});
 	for (let i = 1; i <= 14; i++) {
-		mkCase(north, `Plot ${i} utility coordination`, {
+		mkCase(north, `تنسيق توصيل الخدمات – القطعة ${i}`, {
 			case_type: "Utility Connections",
 			status: i % 4 === 0 ? "Completed" : "In Progress",
 			priority: i % 5 === 0 ? "High" : "Medium",
 			owner_user: i % 2 ? "mohammed@sijil.test" : "noura@sijil.test",
-			current_situation: `Coordinating connection works for plot ${i}.`,
+			external_organization: i % 3 ? ORG.electricity : ORG.water,
+			current_situation: `جارٍ التنسيق لأعمال توصيل الكهرباء والمياه للقطعة رقم ${i}.`,
 			last_update_date: d(-i * 2),
 		});
 	}
@@ -280,42 +336,44 @@ export function seed(): MockDb {
 		return row;
 	};
 
-	mkEvent(master, -28, "Case opened with the consultant", {
-		description: "Initial documents handed to the engineering consultancy, which was assigned to follow the approval.",
+	mkEvent(master, -28, "بدء معاملة اعتماد المخطط", {
+		description: "تم تسليم المستندات الأولية للمكتب الاستشاري وتكليفه بمتابعة إجراءات الاعتماد.",
 		recorded_by: "mohammed@sijil.test",
 		communication_method: "Meeting",
 	});
-	mkEvent(master, -21, "Technical review completed", {
+	mkEvent(master, -21, DEMO.technicalReview, {
 		event_type: "Milestone",
 		is_milestone: 1,
 		description:
-			"<p>The consultant confirmed the master plan <b>completed its technical review</b> and was submitted for approval.</p>",
-		situation_update: "Technical review completed; submitted for approval.",
+			"<p>أفاد المكتب الاستشاري بأن المخطط <b>أنهى مرحلة المراجعة الفنية</b>، وتمت إحالته إلى مرحلة الاعتماد.</p>",
+		situation_update: "انتهت المراجعة الفنية، وأُحيل المخطط للاعتماد.",
 	});
-	const wrong = mkEvent(master, -14, "At the Mayor's office", {
-		description: "The consultant said the file is at the Mayor's office.",
+	const wrong = mkEvent(master, -14, DEMO.wrongEntry, {
+		description: "أفاد المكتب بأن المعاملة لدى مكتب الأمين.",
 		entry_status: "Superseded",
 	});
-	const fixed = mkEvent(master, -14, "At the Secretary/Mayor's office, awaiting signature", {
-		description: "The consultant explained the approval reached the Secretary/Mayor's office and is awaiting signature.",
-		situation_update: "At the Secretary/Mayor's office awaiting signature.",
+	const fixed = mkEvent(master, -14, "المعاملة لدى مكتب الأمين بانتظار التوقيع", {
+		description:
+			"أفاد المكتب بأن المعاملة وصلت إلى مكتب الأمين وهي بانتظار التوقيع. تم الاتفاق على متابعة الموقف خلال أسبوع.",
+		situation_update: "المعاملة لدى مكتب الأمين بانتظار التوقيع.",
 		corrects: wrong.name,
-		correction_reason: "The title missed that the file is awaiting signature.",
+		correction_reason: "العنوان لم يذكر أن المعاملة بانتظار التوقيع.",
 		recorded_on: `${d(-13)} 09:05:00`,
 		creation: `${d(-13)} 09:05:00`,
 	});
 	wrong.superseded_by = fixed.name;
-	const signed = mkEvent(master, -7, "Secretary/Mayor signature obtained", {
+	const signed = mkEvent(master, -7, DEMO.signature, {
 		event_type: "Milestone",
 		is_milestone: 1,
-		description: "The consultant confirmed the signature was obtained. Next step: issue the formal approval based on it.",
-		outcome: "Signed approval letter received (PDF).",
-		situation_update: "The Secretary/Mayor's signature has been obtained; formal approval is pending.",
+		description:
+			"أكد المكتب الاستشاري الحصول على توقيع الأمين. الخطوة التالية: استخراج الموافقة الرسمية بناءً على التوقيع.",
+		outcome: "استلام خطاب التوقيع (PDF).",
+		situation_update: DEMO.situation,
 	});
 	const fu1: Row = {
 		name: nextName(db, "FUP", 5),
-		title: "Follow up on obtaining the formal approval",
-		description: "Call the consultant about the formal approval based on the signature.",
+		title: "متابعة استخراج الموافقة الرسمية",
+		description: "التواصل مع الاستشاري بشأن الموافقة الرسمية المبنية على التوقيع.",
 		case: master.name,
 		land: master.land,
 		originating_event: signed.name,
@@ -325,34 +383,51 @@ export function seed(): MockDb {
 		status: "Completed",
 		reminder_days_before: 1,
 		completion_date: d(0),
-		outcome: "Approval not issued yet; consultant expects it next week.",
+		outcome: "لم تصدر الموافقة بعد، ويتوقع الاستشاري صدورها الأسبوع القادم.",
 		result_event: null,
 		next_followup: null,
 		owner: ME,
 		modified: `${d(0)} 08:00:00`,
 	};
 	db.followups.push(fu1);
-	const noProgress = mkEvent(master, 0, "Follow-up result: Follow up on obtaining the formal approval", {
+	const noProgress = mkEvent(master, 0, "نتيجة المتابعة: متابعة استخراج الموافقة الرسمية", {
 		event_type: "Contact",
-		description: "Approval not issued yet; consultant expects it next week.",
-		outcome: "Approval not issued yet; consultant expects it next week.",
+		description: "لم تصدر الموافقة بعد، ويتوقع الاستشاري صدورها الأسبوع القادم.",
+		outcome: "لم تصدر الموافقة بعد، ويتوقع الاستشاري صدورها الأسبوع القادم.",
 		source_followup: fu1.name,
 		recorded_on: `${d(0)} 08:00:00`,
 		creation: `${d(0)} 08:00:00`,
 	});
 	fu1.result_event = noProgress.name;
-	master.current_situation = "The Secretary/Mayor's signature has been obtained; formal approval is pending.";
+	master.current_situation = DEMO.situation;
 	master.situation_updated_on = `${d(-7)} 11:20:00`;
 	master.last_update_date = d(0);
-	mkEvent(sketch, -18, "Approved sketch received", { event_type: "Approval", is_milestone: 1, recorded_by: "mohammed@sijil.test" });
+	mkEvent(sketch, -18, "استلام الكروكي المعتمد", {
+		event_type: "Approval",
+		is_milestone: 1,
+		recorded_by: "mohammed@sijil.test",
+	});
 	sketch.last_update_date = d(-18);
-	sketch.current_situation = "The approved organizational sketch was received.";
-	mkEvent(abrajPlan, -5, "Drawings returned with comments", {
+	sketch.current_situation = "تم استلام الكروكي التنظيمي المعتمد من الأمانة.";
+	mkEvent(abrajPlan, -5, "إعادة المخططات بملاحظات", {
 		event_type: "Correspondence",
 		communication_method: "Official Letter",
 		recorded_by: "mohammed@sijil.test",
+		description: "وردت ملاحظتان من الأمانة: تعديل الارتدادات وإضافة مواقف للزوار.",
 	});
-	mkEvent(utility, -20, "Load study submitted", { event_type: "Submission", communication_method: "Government Portal" });
+	mkEvent(utility, -20, "تقديم دراسة الأحمال", {
+		event_type: "Submission",
+		communication_method: "Government Portal",
+	});
+	mkEvent(makkahCase, -8, "تقديم المخطط للمراجعة الفنية", {
+		event_type: "Submission",
+		communication_method: "Government Portal",
+	});
+	mkEvent(riyadhCase, -16, "إرسال خطاب طلب تأكيد الاستخدامات", {
+		event_type: "Correspondence",
+		communication_method: "Official Letter",
+		recorded_by: ME,
+	});
 
 	const mkFollowup = (c: Row | null, land: Row, days: number, title: string, extra: Row = {}): Row => {
 		const row: Row = {
@@ -378,19 +453,16 @@ export function seed(): MockDb {
 		db.followups.push(row);
 		return row;
 	};
-	const next = mkFollowup(master, konooz, 7, "Follow up on obtaining the formal approval", {
+	const next = mkFollowup(master, konooz, 7, "متابعة استخراج الموافقة الرسمية", {
 		priority: "High",
 		originating_event: noProgress.name,
 	});
 	fu1.next_followup = next.name;
-	mkFollowup(utility, konooz, -3, "Ask Saudi Electricity for the site visit date", { priority: "High" });
-	mkFollowup(abrajPlan, abraj, 0, "Check the revised drawings with the consultant", { assigned_to: ME });
-	mkFollowup(null, rawdah, 2, "Confirm the consultant's scope document", { assigned_to: "noura@sijil.test" });
-	mkFollowup(db.cases[8] ?? null, riyadh, -1, "Call the zoning department about the letter", {
-		assigned_to: ME,
-		priority: "Urgent",
-	});
-	mkFollowup(db.cases[7] ?? null, makkah, 4, "متابعة ملاحظات المراجعة الفنية");
+	mkFollowup(utility, konooz, -3, DEMO.overdueFollowup, { priority: "High" });
+	mkFollowup(abrajPlan, abraj, 0, "مراجعة المخططات المعدّلة مع الاستشاري", { assigned_to: ME });
+	mkFollowup(null, rawdah, 2, DEMO.upcomingFollowup, { assigned_to: "noura@sijil.test" });
+	mkFollowup(riyadhCase, riyadh, -1, "الاتصال بإدارة التخطيط بشأن الخطاب", { assigned_to: ME, priority: "Urgent" });
+	mkFollowup(makkahCase, makkah, 4, "متابعة ملاحظات المراجعة الفنية");
 
 	const mkTask = (title: string, extra: Row = {}): Row => {
 		const row: Row = {
@@ -417,18 +489,27 @@ export function seed(): MockDb {
 		db.tasks.push(row);
 		return row;
 	};
-	mkTask("Prepare a status presentation for management", { due_date: d(3), priority: "High" });
-	mkTask("Review consultant submission for the master plan", {
+	mkTask("إعداد عرض تقديمي عن حالة المعاملات للإدارة", {
+		due_date: d(3),
+		priority: "High",
+		description: "ملخص لكل أرض: المعاملات المفتوحة، المتأخرات، والخطوات القادمة.",
+	});
+	mkTask(DEMO.overdueTask, {
 		land: konooz.name,
 		case: master.name,
 		assigned_to: "ahmed@sijil.test",
 		due_date: d(-2),
 		status: "In Progress",
-		updates: [{ update_on: `${d(-3)} 10:00:00`, user: "ahmed@sijil.test", note: "Started reviewing the drawings." }],
+		updates: [{ update_on: `${d(-3)} 10:00:00`, user: "ahmed@sijil.test", note: "بدأت مراجعة اللوحات المعمارية." }],
 	});
-	mkTask("Prepare the official letter to the municipality", { land: abraj.name, due_date: d(5), assigned_to: "mohammed@sijil.test" });
-	mkTask("Coordinate the kick-off meeting", { land: rawdah.name, status: "Completed", completed_on: d(-4), assigned_to: "noura@sijil.test" });
-	mkTask("Submit the missing ownership information", { land: riyadh.name, due_date: d(1), priority: "Urgent" });
+	mkTask("إعداد الخطاب الرسمي للأمانة", { land: abraj.name, due_date: d(5), assigned_to: "mohammed@sijil.test" });
+	mkTask("تنسيق اجتماع البداية", {
+		land: rawdah.name,
+		status: "Completed",
+		completed_on: d(-4),
+		assigned_to: "noura@sijil.test",
+	});
+	mkTask("استكمال بيانات الملكية الناقصة", { land: riyadh.name, due_date: d(1), priority: "Urgent" });
 
 	const mkDoc = (land: Row, folderPath: string, title: string, extra: Row = {}, versions = 1): Row => {
 		const row: Row = {
@@ -450,27 +531,44 @@ export function seed(): MockDb {
 			...extra,
 		};
 		db.documents.push(row);
-		for (let v = 1; v <= versions; v++) addVersion(db, row, `${title.replace(/\s+/g, "-")}-v${v}.pdf`, 240_000 + v * 1000);
+		for (let v = 1; v <= versions; v++)
+			addVersion(db, row, `${title.replace(/\s+/g, "-")}-v${v}.pdf`, 240_000 + v * 1000);
 		return row;
 	};
-	const deed = mkDoc(konooz, "Ownership Documents/Title Deeds", "Konooz Jeddah title deed", {
+	const deed = mkDoc(konooz, "مستندات الملكية/الصكوك", "صك ملكية كنوز جدة", {
 		document_type: "Title Deed",
 		is_confidential: 1,
+		reference_no: "3100-4412",
 	});
-	const prelim = mkDoc(konooz, "Master Plans/Preliminary Plans", "Preliminary master plan", { document_type: "Master Plan" }, 2);
-	const letter = mkDoc(konooz, "Government Approvals/Secretary - Mayor Signature", "Signed approval letter", {
+	const prelim = mkDoc(konooz, "المخططات/المخططات المبدئية", DEMO.prelimPlan, { document_type: "Master Plan" }, 2);
+	const letter = mkDoc(konooz, "الاعتمادات الحكومية/توقيع الأمين", DEMO.signedLetter, {
 		document_type: "Government Approval",
 		reference_no: "SEC-55/1448",
 		document_date: d(-7),
 	});
-	mkDoc(abraj, "Correspondence/Incoming", "Municipality comments letter", { document_type: "Official Letter" });
-	mkDoc(konooz, "Consultant Documents", "Consultant engagement contract", { document_type: "Contract" });
+	mkDoc(abraj, "المراسلات/الوارد", "خطاب ملاحظات الأمانة", { document_type: "Official Letter" });
+	mkDoc(konooz, "مستندات الاستشاري", "عقد تكليف المكتب الاستشاري", { document_type: "Contract" });
+	mkDoc(konooz, "مستندات الملكية/الرفع المساحي", "الرفع المساحي للأرض", { document_type: "Survey" });
 
 	link(db, letter, "Sijil Case Event", signed.name);
 	link(db, letter, "Sijil Case", master.name);
 	// Pinned to version 1 although version 2 exists:
-	link(db, prelim, "Sijil Case Event", db.events[1]!.name, db.versions.find((v) => v.document === prelim.name && v.version_no === 1)?.name);
+	link(
+		db,
+		prelim,
+		"Sijil Case Event",
+		db.events[1]!.name,
+		db.versions.find((v) => v.document === prelim.name && v.version_no === 1)?.name,
+	);
 	link(db, deed, "Sijil Land", konooz.name);
+	// Derived like the backend does: earliest open follow-up per case.
+	for (const c of db.cases) {
+		const due = db.followups
+			.filter((f) => f.case === c.name && f.status === "Open")
+			.map((f) => f.due_date)
+			.sort();
+		c.next_followup_date = due[0] ?? null;
+	}
 	return db;
 }
 
@@ -496,7 +594,15 @@ export function addVersion(db: MockDb, doc: Row, fileName: string, size: number,
 	return version;
 }
 
-export function link(db: MockDb, doc: Row, linked_doctype: string, linked_name: string, version?: string | null, follow_latest = 0, note: string | null = null): Row {
+export function link(
+	db: MockDb,
+	doc: Row,
+	linked_doctype: string,
+	linked_name: string,
+	version?: string | null,
+	follow_latest = 0,
+	note: string | null = null,
+): Row {
 	const row: Row = {
 		name: Math.random().toString(36).slice(2, 12),
 		document: doc.name,

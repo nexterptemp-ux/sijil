@@ -1,10 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
 import * as React from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Avatar } from "@/components/common";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/menu";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/menu";
 import { followupKeys, followupsApi } from "@/features/followups/api";
 import { GlobalSearch } from "@/features/search/GlobalSearch";
 import { t } from "@/i18n";
@@ -26,11 +32,17 @@ export function AppShell() {
 			>
 				{t("Skip to content")}
 			</a>
-			{open && <div className="fixed inset-0 z-30 bg-black/30 lg:hidden" onClick={() => setOpen(false)} aria-hidden />}
+			{open && (
+				<div
+					className="fixed inset-0 z-30 bg-[#0b1430]/50 backdrop-blur-[2px] lg:hidden"
+					onClick={() => setOpen(false)}
+					aria-hidden
+				/>
+			)}
 			<Sidebar open={open} onClose={() => setOpen(false)} />
 			<div className="flex min-w-0 flex-1 flex-col">
 				<Topbar onMenu={() => setOpen(true)} />
-				<main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 lg:px-8">
+				<main id="main" className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
 					<Outlet />
 				</main>
 			</div>
@@ -43,27 +55,34 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 	return (
 		<aside
 			className={cn(
-				"fixed inset-y-0 start-0 z-40 flex w-64 flex-col gap-6 border-e border-border bg-surface px-3 py-5 transition-transform lg:sticky lg:top-0 lg:h-screen",
+				"fixed inset-y-0 start-0 z-40 flex w-[264px] shrink-0 flex-col gap-7 bg-sidebar px-3.5 py-5 text-sidebar-foreground transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen",
 				!open && "max-lg:-translate-x-full max-lg:rtl:translate-x-full",
 			)}
 			aria-label={t("Workspace")}
 		>
-			<div className="flex items-center justify-between px-2">
+			<div className="flex items-center justify-between px-1.5">
 				<div className="flex items-center gap-3">
-					<div className="flex size-9 items-center justify-center rounded-lg bg-primary text-lg font-extrabold text-primary-foreground">
+					<div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#4f74f0] to-[#2a49c4] text-xl font-extrabold text-white shadow-[0_6px_16px_-4px_rgba(56,92,230,.6),inset_0_1px_0_rgba(255,255,255,.25)]">
 						{t("Sijil").slice(0, 1)}
 					</div>
 					<div className="leading-tight">
-						<div className="font-bold">{t("Sijil")}</div>
-						<div className="text-[11px] text-muted-foreground">{t("Land and case follow-up")}</div>
+						<div className="text-[17px] font-extrabold text-white">{t("Sijil")}</div>
+						<div className="text-[11px] text-sidebar-foreground/70">{t("Land and case follow-up")}</div>
 					</div>
 				</div>
-				<Button variant="ghost" size="icon" className="lg:hidden" onClick={onClose} aria-label={t("Close")}>
-					<X />
-				</Button>
+				<button
+					type="button"
+					className="rounded-lg p-2 text-sidebar-foreground hover:bg-white/10 lg:hidden"
+					onClick={onClose}
+					aria-label={t("Close")}
+				>
+					<X className="size-4" />
+				</button>
 			</div>
-			<nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto">
-				<div className="px-2 pb-1 text-[11px] font-semibold uppercase text-muted-foreground">{t("Workspace")}</div>
+			<nav className="flex flex-1 flex-col gap-1 overflow-y-auto">
+				<div className="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-sidebar-foreground/50">
+					{t("Workspace")}
+				</div>
 				{NAV.map((item) => (
 					<NavLink
 						key={item.to}
@@ -71,22 +90,25 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 						end={item.end}
 						className={({ isActive }) =>
 							cn(
-								"flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
-								isActive && "bg-primary-soft text-primary hover:bg-primary-soft hover:text-primary",
+								"relative flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[14px] font-semibold text-sidebar-foreground transition-colors hover:bg-white/[.06] hover:text-white",
+								isActive &&
+									"bg-sidebar-active text-white shadow-[inset_0_1px_0_rgba(255,255,255,.06)] before:absolute before:inset-y-2 before:start-0 before:w-[3px] before:rounded-full before:bg-[#6e8ff5] hover:bg-sidebar-active",
 							)
 						}
 					>
-						<item.icon className="size-4 shrink-0" aria-hidden />
+						<item.icon className="size-[18px] shrink-0 opacity-90" aria-hidden />
 						<span className="flex-1 truncate">{t(item.label)}</span>
 						{item.badge && <NavBadge kind={item.badge} />}
 					</NavLink>
 				))}
 			</nav>
-			<div className="flex items-center gap-3 rounded-md border border-border px-3 py-2">
+			<div className="flex items-center gap-3 rounded-xl bg-white/[.05] px-3 py-2.5 ring-1 ring-inset ring-white/[.06]">
 				<Avatar name={boot.user.full_name} image={boot.user.image} />
 				<div className="min-w-0 leading-tight">
-					<div className="truncate text-sm font-semibold">{boot.user.full_name}</div>
-					<div className="text-[11px] text-muted-foreground">{boot.user.is_manager ? t("Manager") : t("User")}</div>
+					<div className="truncate text-sm font-bold text-white">{boot.user.full_name}</div>
+					<div className="text-[11px] text-sidebar-foreground/70">
+						{boot.user.is_manager ? t("Manager") : t("User")}
+					</div>
 				</div>
 			</div>
 		</aside>
@@ -105,8 +127,8 @@ function NavBadge(_props: { kind: "followups" }) {
 	return (
 		<span
 			className={cn(
-				"min-w-5 rounded-full px-1.5 text-center text-[11px] font-bold leading-5",
-				data?.overdue ? "bg-danger text-white" : "bg-warning text-white",
+				"tabular min-w-5 rounded-full px-1.5 text-center text-[11px] font-bold leading-5 text-white",
+				data?.overdue ? "bg-[#e5484d]" : "bg-[#e08a1e]",
 			)}
 			aria-label={t("{0} follow-ups need attention", n)}
 		>
@@ -118,10 +140,16 @@ function NavBadge(_props: { kind: "followups" }) {
 function Topbar({ onMenu }: { onMenu: () => void }) {
 	const { boot, lang, setLang } = useBoot();
 	return (
-		<header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-surface/95 px-4 backdrop-blur lg:px-8">
+		<header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border/70 bg-surface/90 px-4 backdrop-blur-md sm:gap-3 sm:px-6 lg:px-10">
 			<Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenu} aria-label={t("Menu")}>
 				<Menu />
 			</Button>
+			<Link to="/" className="flex items-center gap-2 lg:hidden" aria-label={t("Home")}>
+				<span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#4f74f0] to-[#2a49c4] text-base font-extrabold text-white">
+					{t("Sijil").slice(0, 1)}
+				</span>
+				<span className="text-base font-extrabold max-[360px]:hidden">{t("Sijil")}</span>
+			</Link>
 			<div className="flex min-w-0 flex-1 justify-end sm:justify-start">
 				<GlobalSearch />
 			</div>
@@ -132,13 +160,14 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
 				aria-label={t("Change language")}
 			>
 				<Globe />
-				<span>{lang === "ar" ? "English" : "العربية"}</span>
+				<span className="max-sm:hidden">{lang === "ar" ? "English" : "العربية"}</span>
+				<span className="sm:hidden">{lang === "ar" ? "EN" : "ع"}</span>
 			</Button>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<button
 						type="button"
-						className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+						className="flex items-center rounded-full p-0.5 ring-1 ring-border transition hover:ring-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
 						aria-label={t("Account")}
 					>
 						<Avatar name={boot.user.full_name} image={boot.user.image} />

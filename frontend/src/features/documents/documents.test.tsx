@@ -2,6 +2,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
+import { DEMO } from "@/mocks/db";
 import { renderApp } from "@/test/render";
 
 beforeEach(() => rememberLang("en"));
@@ -13,15 +14,17 @@ describe("document library", () => {
 		renderApp("/documents/LAND-00001");
 		// Folder buttons exist both in the tree and in the folder grid; use the grid (last).
 		const open = async (name: RegExp) => userEvent.click((await screen.findAllByRole("button", { name })).at(-1)!);
-		await open(/Government Approvals/);
-		await open(/Secretary - Mayor Signature/);
-		expect(await screen.findByText("Signed approval letter")).toBeInTheDocument();
-		expect(within(screen.getByRole("navigation", { name: "Folder path" })).getByText("Konooz Jeddah")).toBeInTheDocument();
+		await open(new RegExp(DEMO.govApprovals));
+		await open(new RegExp(DEMO.signatureFolder));
+		expect(await screen.findByText(DEMO.signedLetter)).toBeInTheDocument();
+		expect(
+			within(screen.getByRole("navigation", { name: "Folder path" })).getByText(DEMO.konooz),
+		).toBeInTheDocument();
 	});
 
 	it("uploads a file once into the current folder (AC-01 step 3)", async () => {
 		const { db } = renderApp("/documents/LAND-00001");
-		await screen.findAllByRole("button", { name: /Government Approvals/ });
+		await screen.findAllByRole("button", { name: new RegExp(DEMO.govApprovals) });
 		await userEvent.click(screen.getAllByRole("button", { name: "Upload" })[0]!);
 		const dialog = await screen.findByRole("dialog");
 		await userEvent.upload(within(dialog).getByLabelText(/File/), pdf("formal-approval.pdf"));
@@ -45,8 +48,8 @@ describe("document library", () => {
 
 	it("shows a newer-version hint on a development that references an older version", async () => {
 		renderApp("/cases/CASE-00001");
-		const card = await screen.findByRole("article", { name: "Technical review completed" });
-		expect(within(card).getByText("Preliminary master plan")).toBeInTheDocument();
+		const card = await screen.findByRole("article", { name: DEMO.technicalReview });
+		expect(within(card).getByText(DEMO.prelimPlan)).toBeInTheDocument();
 		expect(within(card).getByText("Newer version available")).toBeInTheDocument();
 	});
 });

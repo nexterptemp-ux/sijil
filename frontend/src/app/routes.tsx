@@ -57,8 +57,20 @@ export const routes: RouteObject[] = [
 			{ path: "documents", lazy: page(() => import("@/features/documents/LibraryPage"), "DocumentsHome") },
 			{ path: "documents/:land", lazy: page(() => import("@/features/documents/LibraryPage"), "LibraryPage") },
 			{ path: "reports", lazy: page(() => import("@/features/reports/ReportsPage"), "ReportsPage") },
-			{ path: "reports/case/:name", lazy: () => import("@/features/reports/HistoryReportPage").then((m) => ({ element: <m.HistoryReportPage kind="case" /> })) },
-			{ path: "reports/land/:name", lazy: () => import("@/features/reports/HistoryReportPage").then((m) => ({ element: <m.HistoryReportPage kind="land" /> })) },
+			{
+				path: "reports/case/:name",
+				lazy: () =>
+					import("@/features/reports/HistoryReportPage").then((m) => ({
+						element: <m.HistoryReportPage kind="case" />,
+					})),
+			},
+			{
+				path: "reports/land/:name",
+				lazy: () =>
+					import("@/features/reports/HistoryReportPage").then((m) => ({
+						element: <m.HistoryReportPage kind="land" />,
+					})),
+			},
 			{ path: "reports/:report", lazy: page(() => import("@/features/reports/ReportView"), "ReportView") },
 			{ path: "settings", lazy: page(() => import("@/features/administration/SettingsPage"), "SettingsPage") },
 			{ path: "*", element: <NotFound /> },

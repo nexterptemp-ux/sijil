@@ -1,8 +1,26 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { FileBarChart, FolderOpen, Link2, MapPin, Pencil, Star } from "lucide-react";
+import {
+	Briefcase,
+	Building2,
+	CalendarClock,
+	CalendarX2,
+	FileBarChart,
+	FileText,
+	FolderOpen,
+	Info,
+	Landmark,
+	Link2,
+	ListChecks,
+	MapPin,
+	Pencil,
+	Sparkles,
+	Star,
+	TimerOff,
+	Users,
+} from "lucide-react";
 import * as React from "react";
 import { Link, useParams } from "react-router-dom";
-import { KeyValue, PageHeader, Person, RichText, StatTile } from "@/components/common";
+import { Avatar, BackIcon, KeyValue, Person, StatTile } from "@/components/common";
 import { EmptyState, LoadingRows, QueryView } from "@/components/states";
 import { StateBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
@@ -37,27 +55,67 @@ function LandView({ land }: { land: Land }) {
 	const s = land.stats;
 	return (
 		<>
-			<PageHeader
-				back={{ to: "/lands", label: t("Lands and Projects") }}
-				title={
-					<span className="inline-flex flex-wrap items-center gap-2">
-						{land.land_name}
-						<StateBadge state={land.status} />
-					</span>
-				}
-				subtitle={
-					<span className="flex flex-wrap items-center gap-x-3">
-						{land.land_code && <span dir="auto">{land.land_code}</span>}
-						{land.city && (
-							<span className="inline-flex items-center gap-1" dir="auto">
-								<MapPin className="size-3.5" aria-hidden />
-								{land.city}
-							</span>
-						)}
-					</span>
-				}
-				actions={
-					<>
+			<Link
+				to="/lands"
+				className="mb-3 inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-primary"
+			>
+				<BackIcon className="size-3.5" />
+				{t("Lands and Projects")}
+			</Link>
+			<Card className="mb-6 overflow-hidden">
+				<div className="h-1.5 bg-gradient-to-l from-[#4f74f0] via-[#6d8ff5] to-[#a9bdfb]" aria-hidden />
+				<div className="flex flex-col gap-5 p-5 lg:flex-row lg:items-start lg:justify-between">
+					<div className="flex min-w-0 gap-4">
+						<span
+							className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-[#dfe7ff] text-primary"
+							aria-hidden
+						>
+							<Building2 className="size-7" />
+						</span>
+						<div className="min-w-0 space-y-2">
+							<div className="flex flex-wrap items-center gap-2">
+								<h1 className="text-2xl font-extrabold tracking-tight" dir="auto">
+									{land.land_name}
+								</h1>
+								<StateBadge state={land.status} />
+							</div>
+							<div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+								{land.land_code && (
+									<span
+										className="tabular rounded-md bg-muted px-2 py-0.5 text-xs font-bold"
+										dir="ltr"
+									>
+										{land.land_code}
+									</span>
+								)}
+								{land.city && (
+									<span className="inline-flex items-center gap-1" dir="auto">
+										<MapPin className="size-3.5" aria-hidden />
+										{land.city}
+									</span>
+								)}
+								{land.company && <span dir="auto">{land.company}</span>}
+							</div>
+							{land.description && (
+								<p className="max-w-3xl text-sm leading-6 text-foreground/75" dir="auto">
+									{land.description}
+								</p>
+							)}
+							{land.responsibles.length > 0 && (
+								<div className="flex items-center gap-2 pt-1">
+									<div className="flex -space-x-2 rtl:space-x-reverse">
+										{land.responsibles.slice(0, 4).map((r) => (
+											<Avatar key={r.user} name={r.full_name} />
+										))}
+									</div>
+									<span className="text-xs text-muted-foreground">
+										{land.responsibles.map((r) => r.full_name).join("، ")}
+									</span>
+								</div>
+							)}
+						</div>
+					</div>
+					<div className="flex flex-wrap gap-2 lg:justify-end">
 						<Button asChild variant="outline">
 							<Link to={`/documents/${land.name}`}>
 								<FolderOpen />
@@ -76,20 +134,55 @@ function LandView({ land }: { land: Land }) {
 								{t("Edit")}
 							</Button>
 						)}
-					</>
-				}
-			/>
+					</div>
+				</div>
+			</Card>
 
-			<section className="mb-6 grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-6" aria-label={t("Summary")}>
-				<StatTile label={t("Open cases")} value={s.cases_open} to={`/cases?land=${land.name}`} />
-				<StatTile label={t("Cases without recent updates")} value={s.cases_stale} tone="warning" to={`/cases?land=${land.name}&stale=1`} />
-				<StatTile label={t("Open follow-ups")} value={s.followups_open} to={`/followups?land=${land.name}`} />
-				<StatTile label={t("Overdue follow-ups")} value={s.followups_overdue} tone="danger" to={`/followups?land=${land.name}&scope=overdue`} />
-				<StatTile label={t("Open tasks")} value={s.tasks_open} to={`/tasks?land=${land.name}`} />
-				<StatTile label={t("Documents")} value={s.documents} to={`/documents/${land.name}`} />
+			<section
+				className="mb-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6"
+				aria-label={t("Summary")}
+			>
+				<StatTile
+					icon={<Briefcase />}
+					label={t("Open cases")}
+					value={s.cases_open}
+					to={`/cases?land=${land.name}`}
+				/>
+				<StatTile
+					icon={<TimerOff />}
+					label={t("Cases without recent updates")}
+					value={s.cases_stale}
+					tone="warning"
+					to={`/cases?land=${land.name}&stale=1`}
+				/>
+				<StatTile
+					icon={<CalendarClock />}
+					label={t("Open follow-ups")}
+					value={s.followups_open}
+					to={`/followups?land=${land.name}`}
+				/>
+				<StatTile
+					icon={<CalendarX2 />}
+					label={t("Overdue follow-ups")}
+					value={s.followups_overdue}
+					tone="danger"
+					to={`/followups?land=${land.name}&scope=overdue`}
+				/>
+				<StatTile
+					icon={<ListChecks />}
+					label={t("Open tasks")}
+					value={s.tasks_open}
+					to={`/tasks?land=${land.name}`}
+				/>
+				<StatTile
+					icon={<FileText />}
+					label={t("Documents")}
+					value={s.documents}
+					to={`/documents/${land.name}`}
+				/>
 			</section>
 
-			<div className="grid gap-6 lg:grid-cols-3">
+			<div className="grid gap-6 lg:grid-cols-3 [&>*]:min-w-0">
 				<div className="space-y-6 lg:col-span-2">
 					<LandCases land={land} />
 					<LandFollowUps land={land.name} />
@@ -98,19 +191,27 @@ function LandView({ land }: { land: Land }) {
 				</div>
 				<div className="space-y-6">
 					<Card>
-						<CardHeader title={t("Details")} />
+						<CardHeader icon={<Info />} title={t("Details")} />
 						<CardBody>
 							<dl className="divide-y divide-border">
 								{land.location && <KeyValue label={t("Location")}>{land.location}</KeyValue>}
 								{land.company && <KeyValue label={t("Company")}>{land.company}</KeyValue>}
 								<KeyValue label={t("ERPNext Project")}>
 									{land.project ? (
-										<a href={`/app/project/${encodeURIComponent(land.project)}`} className="inline-flex items-center gap-1 text-primary hover:underline">
+										<a
+											href={`/app/project/${encodeURIComponent(land.project)}`}
+											className="inline-flex items-center gap-1 text-primary hover:underline"
+										>
 											<Link2 className="size-3.5" aria-hidden />
 											{land.project}
 										</a>
 									) : land.can_write ? (
-										<Button variant="link" size="sm" disabled={project.isPending} onClick={() => project.mutate(undefined)}>
+										<Button
+											variant="link"
+											size="sm"
+											disabled={project.isPending}
+											onClick={() => project.mutate(undefined)}
+										>
 											{t("Create project")}
 										</Button>
 									) : (
@@ -120,7 +221,6 @@ function LandView({ land }: { land: Land }) {
 								<KeyValue label={t("Developments")}>{s.events}</KeyValue>
 								<KeyValue label={t("Total cases")}>{s.cases_total}</KeyValue>
 							</dl>
-							{land.description && <RichText html={land.description} className="mt-3 text-muted-foreground" />}
 							{land.notes && (
 								<div className="mt-3 rounded-md bg-muted p-3 text-sm" dir="auto">
 									<div className="mb-1 text-xs font-semibold text-muted-foreground">{t("Notes")}</div>
@@ -130,7 +230,7 @@ function LandView({ land }: { land: Land }) {
 						</CardBody>
 					</Card>
 					<Card>
-						<CardHeader title={t("Responsible Employees")} />
+						<CardHeader icon={<Users />} title={t("Responsible Employees")} />
 						<CardBody>
 							{land.responsibles.length === 0 ? (
 								<p className="text-sm text-muted-foreground">{t("No responsible employees yet.")}</p>
@@ -149,7 +249,7 @@ function LandView({ land }: { land: Land }) {
 						</CardBody>
 					</Card>
 					<Card>
-						<CardHeader title={t("External Organizations")} />
+						<CardHeader icon={<Landmark />} title={t("External Organizations")} />
 						<CardBody>
 							{land.organizations.length === 0 ? (
 								<p className="text-sm text-muted-foreground">{t("No external organizations yet.")}</p>
@@ -182,6 +282,7 @@ function LandCases({ land }: { land: Land }) {
 	return (
 		<Card>
 			<CardHeader
+				icon={<Briefcase />}
 				title={t("Open cases")}
 				action={
 					<span className="flex items-center gap-3">
@@ -191,7 +292,7 @@ function LandCases({ land }: { land: Land }) {
 					</span>
 				}
 			/>
-			<CardBody className="py-1">
+			<CardBody className="px-4 py-1 md:p-0">
 				<QueryView query={query}>
 					{(data) =>
 						data.rows.length ? (
@@ -212,6 +313,7 @@ function LandFollowUps({ land }: { land: string }) {
 	return (
 		<Card>
 			<CardHeader
+				icon={<CalendarClock />}
 				title={t("Open follow-ups")}
 				action={
 					<Link to={`/followups?land=${land}`} className="text-xs text-primary hover:underline">
@@ -248,7 +350,7 @@ function LandActivity({ land }: { land: string }) {
 	const rows = query.data?.pages.flatMap((p) => p.rows) ?? [];
 	return (
 		<Card>
-			<CardHeader title={t("Recent developments")} />
+			<CardHeader icon={<Sparkles />} title={t("Recent developments")} />
 			<CardBody className="py-0">
 				{query.isLoading ? (
 					<LoadingRows rows={3} className="py-3" />
@@ -261,13 +363,20 @@ function LandActivity({ land }: { land: string }) {
 								<li key={e.name} className="flex gap-3 py-3">
 									<div className="mt-1.5 shrink-0">
 										{e.is_milestone ? (
-											<Star className="size-4 fill-warning text-warning" aria-label={t("Milestone")} />
+											<Star
+												className="size-4 fill-warning text-warning"
+												aria-label={t("Milestone")}
+											/>
 										) : (
 											<span className="block size-2.5 rounded-full bg-primary" aria-hidden />
 										)}
 									</div>
 									<div className="min-w-0 flex-1">
-										<Link to={`/cases/${e.case}`} className="font-semibold hover:text-primary" dir="auto">
+										<Link
+											to={`/cases/${e.case}`}
+											className="font-semibold hover:text-primary"
+											dir="auto"
+										>
 											{e.title}
 										</Link>
 										<div className="mt-0.5 flex flex-wrap gap-x-3 text-xs text-muted-foreground">
@@ -282,7 +391,12 @@ function LandActivity({ land }: { land: string }) {
 						</ol>
 						{query.hasNextPage && (
 							<div className="py-3 text-center">
-								<Button variant="outline" size="sm" disabled={query.isFetchingNextPage} onClick={() => void query.fetchNextPage()}>
+								<Button
+									variant="outline"
+									size="sm"
+									disabled={query.isFetchingNextPage}
+									onClick={() => void query.fetchNextPage()}
+								>
 									{query.isFetchingNextPage ? t("Loading...") : t("Load more")}
 								</Button>
 							</div>

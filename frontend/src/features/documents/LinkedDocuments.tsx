@@ -29,10 +29,14 @@ export function LinkedDocuments({
 	title?: string;
 }) {
 	const [uploading, setUploading] = React.useState(false);
-	const linkDoc = useApiMutation((p: { document: string; version?: string }) => documentsApi.link(p.document, doctype, name, { document_version: p.version }), {
-		invalidate: DOMAIN,
-		success: t("Document linked"),
-	});
+	const linkDoc = useApiMutation(
+		(p: { document: string; version?: string }) =>
+			documentsApi.link(p.document, doctype, name, { document_version: p.version }),
+		{
+			invalidate: DOMAIN,
+			success: t("Document linked"),
+		},
+	);
 	const unlink = useApiMutation(documentsApi.unlink, { invalidate: DOMAIN, success: t("Document unlinked") });
 	return (
 		<Card>
@@ -41,7 +45,12 @@ export function LinkedDocuments({
 				action={
 					canWrite && (
 						<span className="flex gap-2">
-							<DocumentPicker land={land} exclude={documents.map((d) => d.document)} onPick={(d) => linkDoc.mutate({ document: d.document, version: d.version })} label={t("Link")} />
+							<DocumentPicker
+								land={land}
+								exclude={documents.map((d) => d.document)}
+								onPick={(d) => linkDoc.mutate({ document: d.document, version: d.version })}
+								label={t("Link")}
+							/>
 							<Button variant="outline" size="sm" onClick={() => setUploading(true)}>
 								<Upload />
 								{t("Upload")}
@@ -61,7 +70,12 @@ export function LinkedDocuments({
 								doc={d}
 								action={
 									canWrite && (
-										<button type="button" className="text-muted-foreground hover:text-danger" aria-label={t("Unlink {0}", d.title)} onClick={() => unlink.mutate(d.link)}>
+										<button
+											type="button"
+											className="text-muted-foreground hover:text-danger"
+											aria-label={t("Unlink {0}", d.title)}
+											onClick={() => unlink.mutate(d.link)}
+										>
 											<X className="size-3.5" />
 										</button>
 									)

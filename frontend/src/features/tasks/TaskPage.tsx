@@ -34,11 +34,14 @@ function TaskView({ task }: { task: TaskDetail }) {
 	const [editing, setEditing] = React.useState(false);
 	const [closing, setClosing] = React.useState<TaskStatus | null>(null);
 	const [note, setNote] = React.useState("");
-	const status = useApiMutation(({ s, notes }: { s: TaskStatus; notes?: string }) => tasksApi.setStatus(task.name, s, notes), {
-		invalidate: DOMAIN,
-		success: (r) => t("Task is now {0}", t(r.status)),
-		onSuccess: () => setClosing(null),
-	});
+	const status = useApiMutation(
+		({ s, notes }: { s: TaskStatus; notes?: string }) => tasksApi.setStatus(task.name, s, notes),
+		{
+			invalidate: DOMAIN,
+			success: (r) => t("Task is now {0}", t(r.status)),
+			onSuccess: () => setClosing(null),
+		},
+	);
 	const addNote = useApiMutation(() => tasksApi.addUpdate(task.name, note.trim()), {
 		invalidate: [taskKeys.detail(task.name)],
 		onSuccess: () => setNote(""),
@@ -71,7 +74,11 @@ function TaskView({ task }: { task: TaskDetail }) {
 					task.can_write && (
 						<>
 							{task.status === "Open" && (
-								<Button variant="outline" disabled={status.isPending} onClick={() => status.mutate({ s: "In Progress" })}>
+								<Button
+									variant="outline"
+									disabled={status.isPending}
+									onClick={() => status.mutate({ s: "In Progress" })}
+								>
 									<PlayCircle />
 									{t("Start")}
 								</Button>
@@ -83,7 +90,11 @@ function TaskView({ task }: { task: TaskDetail }) {
 								</Button>
 							)}
 							{!open && (
-								<Button variant="outline" disabled={status.isPending} onClick={() => status.mutate({ s: "Open" })}>
+								<Button
+									variant="outline"
+									disabled={status.isPending}
+									onClick={() => status.mutate({ s: "Open" })}
+								>
 									<RotateCcw />
 									{t("Reopen")}
 								</Button>
@@ -102,7 +113,7 @@ function TaskView({ task }: { task: TaskDetail }) {
 					)
 				}
 			/>
-			<div className="grid gap-6 lg:grid-cols-3">
+			<div className="grid gap-6 lg:grid-cols-3 [&>*]:min-w-0">
 				<div className="space-y-6 lg:col-span-2">
 					{task.description && (
 						<Card>
@@ -122,7 +133,13 @@ function TaskView({ task }: { task: TaskDetail }) {
 										if (note.trim()) addNote.mutate(undefined);
 									}}
 								>
-									<Textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("Write a progress note...")} aria-label={t("Progress note")} />
+									<Textarea
+										rows={2}
+										value={note}
+										onChange={(e) => setNote(e.target.value)}
+										placeholder={t("Write a progress note...")}
+										aria-label={t("Progress note")}
+									/>
 									<div className="flex justify-end">
 										<Button type="submit" size="sm" disabled={!note.trim() || addNote.isPending}>
 											{t("Add note")}
@@ -140,7 +157,8 @@ function TaskView({ task }: { task: TaskDetail }) {
 												{u.note}
 											</p>
 											<div className="mt-1 text-xs text-muted-foreground">
-												<bdi>{u.user_name || u.user}</bdi> · <bdi>{formatDateTime(u.update_on)}</bdi>
+												<bdi>{u.user_name || u.user}</bdi> ·{" "}
+												<bdi>{formatDateTime(u.update_on)}</bdi>
 											</div>
 										</li>
 									))}
@@ -148,7 +166,15 @@ function TaskView({ task }: { task: TaskDetail }) {
 							)}
 						</CardBody>
 					</Card>
-					{task.land && <LinkedDocuments land={task.land} doctype="Sijil Task" name={task.name} documents={task.documents} canWrite={task.can_write} />}
+					{task.land && (
+						<LinkedDocuments
+							land={task.land}
+							doctype="Sijil Task"
+							name={task.name}
+							documents={task.documents}
+							canWrite={task.can_write}
+						/>
+					)}
 				</div>
 				<aside>
 					<Card>
@@ -160,10 +186,15 @@ function TaskView({ task }: { task: TaskDetail }) {
 								</KeyValue>
 								<KeyValue label={t("Start Date")}>{formatDate(task.start_date)}</KeyValue>
 								<KeyValue label={t("Due Date")}>{formatDate(task.due_date)}</KeyValue>
-								{task.completed_on && <KeyValue label={t("Completed On")}>{formatDate(task.completed_on)}</KeyValue>}
+								{task.completed_on && (
+									<KeyValue label={t("Completed On")}>{formatDate(task.completed_on)}</KeyValue>
+								)}
 								{task.erpnext_task && (
 									<KeyValue label={t("ERPNext Task")}>
-										<a href={`/app/task/${encodeURIComponent(task.erpnext_task)}`} className="text-primary hover:underline">
+										<a
+											href={`/app/task/${encodeURIComponent(task.erpnext_task)}`}
+											className="text-primary hover:underline"
+										>
 											{task.erpnext_task}
 										</a>
 									</KeyValue>
@@ -171,7 +202,9 @@ function TaskView({ task }: { task: TaskDetail }) {
 							</dl>
 							{task.completion_notes && (
 								<div className="mt-3 rounded-md bg-success-soft p-3 text-sm" dir="auto">
-									<div className="mb-1 text-xs font-semibold text-success">{t("Completion notes")}</div>
+									<div className="mb-1 text-xs font-semibold text-success">
+										{t("Completion notes")}
+									</div>
 									{task.completion_notes}
 								</div>
 							)}

@@ -10,7 +10,15 @@ import { useApiMutation } from "@/lib/api/hooks";
 import { DOMAIN } from "@/lib/api/keys";
 
 /** Quick update of the current situation. It is still recorded as an "Update" development. */
-export function SituationDialog({ open, onOpenChange, caseDoc }: { open: boolean; onOpenChange: (o: boolean) => void; caseDoc: CaseDetail }) {
+export function SituationDialog({
+	open,
+	onOpenChange,
+	caseDoc,
+}: {
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+	caseDoc: CaseDetail;
+}) {
 	const { boot } = useBoot();
 	const [text, setText] = React.useState("");
 	const [status, setStatus] = React.useState("");
@@ -29,7 +37,10 @@ export function SituationDialog({ open, onOpenChange, caseDoc }: { open: boolean
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
-				<DialogHeader title={t("Update current situation")} description={t("The change is added to the case history as a development.")} />
+				<DialogHeader
+					title={t("Update current situation")}
+					description={t("The change is added to the case history as a development.")}
+				/>
 				<DialogBody>
 					<Field label={t("Current Situation")} required htmlFor="sit_text">
 						<Textarea id="sit_text" rows={5} value={text} onChange={(e) => setText(e.target.value)} />
@@ -49,7 +60,10 @@ export function SituationDialog({ open, onOpenChange, caseDoc }: { open: boolean
 					<Button variant="outline" onClick={() => onOpenChange(false)}>
 						{t("Cancel")}
 					</Button>
-					<Button disabled={!text.trim() || unchanged || save.isPending} onClick={() => save.mutate(undefined)}>
+					<Button
+						disabled={!text.trim() || unchanged || save.isPending}
+						onClick={() => save.mutate(undefined)}
+					>
 						{save.isPending ? t("Saving...") : t("Save")}
 					</Button>
 				</DialogFooter>

@@ -44,7 +44,10 @@ export function EventTimeline({ caseName, onCorrect }: { caseName: string; onCor
 			) : query.error ? (
 				<ErrorState error={query.error} onRetry={() => void query.refetch()} />
 			) : events.length === 0 ? (
-				<EmptyState title={t("No developments recorded yet")} hint={t("Record the first development to start the history of this case.")} />
+				<EmptyState
+					title={t("No developments recorded yet")}
+					hint={t("Record the first development to start the history of this case.")}
+				/>
 			) : (
 				<div className="relative space-y-4 before:absolute before:bottom-2 before:start-3 before:top-2 before:w-px before:bg-border">
 					{events.map((e) => (
@@ -54,7 +57,12 @@ export function EventTimeline({ caseName, onCorrect }: { caseName: string; onCor
 			)}
 			{query.hasNextPage && (
 				<div className="mt-4 text-center">
-					<Button variant="outline" size="sm" disabled={query.isFetchingNextPage} onClick={() => void query.fetchNextPage()}>
+					<Button
+						variant="outline"
+						size="sm"
+						disabled={query.isFetchingNextPage}
+						onClick={() => void query.fetchNextPage()}
+					>
 						{query.isFetchingNextPage ? t("Loading...") : t("Load older developments")}
 					</Button>
 				</div>

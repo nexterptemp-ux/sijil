@@ -24,11 +24,21 @@ export function HistoryReportPage({ kind }: { kind: "case" | "land" }) {
 	return (
 		<>
 			<PageHeader
-				back={{ to: kind === "case" ? `/cases/${name}` : `/lands/${name}`, label: kind === "case" ? t("Back to case") : t("Back to land / project") }}
-				title={query.data?.title ?? (kind === "case" ? t("Case History Report") : t("Land / Project History Report"))}
+				back={{
+					to: kind === "case" ? `/cases/${name}` : `/lands/${name}`,
+					label: kind === "case" ? t("Back to case") : t("Back to land / project"),
+				}}
+				title={
+					query.data?.title ??
+					(kind === "case" ? t("Case History Report") : t("Land / Project History Report"))
+				}
 				actions={
 					<>
-						<Button variant="outline" onClick={() => frame.current?.contentWindow?.print()} disabled={!query.data}>
+						<Button
+							variant="outline"
+							onClick={() => frame.current?.contentWindow?.print()}
+							disabled={!query.data}
+						>
 							<Printer />
 							{t("Print")}
 						</Button>

@@ -32,6 +32,13 @@ E1/E2/E3 prove otherwise.
 | F7 documents | Done: library home (choose land), per-land library (folder tree on desktop / toggle on phone, breadcrumbs, subfolder grid, search, type filter, include subfolders, paging), upload (folder, type, reference, date, confidential), document detail (open version, upload new version, immutable versions, where linked + pinned version, edit metadata, move, archive/restore), folder create/rename/move/delete, link/unlink on cases and tasks, attach existing/upload in record and complete dialogs, newer-version hint on events | Vitest (browse, upload = 1 document + 1 version, new version keeps event pinned to v1 (AC-03), newer-version hint), browser (mock) 375 px ar |
 | F8 reports + settings | Done: reports home (operational reports, case/land history pickers), report view (server columns, land/assignee/days filters in URL, links to records, cards on phones, CSV export with BOM), history report (backend HTML in a sandboxed frame, print, PDF download link), settings (integration switches for managers, read-only for users, sync open tasks, general settings, link to the classic Desk screen). Apps-screen tile now opens `/sijil`. Screens are lazy-loaded (initial JS 155 kB gzip). **Legacy SPA kept until E1** (owner decision) | Vitest (run report, history report + PDF link, manager toggle, read-only for users), browser (mock) 375 px ar |
 
+### Visual polish (after F8)
+Self-hosted Cairo font (bundled, no internet needed), refreshed design tokens, navy sidebar, header cards for
+land and case pages, icon stat tiles, state-coloured follow-up/task rows, file-type chips, branded boot splash,
+recursive folder counts, and a library root that lists all of the land's documents. The mock data is now Arabic
+(with a few English records to keep mixed text tested). All 14 main pages verified at 375 px with no horizontal
+scroll; 36 tests pass.
+
 ## Verification log
 | Date | Command / check | Result |
 |---|---|---|

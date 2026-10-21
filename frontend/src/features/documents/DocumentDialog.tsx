@@ -34,15 +34,29 @@ function linkedLabel(doctype: string): string {
 }
 
 /** Document detail: metadata, immutable versions (upload a new one), and where it is linked. */
-export function DocumentDialog({ name, open, onOpenChange }: { name: string | null; open: boolean; onOpenChange: (o: boolean) => void }) {
-	const query = useQuery({ queryKey: documentKeys.detail(name ?? ""), queryFn: () => documentsApi.get(name!), enabled: Boolean(name) && open });
+export function DocumentDialog({
+	name,
+	open,
+	onOpenChange,
+}: {
+	name: string | null;
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+}) {
+	const query = useQuery({
+		queryKey: documentKeys.detail(name ?? ""),
+		queryFn: () => documentsApi.get(name!),
+		enabled: Boolean(name) && open,
+	});
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent size="lg">
 				{query.isLoading || !query.data ? (
 					<>
 						<DialogHeader title={t("Document")} />
-						<DialogBody>{query.error ? <ErrorState error={query.error} /> : <LoadingRows rows={3} />}</DialogBody>
+						<DialogBody>
+							{query.error ? <ErrorState error={query.error} /> : <LoadingRows rows={3} />}
+						</DialogBody>
 					</>
 				) : (
 					<DocumentBody doc={query.data} onClose={() => onOpenChange(false)} />
@@ -113,7 +127,12 @@ function DocumentBody({ doc, onClose }: { doc: DocumentDetail; onClose: () => vo
 					)}
 					{doc.can_write && (
 						<>
-							<Button size="sm" variant="outline" disabled={newVersion.isPending} onClick={() => fileInput.current?.click()}>
+							<Button
+								size="sm"
+								variant="outline"
+								disabled={newVersion.isPending}
+								onClick={() => fileInput.current?.click()}
+							>
 								<Upload />
 								{newVersion.isPending ? t("Uploading...") : t("Upload new version")}
 							</Button>
@@ -134,17 +153,28 @@ function DocumentBody({ doc, onClose }: { doc: DocumentDetail; onClose: () => vo
 
 				<section aria-label={t("Versions")}>
 					<h3 className="mb-2 text-sm font-bold">{t("Versions")}</h3>
-					<p className="mb-2 text-xs text-muted-foreground">{t("Versions are never changed or deleted. Records keep pointing at the version they were linked to.")}</p>
+					<p className="mb-2 text-xs text-muted-foreground">
+						{t(
+							"Versions are never changed or deleted. Records keep pointing at the version they were linked to.",
+						)}
+					</p>
 					<ul className="divide-y divide-border rounded-md border border-border">
 						{doc.versions.map((v) => (
 							<li key={v.name} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 text-sm">
 								<span className="font-semibold">{t("v{0}", v.version_no)}</span>
 								{v.is_current ? <Badge tone="success">{t("Current")}</Badge> : null}
-								<a href={v.file} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-primary hover:underline" dir="auto">
+								<a
+									href={v.file}
+									target="_blank"
+									rel="noreferrer"
+									className="min-w-0 flex-1 truncate text-primary hover:underline"
+									dir="auto"
+								>
 									{v.file_name}
 								</a>
 								<span className="text-xs text-muted-foreground">
-									{formatFileSize(v.file_size)} · <bdi>{v.uploaded_by_name || v.uploaded_by}</bdi> · <bdi>{formatDateTime(v.creation)}</bdi>
+									{formatFileSize(v.file_size)} · <bdi>{v.uploaded_by_name || v.uploaded_by}</bdi> ·{" "}
+									<bdi>{formatDateTime(v.creation)}</bdi>
 								</span>
 							</li>
 						))}
@@ -164,13 +194,22 @@ function DocumentBody({ doc, onClose }: { doc: DocumentDetail; onClose: () => vo
 									<li key={l.name} className="flex flex-wrap items-center gap-2">
 										<Badge>{linkedLabel(l.linked_doctype)}</Badge>
 										{base ? (
-											<Link to={`${base}${l.linked_name}`} onClick={onClose} className="hover:text-primary" dir="auto">
+											<Link
+												to={`${base}${l.linked_name}`}
+												onClick={onClose}
+												className="hover:text-primary"
+												dir="auto"
+											>
 												{label}
 											</Link>
 										) : (
 											<span dir="auto">{label}</span>
 										)}
-										<span className="text-xs text-muted-foreground">{l.follow_latest ? t("always the latest version") : t("pinned to v{0}", l.version_no ?? "?")}</span>
+										<span className="text-xs text-muted-foreground">
+											{l.follow_latest
+												? t("always the latest version")
+												: t("pinned to v{0}", l.version_no ?? "?")}
+										</span>
 									</li>
 								);
 							})}
@@ -182,7 +221,12 @@ function DocumentBody({ doc, onClose }: { doc: DocumentDetail; onClose: () => vo
 					<section className="space-y-4 border-t border-border pt-4" aria-label={t("Details")}>
 						<div className="grid gap-4 sm:grid-cols-2">
 							<Field label={t("Title")} htmlFor="dd_title" className="sm:col-span-2">
-								<Input id="dd_title" dir="auto" value={title} onChange={(e) => setTitle(e.target.value)} />
+								<Input
+									id="dd_title"
+									dir="auto"
+									value={title}
+									onChange={(e) => setTitle(e.target.value)}
+								/>
 							</Field>
 							<Field label={t("Document Type")} htmlFor="dd_type">
 								<Select id="dd_type" value={type} onChange={(e) => setType(e.target.value)}>
@@ -204,14 +248,29 @@ function DocumentBody({ doc, onClose }: { doc: DocumentDetail; onClose: () => vo
 								</Select>
 							</Field>
 							<Field label={t("Reference No")} htmlFor="dd_ref">
-								<Input id="dd_ref" dir="auto" value={reference} onChange={(e) => setReference(e.target.value)} />
+								<Input
+									id="dd_ref"
+									dir="auto"
+									value={reference}
+									onChange={(e) => setReference(e.target.value)}
+								/>
 							</Field>
 							<Field label={t("Document Date")} htmlFor="dd_date">
-								<Input id="dd_date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+								<Input
+									id="dd_date"
+									type="date"
+									value={date}
+									onChange={(e) => setDate(e.target.value)}
+								/>
 							</Field>
 						</div>
 						<Field label={t("Description")} htmlFor="dd_desc">
-							<Textarea id="dd_desc" rows={2} value={description} onChange={(e) => setDescription(e.target.value)} />
+							<Textarea
+								id="dd_desc"
+								rows={2}
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
+							/>
 						</Field>
 						<label className="flex items-center gap-2 text-sm">
 							<Checkbox checked={confidential} onChange={(e) => setConfidential(e.target.checked)} />

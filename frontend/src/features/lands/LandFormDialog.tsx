@@ -47,7 +47,15 @@ function defaults(land?: Land): Values {
 	};
 }
 
-export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; onOpenChange: (o: boolean) => void; land?: Land }) {
+export function LandFormDialog({
+	open,
+	onOpenChange,
+	land,
+}: {
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+	land?: Land;
+}) {
 	const { boot } = useBoot();
 	const navigate = useNavigate();
 	const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues: defaults(land) });
@@ -80,8 +88,12 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 			description: v.description,
 			notes: v.notes,
 			create_project: !land && v.create_project ? 1 : 0,
-			responsibles: v.responsibles.filter((r) => r.user).map((r) => ({ user: r.user!, responsibility: r.responsibility })),
-			organizations: v.organizations.filter((o) => o.organization).map((o) => ({ organization: o.organization!, role: o.role })),
+			responsibles: v.responsibles
+				.filter((r) => r.user)
+				.map((r) => ({ user: r.user!, responsibility: r.responsibility })),
+			organizations: v.organizations
+				.filter((o) => o.organization)
+				.map((o) => ({ organization: o.organization!, role: o.role })),
 		}),
 	);
 
@@ -93,8 +105,19 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
 						<div className="grid gap-4 sm:grid-cols-2">
-							<Field label={t("Land / Project Name")} required htmlFor="land_name" error={err.land_name && t("This field is required.")} className="sm:col-span-2">
-								<Input id="land_name" dir="auto" aria-invalid={Boolean(err.land_name)} {...form.register("land_name")} />
+							<Field
+								label={t("Land / Project Name")}
+								required
+								htmlFor="land_name"
+								error={err.land_name && t("This field is required.")}
+								className="sm:col-span-2"
+							>
+								<Input
+									id="land_name"
+									dir="auto"
+									aria-invalid={Boolean(err.land_name)}
+									{...form.register("land_name")}
+								/>
 							</Field>
 							<Field label={t("Code")} htmlFor="land_code">
 								<Input id="land_code" dir="auto" {...form.register("land_code")} />
@@ -115,7 +138,14 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 								<Controller
 									control={form.control}
 									name="company"
-									render={({ field }) => <LookupSelect id="land_company" doctype="Company" value={field.value} onChange={field.onChange} />}
+									render={({ field }) => (
+										<LookupSelect
+											id="land_company"
+											doctype="Company"
+											value={field.value}
+											onChange={field.onChange}
+										/>
+									)}
 								/>
 							</Field>
 							<Field label={t("Location")} htmlFor="land_location" className="sm:col-span-2">
@@ -124,11 +154,26 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 							<Field label={t("Description")} htmlFor="land_description" className="sm:col-span-2">
 								<Textarea id="land_description" {...form.register("description")} />
 							</Field>
-							<Field label={t("ERPNext Project")} htmlFor="land_project" hint={land ? undefined : t("Leave empty to create one automatically if enabled in settings.")}>
+							<Field
+								label={t("ERPNext Project")}
+								htmlFor="land_project"
+								hint={
+									land
+										? undefined
+										: t("Leave empty to create one automatically if enabled in settings.")
+								}
+							>
 								<Controller
 									control={form.control}
 									name="project"
-									render={({ field }) => <LookupSelect id="land_project" doctype="Project" value={field.value} onChange={field.onChange} />}
+									render={({ field }) => (
+										<LookupSelect
+											id="land_project"
+											doctype="Project"
+											value={field.value}
+											onChange={field.onChange}
+										/>
+									)}
 								/>
 							</Field>
 							{!land && (
@@ -142,21 +187,45 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 						<fieldset className="space-y-2">
 							<legend className="text-sm font-bold">{t("Responsible Employees")}</legend>
 							{responsibles.fields.map((row, i) => (
-								<div key={row.id} className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0">
+								<div
+									key={row.id}
+									className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0"
+								>
 									<div className="sm:w-1/2">
 										<Controller
 											control={form.control}
 											name={`responsibles.${i}.user`}
-											render={({ field }) => <UserSelect value={field.value} onChange={field.onChange} placeholder={t("Employee")} />}
+											render={({ field }) => (
+												<UserSelect
+													value={field.value}
+													onChange={field.onChange}
+													placeholder={t("Employee")}
+												/>
+											)}
 										/>
 									</div>
-									<Input placeholder={t("Responsibility")} dir="auto" className="flex-1" aria-label={t("Responsibility")} {...form.register(`responsibles.${i}.responsibility`)} />
-									<Button variant="ghost" size="icon" onClick={() => responsibles.remove(i)} aria-label={t("Remove")}>
+									<Input
+										placeholder={t("Responsibility")}
+										dir="auto"
+										className="flex-1"
+										aria-label={t("Responsibility")}
+										{...form.register(`responsibles.${i}.responsibility`)}
+									/>
+									<Button
+										variant="ghost"
+										size="icon"
+										onClick={() => responsibles.remove(i)}
+										aria-label={t("Remove")}
+									>
 										<Trash2 />
 									</Button>
 								</div>
 							))}
-							<Button variant="outline" size="sm" onClick={() => responsibles.append({ user: null, responsibility: "" })}>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => responsibles.append({ user: null, responsibility: "" })}
+							>
 								<Plus />
 								{t("Add employee")}
 							</Button>
@@ -165,23 +234,46 @@ export function LandFormDialog({ open, onOpenChange, land }: { open: boolean; on
 						<fieldset className="space-y-2">
 							<legend className="text-sm font-bold">{t("External Organizations")}</legend>
 							{organizations.fields.map((row, i) => (
-								<div key={row.id} className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0">
+								<div
+									key={row.id}
+									className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0"
+								>
 									<div className="sm:w-1/2">
 										<Controller
 											control={form.control}
 											name={`organizations.${i}.organization`}
 											render={({ field }) => (
-												<LookupSelect doctype="Sijil External Organization" value={field.value} onChange={field.onChange} placeholder={t("Organization")} />
+												<LookupSelect
+													doctype="Sijil External Organization"
+													value={field.value}
+													onChange={field.onChange}
+													placeholder={t("Organization")}
+												/>
 											)}
 										/>
 									</div>
-									<Input placeholder={t("Role")} dir="auto" className="flex-1" aria-label={t("Role")} {...form.register(`organizations.${i}.role`)} />
-									<Button variant="ghost" size="icon" onClick={() => organizations.remove(i)} aria-label={t("Remove")}>
+									<Input
+										placeholder={t("Role")}
+										dir="auto"
+										className="flex-1"
+										aria-label={t("Role")}
+										{...form.register(`organizations.${i}.role`)}
+									/>
+									<Button
+										variant="ghost"
+										size="icon"
+										onClick={() => organizations.remove(i)}
+										aria-label={t("Remove")}
+									>
 										<Trash2 />
 									</Button>
 								</div>
 							))}
-							<Button variant="outline" size="sm" onClick={() => organizations.append({ organization: null, role: "" })}>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => organizations.append({ organization: null, role: "" })}
+							>
 								<Plus />
 								{t("Add organization")}
 							</Button>

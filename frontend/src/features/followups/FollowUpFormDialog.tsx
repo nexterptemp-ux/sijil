@@ -95,11 +95,20 @@ export function FollowUpFormDialog({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
-				<DialogHeader title={followup ? t("Edit follow-up") : t("Plan a follow-up")} description={t("Something that must be checked or progressed by a date.")} />
+				<DialogHeader
+					title={followup ? t("Edit follow-up") : t("Plan a follow-up")}
+					description={t("Something that must be checked or progressed by a date.")}
+				/>
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
 						<Field label={t("Title")} required htmlFor="fu_title" error={err.title && required}>
-							<Input id="fu_title" dir="auto" aria-invalid={Boolean(err.title)} placeholder={t("e.g. Follow up on obtaining the formal approval")} {...form.register("title")} />
+							<Input
+								id="fu_title"
+								dir="auto"
+								aria-invalid={Boolean(err.title)}
+								placeholder={t("e.g. Follow up on obtaining the formal approval")}
+								{...form.register("title")}
+							/>
 						</Field>
 						{caseFixed ? (
 							(prefill?.case_title || followup?.case_title) && (
@@ -112,7 +121,12 @@ export function FollowUpFormDialog({
 							)
 						) : (
 							<div className="grid gap-4 sm:grid-cols-2">
-								<Field label={t("Land / Project")} required htmlFor="fu_land" error={err.land && t("Choose a case or a land / project.")}>
+								<Field
+									label={t("Land / Project")}
+									required
+									htmlFor="fu_land"
+									error={err.land && t("Choose a case or a land / project.")}
+								>
 									<Controller
 										control={form.control}
 										name="land"
@@ -135,7 +149,13 @@ export function FollowUpFormDialog({
 										control={form.control}
 										name="case"
 										render={({ field }) => (
-											<LookupSelect id="fu_case" doctype="Sijil Case" filters={landValue ? { land: landValue } : undefined} value={field.value} onChange={field.onChange} />
+											<LookupSelect
+												id="fu_case"
+												doctype="Sijil Case"
+												filters={landValue ? { land: landValue } : undefined}
+												value={field.value}
+												onChange={field.onChange}
+											/>
 										)}
 									/>
 								</Field>
@@ -143,7 +163,18 @@ export function FollowUpFormDialog({
 						)}
 						<div className="grid gap-4 sm:grid-cols-2">
 							<Field label={t("Assigned To")} required htmlFor="fu_assignee">
-								<Controller control={form.control} name="assigned_to" render={({ field }) => <UserSelect id="fu_assignee" value={field.value} onChange={field.onChange} clearable={false} />} />
+								<Controller
+									control={form.control}
+									name="assigned_to"
+									render={({ field }) => (
+										<UserSelect
+											id="fu_assignee"
+											value={field.value}
+											onChange={field.onChange}
+											clearable={false}
+										/>
+									)}
+								/>
 							</Field>
 							<Field label={t("Due Date")} required htmlFor="fu_due" error={err.due_date && required}>
 								<Input id="fu_due" type="date" {...form.register("due_date")} />
@@ -159,7 +190,13 @@ export function FollowUpFormDialog({
 							</Field>
 							{!followup && (
 								<Field label={t("Remind days before")} htmlFor="fu_remind">
-									<Input id="fu_remind" type="number" min={0} max={30} {...form.register("reminder_days_before")} />
+									<Input
+										id="fu_remind"
+										type="number"
+										min={0}
+										max={30}
+										{...form.register("reminder_days_before")}
+									/>
 								</Field>
 							)}
 						</div>

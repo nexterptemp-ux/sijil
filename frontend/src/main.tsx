@@ -6,6 +6,7 @@ import { Toaster } from "sonner";
 import { BootGate } from "@/app/boot";
 import { BASENAME, ROUTER_FUTURE, routes } from "@/app/routes";
 import { ApiError } from "@/lib/api/client";
+import "@fontsource-variable/cairo/wght.css";
 import "@/styles/index.css";
 
 const queryClient = new QueryClient({

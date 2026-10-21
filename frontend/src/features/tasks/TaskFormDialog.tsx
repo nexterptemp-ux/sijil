@@ -102,8 +102,19 @@ export function TaskFormDialog({
 				<DialogHeader title={task ? t("Edit task") : t("New Task")} />
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
-						<Field label={t("Title")} required htmlFor="task_title" error={err.title && t("This field is required.")}>
-							<Input id="task_title" dir="auto" aria-invalid={Boolean(err.title)} placeholder={t("e.g. Prepare a presentation for management")} {...form.register("title")} />
+						<Field
+							label={t("Title")}
+							required
+							htmlFor="task_title"
+							error={err.title && t("This field is required.")}
+						>
+							<Input
+								id="task_title"
+								dir="auto"
+								aria-invalid={Boolean(err.title)}
+								placeholder={t("e.g. Prepare a presentation for management")}
+								{...form.register("title")}
+							/>
 						</Field>
 						<div className="grid gap-4 sm:grid-cols-2">
 							<Field label={t("Land / Project")} htmlFor="task_land" hint={t("Optional")}>
@@ -141,7 +152,18 @@ export function TaskFormDialog({
 								/>
 							</Field>
 							<Field label={t("Assigned To")} required htmlFor="task_user">
-								<Controller control={form.control} name="assigned_to" render={({ field }) => <UserSelect id="task_user" value={field.value} onChange={field.onChange} clearable={false} />} />
+								<Controller
+									control={form.control}
+									name="assigned_to"
+									render={({ field }) => (
+										<UserSelect
+											id="task_user"
+											value={field.value}
+											onChange={field.onChange}
+											clearable={false}
+										/>
+									)}
+								/>
 							</Field>
 							<Field label={t("Priority")} htmlFor="task_priority">
 								<Select id="task_priority" {...form.register("priority")}>
@@ -155,7 +177,11 @@ export function TaskFormDialog({
 							<Field label={t("Start Date")} htmlFor="task_start">
 								<Input id="task_start" type="date" {...form.register("start_date")} />
 							</Field>
-							<Field label={t("Due Date")} htmlFor="task_due" error={err.due_date && t("Due Date cannot be before Start Date.")}>
+							<Field
+								label={t("Due Date")}
+								htmlFor="task_due"
+								error={err.due_date && t("Due Date cannot be before Start Date.")}
+							>
 								<Input id="task_due" type="date" {...form.register("due_date")} />
 							</Field>
 							{task && (

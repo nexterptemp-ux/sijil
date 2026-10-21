@@ -1,5 +1,16 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { ChevronDown, FileText, Folder, FolderInput, FolderPlus, Lock, MoreHorizontal, Pencil, Trash2, Upload } from "lucide-react";
+import {
+	ChevronDown,
+	FileStack,
+	Folder,
+	FolderInput,
+	FolderPlus,
+	Lock,
+	MoreHorizontal,
+	Pencil,
+	Trash2,
+	Upload,
+} from "lucide-react";
 import * as React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useBoot } from "@/app/boot";
@@ -10,7 +21,7 @@ import { EmptyState, ErrorState, LoadingRows } from "@/components/states";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogBody, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Checkbox, Input, Select } from "@/components/ui/input";
-import { Card } from "@/components/ui/layout";
+import { Card, CardHeader } from "@/components/ui/layout";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/menu";
 import { landKeys, landsApi } from "@/features/lands/api";
 import { t, tv } from "@/i18n";
@@ -29,20 +40,39 @@ export function LibraryPage() {
 	const { boot } = useBoot();
 	const [s, update] = useUrlState({ folder: "", search: "", type: "", recursive: "", page: "0", doc: "" });
 	const page = Number(s.page) || 0;
+	// At the library root, show every document of the land by default instead of an empty folder.
+	const recursive = s.recursive ? s.recursive === "1" : !s.folder;
 	const filters = {
 		land,
 		folder: s.folder || undefined,
 		search: s.search,
 		document_type: s.type,
-		recursive: s.recursive === "1",
+		recursive,
 		start: page * PAGE,
 		page_length: PAGE,
 	};
-	const query = useQuery({ queryKey: documentKeys.library(filters), queryFn: () => documentsApi.library(filters), placeholderData: keepPreviousData });
+	const query = useQuery({
+		queryKey: documentKeys.library(filters),
+		queryFn: () => documentsApi.library(filters),
+		placeholderData: keepPreviousData,
+	});
 	const [uploading, setUploading] = React.useState(false);
 	const [newFolder, setNewFolder] = React.useState(false);
 	const [treeOpen, setTreeOpen] = React.useState(false);
 	const lib = query.data;
+	// Documents in a folder and all of its subfolders.
+	const totals = React.useMemo(() => {
+		const map = new Map<string, number>();
+		for (const f of lib?.tree ?? []) {
+			map.set(
+				f.name,
+				(lib?.tree ?? [])
+					.filter((x) => x.folder_path.startsWith(f.folder_path))
+					.reduce((n, x) => n + x.document_count, 0),
+			);
+		}
+		return map;
+	}, [lib?.tree]);
 	const landName = lib?.breadcrumbs[0]?.folder_name;
 	const goFolder = (folder: string) => {
 		update({ folder: folder === lib?.root ? "" : folder, search: "", type: "", recursive: "" });
@@ -79,7 +109,7 @@ export function LibraryPage() {
 			) : !lib ? (
 				<LoadingRows rows={6} />
 			) : (
-				<div className="grid gap-6 lg:grid-cols-4">
+				<div className="grid gap-6 lg:grid-cols-4 [&>*]:min-w-0">
 					<aside className={cn("lg:block", treeOpen ? "block" : "hidden")} aria-label={t("Folders")}>
 						<Card className="p-2">
 							<FolderTree lib={lib} onSelect={goFolder} />
@@ -87,12 +117,21 @@ export function LibraryPage() {
 					</aside>
 					<div className="min-w-0 space-y-4 lg:col-span-3">
 						<div className="flex flex-wrap items-center gap-2">
-							<Button variant="outline" size="sm" className="lg:hidden" onClick={() => setTreeOpen((v) => !v)} aria-expanded={treeOpen}>
+							<Button
+								variant="outline"
+								size="sm"
+								className="lg:hidden"
+								onClick={() => setTreeOpen((v) => !v)}
+								aria-expanded={treeOpen}
+							>
 								<Folder />
 								{t("Folders")}
 								<ChevronDown className={cn("transition-transform", treeOpen && "rotate-180")} />
 							</Button>
-							<nav aria-label={t("Folder path")} className="flex min-w-0 flex-wrap items-center gap-1 text-sm">
+							<nav
+								aria-label={t("Folder path")}
+								className="flex min-w-0 flex-wrap items-center gap-1 text-sm"
+							>
 								{lib.breadcrumbs.map((b, i) => (
 									<React.Fragment key={b.name}>
 										{i > 0 && <ForwardIcon className="size-3.5 text-muted-foreground" />}
@@ -101,18 +140,35 @@ export function LibraryPage() {
 												{b.folder_name}
 											</span>
 										) : (
-											<button type="button" className="text-muted-foreground hover:text-primary" onClick={() => goFolder(b.name)} dir="auto">
+											<button
+												type="button"
+												className="text-muted-foreground hover:text-primary"
+												onClick={() => goFolder(b.name)}
+												dir="auto"
+											>
 												{b.folder_name}
 											</button>
 										)}
 									</React.Fragment>
 								))}
 							</nav>
-							{lib.folder !== lib.root && boot.can_create["Sijil Document"] && <FolderMenu lib={lib} onDeleted={() => goFolder(lib.root)} />}
+							{lib.folder !== lib.root && boot.can_create["Sijil Document"] && (
+								<FolderMenu lib={lib} onDeleted={() => goFolder(lib.root)} />
+							)}
 						</div>
 						<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-							<SearchInput value={s.search} onChange={(search) => update({ search })} placeholder={t("Search documents")} className="flex-1" />
-							<Select value={s.type} onChange={(e) => update({ type: e.target.value })} className="sm:w-48" aria-label={t("Document Type")}>
+							<SearchInput
+								value={s.search}
+								onChange={(search) => update({ search })}
+								placeholder={t("Search documents")}
+								className="flex-1"
+							/>
+							<Select
+								value={s.type}
+								onChange={(e) => update({ type: e.target.value })}
+								className="sm:w-48"
+								aria-label={t("Document Type")}
+							>
 								<option value="">{t("All types")}</option>
 								{boot.options.document_type.map((o) => (
 									<option key={o} value={o}>
@@ -121,54 +177,97 @@ export function LibraryPage() {
 								))}
 							</Select>
 							<label className="flex items-center gap-2 text-sm">
-								<Checkbox checked={s.recursive === "1"} onChange={(e) => update({ recursive: e.target.checked ? "1" : "" })} />
+								<Checkbox
+									checked={recursive}
+									onChange={(e) => update({ recursive: e.target.checked ? "1" : "0" })}
+								/>
 								{t("Include subfolders")}
 							</label>
 						</div>
-						{!lib.searching && lib.children.length > 0 && (
-							<div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
+						{!s.search && !s.type && lib.children.length > 0 && (
+							<div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 xl:grid-cols-3">
 								{lib.children.map((f) => (
 									<button
 										key={f.name}
 										type="button"
 										onClick={() => goFolder(f.name)}
-										className="flex items-center gap-2 rounded-lg border border-border bg-surface p-3 text-start text-sm hover:border-primary/40"
+										className="group flex items-center gap-3 rounded-[var(--radius)] border border-border/80 bg-surface p-3.5 text-start text-sm shadow-card transition-all hover:-translate-y-px hover:border-primary/30 hover:shadow-raised"
 									>
-										<Folder className="size-5 shrink-0 fill-primary-soft text-primary" aria-hidden />
+										<span
+											className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#fff6e0] text-[#d4920f]"
+											aria-hidden
+										>
+											<Folder className="size-5 fill-current" />
+										</span>
 										<span className="min-w-0">
-											<span className="block truncate font-medium" dir="auto">
+											<span
+												className="block truncate font-semibold group-hover:text-primary"
+												dir="auto"
+											>
 												{f.folder_name}
 											</span>
-											<span className="text-xs text-muted-foreground">{t("{0} documents", formatNumber(f.document_count))}</span>
+											<span className="text-xs text-muted-foreground">
+												{t(
+													"{0} documents",
+													formatNumber(totals.get(f.name) ?? f.document_count),
+												)}
+											</span>
 										</span>
 									</button>
 								))}
 							</div>
 						)}
-						<Card className="px-4">
-							{lib.documents.rows.length === 0 ? (
-								<EmptyState
-									title={lib.searching ? t("No documents match") : t("This folder has no documents")}
-									action={
-										!lib.searching && boot.can_create["Sijil Document"] ? (
-											<Button variant="outline" size="sm" onClick={() => setUploading(true)}>
-												<Upload />
-												{t("Upload")}
-											</Button>
-										) : undefined
-									}
-								/>
-							) : (
-								<DocumentList rows={lib.documents.rows} showFolder={lib.searching} onOpen={(doc) => update({ doc }, { resetPage: false })} />
-							)}
+						<Card className="overflow-hidden">
+							<CardHeader
+								icon={<FileStack />}
+								title={
+									lib.searching
+										? s.search || s.type
+											? t("Search results")
+											: t("All documents in this folder")
+										: t("Documents")
+								}
+								count={lib.documents.total}
+							/>
+							<div className="px-4">
+								{lib.documents.rows.length === 0 ? (
+									<EmptyState
+										title={
+											lib.searching ? t("No documents match") : t("This folder has no documents")
+										}
+										action={
+											!lib.searching && boot.can_create["Sijil Document"] ? (
+												<Button variant="outline" size="sm" onClick={() => setUploading(true)}>
+													<Upload />
+													{t("Upload")}
+												</Button>
+											) : undefined
+										}
+									/>
+								) : (
+									<DocumentList
+										rows={lib.documents.rows}
+										showFolder={lib.searching}
+										onOpen={(doc) => update({ doc }, { resetPage: false })}
+									/>
+								)}
+							</div>
 						</Card>
-						<Pager page={page} onPage={(p) => update({ page: String(p) }, { resetPage: false })} data={lib.documents} />
+						<Pager
+							page={page}
+							onPage={(p) => update({ page: String(p) }, { resetPage: false })}
+							data={lib.documents}
+						/>
 					</div>
 				</div>
 			)}
 			<UploadDocumentDialog open={uploading} onOpenChange={setUploading} land={land} folder={lib?.folder} />
 			{lib && <NewFolderDialog open={newFolder} onOpenChange={setNewFolder} land={land} parent={lib.folder} />}
-			<DocumentDialog name={s.doc || null} open={Boolean(s.doc)} onOpenChange={(o) => !o && update({ doc: "" }, { resetPage: false })} />
+			<DocumentDialog
+				name={s.doc || null}
+				open={Boolean(s.doc)}
+				onOpenChange={(o) => !o && update({ doc: "" }, { resetPage: false })}
+			/>
 		</>
 	);
 }
@@ -191,17 +290,29 @@ function FolderTree({ lib, onSelect }: { lib: Library; onSelect: (folder: string
 				<button
 					type="button"
 					onClick={() => onSelect(f.name)}
-					className={cn("flex w-full items-center gap-2 rounded px-2 py-1.5 text-start text-sm hover:bg-muted", active && "bg-primary-soft font-semibold text-primary")}
+					className={cn(
+						"flex w-full items-center gap-2 rounded px-2 py-1.5 text-start text-sm hover:bg-muted",
+						active && "bg-primary-soft font-semibold text-primary",
+					)}
 					style={{ paddingInlineStart: `${0.5 + depth * 0.9}rem` }}
 					aria-current={active ? "true" : undefined}
 				>
-					<Folder className={cn("size-4 shrink-0", active ? "text-primary" : "text-muted-foreground")} aria-hidden />
+					<Folder
+						className={cn("size-4 shrink-0", active ? "text-primary" : "text-muted-foreground")}
+						aria-hidden
+					/>
 					<span className="min-w-0 flex-1 truncate" dir="auto">
 						{f.folder_name}
 					</span>
-					{f.document_count > 0 && <span className="text-[11px] text-muted-foreground">{f.document_count}</span>}
+					{f.document_count > 0 && (
+						<span className="tabular rounded-full bg-muted px-1.5 text-[10px] font-semibold text-muted-foreground">
+							{f.document_count}
+						</span>
+					)}
 				</button>
-				{kids.length > 0 && (openPath.has(f.name) || depth === 0) && <ul>{kids.map((k) => render(k, depth + 1))}</ul>}
+				{kids.length > 0 && (openPath.has(f.name) || depth === 0) && (
+					<ul>{kids.map((k) => render(k, depth + 1))}</ul>
+				)}
 			</li>
 		);
 	};
@@ -209,19 +320,39 @@ function FolderTree({ lib, onSelect }: { lib: Library; onSelect: (folder: string
 	return <ul>{roots.map((r) => render(r, 0))}</ul>;
 }
 
-function DocumentList({ rows, showFolder, onOpen }: { rows: DocumentRow[]; showFolder: boolean; onOpen: (name: string) => void }) {
+function DocumentList({
+	rows,
+	showFolder,
+	onOpen,
+}: {
+	rows: DocumentRow[];
+	showFolder: boolean;
+	onOpen: (name: string) => void;
+}) {
 	return (
 		<ul className="divide-y divide-border">
 			{rows.map((d) => (
 				<li key={d.name}>
-					<button type="button" onClick={() => onOpen(d.name)} className="flex w-full items-start gap-3 py-3 text-start hover:bg-muted/40">
-						<FileText className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
+					<button
+						type="button"
+						onClick={() => onOpen(d.name)}
+						className="group flex w-full items-center gap-3 py-3 text-start"
+					>
+						<FileBadge name={d.version?.file_name} />
 						<span className="min-w-0 flex-1">
 							<span className="flex flex-wrap items-center gap-2">
-								<span className={cn("font-medium", d.archived && "text-muted-foreground line-through")} dir="auto">
+								<span
+									className={cn(
+										"font-semibold group-hover:text-primary",
+										d.archived && "text-muted-foreground line-through",
+									)}
+									dir="auto"
+								>
 									{d.title}
 								</span>
-								{d.is_confidential ? <Lock className="size-3.5 text-warning" aria-label={t("Confidential")} /> : null}
+								{d.is_confidential ? (
+									<Lock className="size-3.5 text-warning" aria-label={t("Confidential")} />
+								) : null}
 							</span>
 							<span className="mt-0.5 flex flex-wrap gap-x-3 text-xs text-muted-foreground">
 								{d.document_type && <span>{tv(d.document_type)}</span>}
@@ -239,7 +370,45 @@ function DocumentList({ rows, showFolder, onOpen }: { rows: DocumentRow[]; showF
 	);
 }
 
-function NewFolderDialog({ open, onOpenChange, land, parent }: { open: boolean; onOpenChange: (o: boolean) => void; land: string; parent: string }) {
+/** File-type chip (PDF, DOC, XLS, IMG …) from the stored file name. */
+function FileBadge({ name }: { name?: string | null }) {
+	const ext = (name?.split(".").pop() ?? "").toLowerCase();
+	const kind =
+		ext === "pdf"
+			? ["PDF", "bg-[#fdecec] text-[#c0392b]"]
+			: ["doc", "docx"].includes(ext)
+				? ["DOC", "bg-[#e8f0fe] text-[#1a56db]"]
+				: ["xls", "xlsx", "csv"].includes(ext)
+					? ["XLS", "bg-[#e6f6ee] text-[#137a46]"]
+					: ["png", "jpg", "jpeg", "webp", "heic"].includes(ext)
+						? ["IMG", "bg-[#f3e9ff] text-[#6d3cc4]"]
+						: ["DWG", "dwg", "dxf"].includes(ext)
+							? ["CAD", "bg-[#fff1e0] text-[#a35a06]"]
+							: ["FILE", "bg-muted text-muted-foreground"];
+	return (
+		<span
+			className={cn(
+				"flex h-10 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-extrabold",
+				kind[1],
+			)}
+			aria-hidden
+		>
+			{kind[0]}
+		</span>
+	);
+}
+
+function NewFolderDialog({
+	open,
+	onOpenChange,
+	land,
+	parent,
+}: {
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+	land: string;
+	parent: string;
+}) {
 	const [name, setName] = React.useState("");
 	React.useEffect(() => {
 		if (open) setName("");
@@ -262,7 +431,13 @@ function NewFolderDialog({ open, onOpenChange, land, parent }: { open: boolean; 
 				>
 					<DialogBody>
 						<Field label={t("Folder Name")} required htmlFor="nf_name">
-							<Input id="nf_name" dir="auto" autoFocus value={name} onChange={(e) => setName(e.target.value)} />
+							<Input
+								id="nf_name"
+								dir="auto"
+								autoFocus
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+							/>
 						</Field>
 					</DialogBody>
 					<DialogFooter>
@@ -284,8 +459,16 @@ function FolderMenu({ lib, onDeleted }: { lib: Library; onDeleted: () => void })
 	const [mode, setMode] = React.useState<"rename" | "move" | "delete" | null>(null);
 	const [value, setValue] = React.useState("");
 	const close = (o: boolean) => !o && setMode(null);
-	const rename = useApiMutation(() => documentsApi.renameFolder(lib.folder, value.trim()), { invalidate: [documentKeys.all], success: t("Folder renamed"), onSuccess: () => setMode(null) });
-	const move = useApiMutation(() => documentsApi.moveFolder(lib.folder, value), { invalidate: [documentKeys.all], success: t("Folder moved"), onSuccess: () => setMode(null) });
+	const rename = useApiMutation(() => documentsApi.renameFolder(lib.folder, value.trim()), {
+		invalidate: [documentKeys.all],
+		success: t("Folder renamed"),
+		onSuccess: () => setMode(null),
+	});
+	const move = useApiMutation(() => documentsApi.moveFolder(lib.folder, value), {
+		invalidate: [documentKeys.all],
+		success: t("Folder moved"),
+		onSuccess: () => setMode(null),
+	});
 	const remove = useApiMutation(() => documentsApi.deleteFolder(lib.folder), {
 		invalidate: [documentKeys.all],
 		success: t("Folder deleted"),
@@ -335,11 +518,19 @@ function FolderMenu({ lib, onDeleted }: { lib: Library; onDeleted: () => void })
 			</DropdownMenu>
 			<Dialog open={mode === "rename" || mode === "move"} onOpenChange={close}>
 				<DialogContent size="sm">
-					<DialogHeader title={mode === "rename" ? t("Rename folder") : t("Move folder")} description={current.folder_name} />
+					<DialogHeader
+						title={mode === "rename" ? t("Rename folder") : t("Move folder")}
+						description={current.folder_name}
+					/>
 					<DialogBody>
 						{mode === "rename" ? (
 							<Field label={t("Folder Name")} htmlFor="rf_name">
-								<Input id="rf_name" dir="auto" value={value} onChange={(e) => setValue(e.target.value)} />
+								<Input
+									id="rf_name"
+									dir="auto"
+									value={value}
+									onChange={(e) => setValue(e.target.value)}
+								/>
 							</Field>
 						) : (
 							<Field label={t("Move into")} htmlFor="mf_target">
@@ -357,7 +548,10 @@ function FolderMenu({ lib, onDeleted }: { lib: Library; onDeleted: () => void })
 						<Button variant="outline" onClick={() => setMode(null)}>
 							{t("Cancel")}
 						</Button>
-						<Button disabled={!value.trim() || rename.isPending || move.isPending} onClick={() => (mode === "rename" ? rename.mutate(undefined) : move.mutate(undefined))}>
+						<Button
+							disabled={!value.trim() || rename.isPending || move.isPending}
+							onClick={() => (mode === "rename" ? rename.mutate(undefined) : move.mutate(undefined))}
+						>
 							{t("Save")}
 						</Button>
 					</DialogFooter>
@@ -383,7 +577,10 @@ export function DocumentsHome() {
 	const query = useQuery({ queryKey: landKeys.list(filters), queryFn: () => landsApi.list(filters) });
 	return (
 		<>
-			<PageHeader title={t("Document Library")} subtitle={t("Each land / project has its own library. Choose one to browse.")} />
+			<PageHeader
+				title={t("Document Library")}
+				subtitle={t("Each land / project has its own library. Choose one to browse.")}
+			/>
 			{query.isLoading ? (
 				<LoadingRows rows={4} />
 			) : query.error ? (
@@ -393,13 +590,19 @@ export function DocumentsHome() {
 			) : (
 				<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
 					{query.data.rows.map((l) => (
-						<Link key={l.name} to={`/documents/${l.name}`} className="flex items-center gap-3 rounded-lg border border-border bg-surface p-4 hover:border-primary/40">
+						<Link
+							key={l.name}
+							to={`/documents/${l.name}`}
+							className="flex items-center gap-3 rounded-lg border border-border bg-surface p-4 hover:border-primary/40"
+						>
 							<Folder className="size-6 shrink-0 fill-primary-soft text-primary" aria-hidden />
 							<span className="min-w-0">
 								<span className="block truncate font-semibold" dir="auto">
 									{l.land_name}
 								</span>
-								<span className="text-xs text-muted-foreground">{t("{0} documents", formatNumber(l.documents))}</span>
+								<span className="text-xs text-muted-foreground">
+									{t("{0} documents", formatNumber(l.documents))}
+								</span>
 							</span>
 						</Link>
 					))}

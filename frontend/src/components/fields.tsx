@@ -109,7 +109,7 @@ export function Combobox({
 			<PopoverAnchor asChild>
 				<div
 					className={cn(
-						"flex h-9 items-center rounded-md border border-input bg-surface focus-within:ring-2 focus-within:ring-ring",
+						"flex h-10 items-center rounded-[10px] border border-input bg-surface shadow-[0_1px_2px_rgba(16,24,40,.04)] transition-colors hover:border-muted-foreground/40 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10",
 						invalid && "border-danger",
 						disabled && "opacity-50",
 					)}
@@ -231,7 +231,9 @@ export function UserSelect(props: Omit<ComboboxProps, "useOptions" | "selectedLa
 	const useOptions = (text: string) => {
 		const q = text.trim().toLowerCase();
 		return {
-			options: q ? all.filter((o) => o.label.toLowerCase().includes(q) || o.value.toLowerCase().includes(q)) : all,
+			options: q
+				? all.filter((o) => o.label.toLowerCase().includes(q) || o.value.toLowerCase().includes(q))
+				: all,
 			loading: users.isLoading,
 		};
 	};

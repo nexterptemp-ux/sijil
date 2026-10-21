@@ -17,7 +17,11 @@ import { FollowUpFormDialog } from "./FollowUpFormDialog";
 import { FollowUpRow } from "./FollowUpRow";
 
 const PAGE = 20;
-const scopes = (): { key: FollowUpScope; label: string; count?: "overdue" | "today" | "upcoming" | "open" | "completed" }[] => [
+const scopes = (): {
+	key: FollowUpScope;
+	label: string;
+	count?: "overdue" | "today" | "upcoming" | "open" | "completed";
+}[] => [
 	{ key: "overdue", label: t("Overdue"), count: "overdue" },
 	{ key: "today", label: t("Due Today"), count: "today" },
 	{ key: "week", label: t("This week") },
@@ -42,7 +46,11 @@ export function FollowUpsPage() {
 		start: page * PAGE,
 		page_length: PAGE,
 	};
-	const query = useQuery({ queryKey: followupKeys.list(filters), queryFn: () => followupsApi.list(filters), placeholderData: keepPreviousData });
+	const query = useQuery({
+		queryKey: followupKeys.list(filters),
+		queryFn: () => followupsApi.list(filters),
+		placeholderData: keepPreviousData,
+	});
 	const counts = useQuery({ queryKey: followupKeys.counts(mine), queryFn: () => followupsApi.counts(mine) });
 
 	return (
@@ -71,7 +79,9 @@ export function FollowUpsPage() {
 								onClick={() => update({ scope: scope.key })}
 								className={cn(
 									"flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium",
-									active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-surface text-muted-foreground hover:text-foreground",
+									active
+										? "border-primary bg-primary text-primary-foreground"
+										: "border-border bg-surface text-muted-foreground hover:text-foreground",
 								)}
 							>
 								{scope.label}
@@ -79,7 +89,11 @@ export function FollowUpsPage() {
 									<span
 										className={cn(
 											"rounded-full px-1.5 text-[11px]",
-											active ? "bg-white/20" : scope.key === "overdue" && n > 0 ? "bg-danger-soft text-danger" : "bg-muted",
+											active
+												? "bg-white/20"
+												: scope.key === "overdue" && n > 0
+													? "bg-danger-soft text-danger"
+													: "bg-muted",
 										)}
 									>
 										{formatNumber(n)}
@@ -91,9 +105,19 @@ export function FollowUpsPage() {
 				</div>
 			</div>
 			<div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-				<SearchInput value={s.search} onChange={(search) => update({ search })} placeholder={t("Search follow-ups")} className="flex-1" />
+				<SearchInput
+					value={s.search}
+					onChange={(search) => update({ search })}
+					placeholder={t("Search follow-ups")}
+					className="flex-1"
+				/>
 				<div className="sm:w-64">
-					<LookupSelect doctype="Sijil Land" value={s.land} onChange={(v) => update({ land: v ?? "", case: "" })} placeholder={t("Any land / project")} />
+					<LookupSelect
+						doctype="Sijil Land"
+						value={s.land}
+						onChange={(v) => update({ land: v ?? "", case: "" })}
+						placeholder={t("Any land / project")}
+					/>
 				</div>
 				<label className="flex items-center gap-2 text-sm">
 					<Checkbox checked={mine} onChange={(e) => update({ mine: e.target.checked ? "1" : "" })} />
@@ -118,7 +142,10 @@ export function FollowUpsPage() {
 				) : query.error ? (
 					<ErrorState error={query.error} onRetry={() => void query.refetch()} />
 				) : !query.data?.rows.length ? (
-					<EmptyState title={t("No follow-ups here")} hint={s.scope === "overdue" ? t("Well done — all follow-ups are on schedule.") : undefined} />
+					<EmptyState
+						title={t("No follow-ups here")}
+						hint={s.scope === "overdue" ? t("Well done — all follow-ups are on schedule.") : undefined}
+					/>
 				) : (
 					<div className="divide-y divide-border">
 						{query.data.rows.map((f) => (
@@ -128,7 +155,11 @@ export function FollowUpsPage() {
 				)}
 			</Card>
 			<Pager page={page} onPage={(p) => update({ page: String(p) }, { resetPage: false })} data={query.data} />
-			<FollowUpFormDialog open={creating} onOpenChange={setCreating} prefill={s.land ? { land: s.land } : undefined} />
+			<FollowUpFormDialog
+				open={creating}
+				onOpenChange={setCreating}
+				prefill={s.land ? { land: s.land } : undefined}
+			/>
 		</>
 	);
 }

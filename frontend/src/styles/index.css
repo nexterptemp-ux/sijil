@@ -2,31 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens — palette taken from the prototype (design/reference/SIJIL_professional_demo.html). */
+/* Design tokens. Calm enterprise palette: cool neutrals, one confident blue, colour only for meaning. */
 @layer base {
 	:root {
-		--background: 220 50% 97%;
+		--background: 220 27% 97%;
 		--surface: 0 0% 100%;
-		--foreground: 218 42% 18%;
-		--muted: 220 40% 96%;
-		--muted-foreground: 218 15% 50%;
-		--border: 217 35% 91%;
-		--input: 217 30% 86%;
-		--ring: 227 79% 57%;
-		--primary: 227 79% 55%;
+		--surface-2: 220 30% 98.5%;
+		--foreground: 224 39% 14%;
+		--muted: 220 24% 95.5%;
+		--muted-foreground: 220 12% 46%;
+		--border: 220 18% 90%;
+		--input: 220 16% 85%;
+		--ring: 226 76% 54%;
+		--primary: 226 71% 50%;
 		--primary-foreground: 0 0% 100%;
-		--primary-soft: 227 100% 96%;
-		--accent: 227 100% 96%;
-		--accent-foreground: 227 79% 45%;
-		--success: 164 71% 30%;
-		--success-soft: 160 55% 94%;
-		--warning: 36 78% 38%;
-		--warning-soft: 40 90% 93%;
-		--danger: 0 68% 46%;
-		--danger-soft: 0 85% 96%;
-		--destructive: 0 68% 46%;
+		--primary-soft: 226 90% 96.5%;
+		--accent: 226 90% 96.5%;
+		--accent-foreground: 226 71% 42%;
+		--success: 158 64% 32%;
+		--success-soft: 152 54% 94%;
+		--warning: 32 88% 40%;
+		--warning-soft: 40 95% 93%;
+		--danger: 357 68% 48%;
+		--danger-soft: 357 90% 96.5%;
+		--destructive: 357 68% 48%;
 		--destructive-foreground: 0 0% 100%;
-		--radius: 12px;
+		--sidebar: 225 45% 13%;
+		--sidebar-foreground: 222 24% 78%;
+		--sidebar-active: 226 60% 24%;
+		--radius: 14px;
 	}
 
 	html {
@@ -36,17 +40,28 @@
 	body {
 		@apply bg-background font-sans text-foreground antialiased;
 		font-size: 14px;
+		font-feature-settings: "kern";
+		text-rendering: optimizeLegibility;
 	}
 
 	:focus-visible {
 		outline-color: hsl(var(--ring));
+	}
+
+	::selection {
+		background: hsl(var(--primary) / 0.15);
+	}
+
+	/* Numbers line up in tables and counters. */
+	.tabular {
+		font-variant-numeric: tabular-nums;
 	}
 }
 
 @layer components {
 	/* Rich text from the backend (sanitized before rendering). */
 	.prose-sijil {
-		@apply text-sm leading-7;
+		@apply text-sm leading-7 text-foreground/90;
 	}
 	.prose-sijil p {
 		@apply my-1;
@@ -59,5 +74,18 @@
 	}
 	.prose-sijil a {
 		@apply text-primary underline;
+	}
+	.prose-sijil b,
+	.prose-sijil strong {
+		@apply font-semibold text-foreground;
+	}
+}
+
+@keyframes sijil-load {
+	0% {
+		transform: translateX(-120%);
+	}
+	100% {
+		transform: translateX(220%);
 	}
 }

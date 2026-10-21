@@ -2,6 +2,7 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { rememberLang } from "@/i18n";
+import { DEMO } from "@/mocks/db";
 import { renderApp } from "@/test/render";
 
 beforeEach(() => rememberLang("en"));
@@ -22,7 +23,7 @@ describe("tasks", () => {
 
 	it("shows overdue tasks and completes one with notes", async () => {
 		const { db } = renderApp("/tasks?scope=overdue");
-		await userEvent.click(await screen.findByText("Review consultant submission for the master plan"));
+		await userEvent.click(await screen.findByText(DEMO.overdueTask));
 		await userEvent.click(await screen.findByRole("button", { name: "Mark complete" }));
 		const dialog = await screen.findByRole("dialog");
 		await userEvent.type(within(dialog).getByLabelText("Completion notes"), "Reviewed and sent comments.");

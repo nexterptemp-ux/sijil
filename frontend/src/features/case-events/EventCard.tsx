@@ -1,4 +1,4 @@
-import { ArrowRight, History, MessageSquare, Pencil, Star } from "lucide-react";
+import { ArrowRight, CalendarDays, History, MessageSquare, Pencil, Star } from "lucide-react";
 import { RichText } from "@/components/common";
 import { CaseStatusBadge } from "@/components/status";
 import { Badge } from "@/components/ui/layout";
@@ -29,17 +29,35 @@ export function EventCard({
 			<span
 				className={cn(
 					"absolute start-0 top-1 flex size-6 items-center justify-center rounded-full border-2 border-surface",
-					event.is_milestone ? "bg-warning text-white" : superseded ? "bg-muted text-muted-foreground" : "bg-primary-soft text-primary",
+					event.is_milestone
+						? "bg-warning text-white"
+						: superseded
+							? "bg-muted text-muted-foreground"
+							: "bg-primary-soft text-primary",
 				)}
 				aria-hidden
 			>
 				{event.is_milestone ? <Star className="size-3.5 fill-current" /> : <MessageSquare className="size-3" />}
 			</span>
-			<div className={cn("rounded-lg border bg-surface p-4", event.is_milestone && !superseded ? "border-warning/40" : "border-border")}>
+			<div
+				className={cn(
+					"rounded-[var(--radius)] border bg-surface p-4 shadow-card sm:p-5",
+					event.is_milestone && !superseded
+						? "border-warning/30 bg-gradient-to-br from-[#fffaf0] to-surface"
+						: "border-border/80",
+					superseded && "border-dashed bg-surface-2 shadow-none",
+				)}
+			>
 				<header className="flex flex-wrap items-start justify-between gap-2">
 					<div className="min-w-0 space-y-1">
 						<div className="flex flex-wrap items-center gap-2">
-							<h3 className={cn("font-bold", superseded && "line-through decoration-muted-foreground/60")} dir="auto">
+							<h3
+								className={cn(
+									"text-[15px] font-bold leading-snug",
+									superseded && "text-muted-foreground line-through decoration-muted-foreground/50",
+								)}
+								dir="auto"
+							>
 								{event.title}
 							</h3>
 							{event.is_milestone ? <Badge tone="warning">{t("Milestone")}</Badge> : null}
@@ -47,7 +65,11 @@ export function EventCard({
 							{event.corrects && <Badge tone="primary">{t("Correction")}</Badge>}
 						</div>
 						<div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-muted-foreground">
-							<time dateTime={event.event_date} className="font-semibold text-foreground">
+							<time
+								dateTime={event.event_date}
+								className="tabular inline-flex items-center gap-1 font-bold text-foreground"
+							>
+								<CalendarDays className="size-3.5 text-muted-foreground" aria-hidden />
 								{formatDate(event.event_date)}
 								{event.event_time ? ` ${event.event_time.slice(0, 5)}` : ""}
 							</time>
@@ -74,7 +96,7 @@ export function EventCard({
 				)}
 
 				{(event.situation_update || event.status_after) && (
-					<div className="mt-3 space-y-1 rounded-md bg-primary-soft/60 p-3 text-sm">
+					<div className="mt-3 space-y-1 rounded-xl border border-primary/10 bg-primary-soft/60 p-3 text-sm">
 						{event.situation_update && (
 							<p dir="auto">
 								<span className="font-semibold text-primary">{t("Current situation updated")}: </span>
@@ -107,7 +129,11 @@ export function EventCard({
 								<span>{t("Corrects an earlier entry.")}</span>
 								{event.correction_reason && <span dir="auto">“{event.correction_reason}”</span>}
 								{onJump && (
-									<button type="button" className="text-primary hover:underline" onClick={() => onJump(event.corrects!)}>
+									<button
+										type="button"
+										className="text-primary hover:underline"
+										onClick={() => onJump(event.corrects!)}
+									>
 										{t("View original")}
 									</button>
 								)}
@@ -117,7 +143,11 @@ export function EventCard({
 							<>
 								<span>{t("Replaced by a correction.")}</span>
 								{onJump && (
-									<button type="button" className="text-primary hover:underline" onClick={() => onJump(event.superseded_by!)}>
+									<button
+										type="button"
+										className="text-primary hover:underline"
+										onClick={() => onJump(event.superseded_by!)}
+									>
 										{t("View correction")}
 									</button>
 								)}
@@ -126,8 +156,12 @@ export function EventCard({
 					</div>
 				)}
 
-				<footer className="mt-3 text-[11px] text-muted-foreground">
-					{t("Recorded by {0} on {1}", event.recorded_by_name || event.recorded_by, formatDateTime(event.recorded_on))}
+				<footer className="mt-3 border-t border-border/60 pt-2.5 text-[11px] text-muted-foreground">
+					{t(
+						"Recorded by {0} on {1}",
+						event.recorded_by_name || event.recorded_by,
+						formatDateTime(event.recorded_on),
+					)}
 				</footer>
 			</div>
 		</article>

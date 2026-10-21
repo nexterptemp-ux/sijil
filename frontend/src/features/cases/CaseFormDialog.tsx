@@ -19,7 +19,10 @@ const RELATION_TYPES = ["Related", "Depends On", "Blocks", "Duplicate Of", "Foll
 const schema = z
 	.object({
 		title: z.string().trim().min(1),
-		land: z.string().nullable().refine((v) => Boolean(v)),
+		land: z
+			.string()
+			.nullable()
+			.refine((v) => Boolean(v)),
 		reference_no: z.string().optional(),
 		case_type: z.string().optional(),
 		status: z.string(),
@@ -68,7 +71,10 @@ export function CaseFormDialog({
 }) {
 	const { boot } = useBoot();
 	const navigate = useNavigate();
-	const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues: defaults(caseDoc, defaultLand, boot.user.name) });
+	const form = useForm<Values>({
+		resolver: zodResolver(schema),
+		defaultValues: defaults(caseDoc, defaultLand, boot.user.name),
+	});
 	const relations = useFieldArray({ control: form.control, name: "relations" });
 	const land = form.watch("land");
 
@@ -102,7 +108,9 @@ export function CaseFormDialog({
 			description: v.description,
 			// The situation of an existing case changes only through a recorded development.
 			...(caseDoc ? {} : { current_situation: v.current_situation }),
-			relations: v.relations.filter((r) => r.related_case).map((r) => ({ related_case: r.related_case!, relation_type: r.relation_type })),
+			relations: v.relations
+				.filter((r) => r.related_case)
+				.map((r) => ({ related_case: r.related_case!, relation_type: r.relation_type })),
 		}),
 	);
 
@@ -115,15 +123,39 @@ export function CaseFormDialog({
 				<form onSubmit={submit} className="contents" noValidate>
 					<DialogBody>
 						<div className="grid gap-4 sm:grid-cols-2">
-							<Field label={t("Title")} required htmlFor="case_title" error={err.title && required} className="sm:col-span-2">
-								<Input id="case_title" dir="auto" aria-invalid={Boolean(err.title)} {...form.register("title")} />
+							<Field
+								label={t("Title")}
+								required
+								htmlFor="case_title"
+								error={err.title && required}
+								className="sm:col-span-2"
+							>
+								<Input
+									id="case_title"
+									dir="auto"
+									aria-invalid={Boolean(err.title)}
+									{...form.register("title")}
+								/>
 							</Field>
-							<Field label={t("Land / Project")} required htmlFor="case_land" error={err.land && required} hint={caseDoc ? t("A case cannot be moved to another land.") : undefined}>
+							<Field
+								label={t("Land / Project")}
+								required
+								htmlFor="case_land"
+								error={err.land && required}
+								hint={caseDoc ? t("A case cannot be moved to another land.") : undefined}
+							>
 								<Controller
 									control={form.control}
 									name="land"
 									render={({ field }) => (
-										<LookupSelect id="case_land" doctype="Sijil Land" value={field.value} onChange={field.onChange} disabled={Boolean(caseDoc)} invalid={Boolean(err.land)} />
+										<LookupSelect
+											id="case_land"
+											doctype="Sijil Land"
+											value={field.value}
+											onChange={field.onChange}
+											disabled={Boolean(caseDoc)}
+											invalid={Boolean(err.land)}
+										/>
 									)}
 								/>
 							</Field>
@@ -156,7 +188,18 @@ export function CaseFormDialog({
 								</Select>
 							</Field>
 							<Field label={t("Internal Owner")} htmlFor="case_owner">
-								<Controller control={form.control} name="owner_user" render={({ field }) => <UserSelect id="case_owner" value={field.value} onChange={field.onChange} clearable={false} />} />
+								<Controller
+									control={form.control}
+									name="owner_user"
+									render={({ field }) => (
+										<UserSelect
+											id="case_owner"
+											value={field.value}
+											onChange={field.onChange}
+											clearable={false}
+										/>
+									)}
+								/>
 							</Field>
 							<Field label={t("Reference No")} htmlFor="case_ref">
 								<Input id="case_ref" dir="auto" {...form.register("reference_no")} />
@@ -165,20 +208,49 @@ export function CaseFormDialog({
 								<Controller
 									control={form.control}
 									name="external_organization"
-									render={({ field }) => <LookupSelect id="case_org" doctype="Sijil External Organization" value={field.value} onChange={field.onChange} />}
+									render={({ field }) => (
+										<LookupSelect
+											id="case_org"
+											doctype="Sijil External Organization"
+											value={field.value}
+											onChange={field.onChange}
+										/>
+									)}
 								/>
 							</Field>
 							<Field label={t("External Contact")} htmlFor="case_contact">
-								<Controller control={form.control} name="external_contact" render={({ field }) => <LookupSelect id="case_contact" doctype="Contact" value={field.value} onChange={field.onChange} />} />
+								<Controller
+									control={form.control}
+									name="external_contact"
+									render={({ field }) => (
+										<LookupSelect
+											id="case_contact"
+											doctype="Contact"
+											value={field.value}
+											onChange={field.onChange}
+										/>
+									)}
+								/>
 							</Field>
 							<Field label={t("Start Date")} htmlFor="case_start">
 								<Input id="case_start" type="date" {...form.register("start_date")} />
 							</Field>
-							<Field label={t("Target Date")} htmlFor="case_target" error={err.target_date && t("Target Date cannot be before Start Date.")}>
+							<Field
+								label={t("Target Date")}
+								htmlFor="case_target"
+								error={err.target_date && t("Target Date cannot be before Start Date.")}
+							>
 								<Input id="case_target" type="date" {...form.register("target_date")} />
 							</Field>
 							{!caseDoc && (
-								<Field label={t("Current Situation")} htmlFor="case_situation" className="sm:col-span-2" hint={t("Where things stand right now. Later changes are recorded as developments.")}>
+								<Field
+									label={t("Current Situation")}
+									htmlFor="case_situation"
+									className="sm:col-span-2"
+									hint={t(
+										"Where things stand right now. Later changes are recorded as developments.",
+									)}
+								>
 									<Textarea id="case_situation" {...form.register("current_situation")} />
 								</Field>
 							)}
@@ -189,8 +261,15 @@ export function CaseFormDialog({
 						<fieldset className="space-y-2">
 							<legend className="text-sm font-bold">{t("Related Cases")}</legend>
 							{relations.fields.map((row, i) => (
-								<div key={row.id} className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0">
-									<Select className="sm:w-44" aria-label={t("Relation")} {...form.register(`relations.${i}.relation_type`)}>
+								<div
+									key={row.id}
+									className="flex flex-col gap-2 rounded-md border border-border p-2 sm:flex-row sm:items-center sm:border-0 sm:p-0"
+								>
+									<Select
+										className="sm:w-44"
+										aria-label={t("Relation")}
+										{...form.register(`relations.${i}.relation_type`)}
+									>
 										{RELATION_TYPES.map((r) => (
 											<option key={r} value={r}>
 												{tv(r)}
@@ -202,16 +281,31 @@ export function CaseFormDialog({
 											control={form.control}
 											name={`relations.${i}.related_case`}
 											render={({ field }) => (
-												<LookupSelect doctype="Sijil Case" filters={land ? { land } : undefined} value={field.value} onChange={field.onChange} placeholder={t("Case")} />
+												<LookupSelect
+													doctype="Sijil Case"
+													filters={land ? { land } : undefined}
+													value={field.value}
+													onChange={field.onChange}
+													placeholder={t("Case")}
+												/>
 											)}
 										/>
 									</div>
-									<Button variant="ghost" size="icon" onClick={() => relations.remove(i)} aria-label={t("Remove")}>
+									<Button
+										variant="ghost"
+										size="icon"
+										onClick={() => relations.remove(i)}
+										aria-label={t("Remove")}
+									>
 										<Trash2 />
 									</Button>
 								</div>
 							))}
-							<Button variant="outline" size="sm" onClick={() => relations.append({ related_case: null, relation_type: "Related" })}>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => relations.append({ related_case: null, relation_type: "Related" })}
+							>
 								<Plus />
 								{t("Add related case")}
 							</Button>

@@ -23,7 +23,10 @@ export function ReportView() {
 	const { report = "" } = useParams();
 	const [s, update] = useUrlState({ land: "", assigned_to: "", days: "" });
 	const filters = Object.fromEntries(Object.entries(s).filter(([, v]) => v)) as Record<string, string>;
-	const query = useQuery({ queryKey: reportKeys.run(report, filters), queryFn: () => reportsApi.run(report, filters) });
+	const query = useQuery({
+		queryKey: reportKeys.run(report, filters),
+		queryFn: () => reportsApi.run(report, filters),
+	});
 	const users = useUsers();
 	const userName = (id: unknown) => users.data?.find((u) => u.name === id)?.full_name ?? String(id ?? "");
 	const allowed = REPORT_FILTERS[report] ?? [];
@@ -54,7 +57,10 @@ export function ReportView() {
 		if (!query.data) return;
 		const { columns, rows } = query.data;
 		const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
-		const lines = [columns.map((c) => esc(c.label)).join(","), ...rows.map((r) => columns.map((c) => esc(display(c, r[c.fieldname]))).join(","))];
+		const lines = [
+			columns.map((c) => esc(c.label)).join(","),
+			...rows.map((r) => columns.map((c) => esc(display(c, r[c.fieldname]))).join(",")),
+		];
 		// BOM so Excel opens Arabic text correctly.
 		const blob = new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
 		const a = document.createElement("a");
@@ -81,17 +87,34 @@ export function ReportView() {
 				<div className="mb-4 grid gap-3 sm:grid-cols-3">
 					{allowed.includes("land") && (
 						<Field label={t("Land / Project")} htmlFor="rf_land">
-							<LookupSelect id="rf_land" doctype="Sijil Land" value={s.land} onChange={(v) => update({ land: v ?? "" })} placeholder={t("Any land / project")} />
+							<LookupSelect
+								id="rf_land"
+								doctype="Sijil Land"
+								value={s.land}
+								onChange={(v) => update({ land: v ?? "" })}
+								placeholder={t("Any land / project")}
+							/>
 						</Field>
 					)}
 					{allowed.includes("assigned_to") && (
 						<Field label={t("Assigned To")} htmlFor="rf_user">
-							<UserSelect id="rf_user" value={s.assigned_to} onChange={(v) => update({ assigned_to: v ?? "" })} placeholder={t("Anyone")} />
+							<UserSelect
+								id="rf_user"
+								value={s.assigned_to}
+								onChange={(v) => update({ assigned_to: v ?? "" })}
+								placeholder={t("Anyone")}
+							/>
 						</Field>
 					)}
 					{allowed.includes("days") && (
 						<Field label={t("No update for more than (days)")} htmlFor="rf_days">
-							<Input id="rf_days" type="number" min={1} value={s.days} onChange={(e) => update({ days: e.target.value })} />
+							<Input
+								id="rf_days"
+								type="number"
+								min={1}
+								value={s.days}
+								onChange={(e) => update({ days: e.target.value })}
+							/>
 						</Field>
 					)}
 				</div>
@@ -109,7 +132,10 @@ export function ReportView() {
 							<thead>
 								<tr className="border-b border-border text-xs text-muted-foreground">
 									{query.data.columns.map((c) => (
-										<th key={c.fieldname} className="whitespace-nowrap px-3 py-2 text-start font-semibold">
+										<th
+											key={c.fieldname}
+											className="whitespace-nowrap px-3 py-2 text-start font-semibold"
+										>
 											{c.label}
 										</th>
 									))}

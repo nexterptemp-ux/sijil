@@ -17,7 +17,15 @@ import { followupsApi, type CompleteFollowUpInput } from "./api";
  * case), optionally attach evidence, and optionally schedule the next follow-up. The backend does
  * this in one transaction and refuses a second completion, so a double click cannot duplicate it.
  */
-export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open: boolean; onOpenChange: (o: boolean) => void; followup: FollowUp }) {
+export function CompleteFollowUpDialog({
+	open,
+	onOpenChange,
+	followup,
+}: {
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+	followup: FollowUp;
+}) {
 	const { boot } = useBoot();
 	const [outcome, setOutcome] = React.useState("");
 	const [eventType, setEventType] = React.useState("Contact");
@@ -48,7 +56,8 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 
 	const complete = useApiMutation((input: CompleteFollowUpInput) => followupsApi.complete(input), {
 		invalidate: DOMAIN,
-		success: (r) => (r.next_followup ? t("Follow-up completed and the next one is planned") : t("Follow-up completed")),
+		success: (r) =>
+			r.next_followup ? t("Follow-up completed and the next one is planned") : t("Follow-up completed"),
 		onSuccess: () => onOpenChange(false),
 	});
 
@@ -67,7 +76,9 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 						situation_update: situation.trim() || undefined,
 					}
 				: undefined,
-			next_followup: scheduleNext ? { due_date: nextDate, title: nextTitle.trim() || undefined, assigned_to: nextAssignee || undefined } : null,
+			next_followup: scheduleNext
+				? { due_date: nextDate, title: nextTitle.trim() || undefined, assigned_to: nextAssignee || undefined }
+				: null,
 			documents: documents.map((d) => ({ document: d.document, version: d.version })),
 		});
 	};
@@ -82,16 +93,33 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 							label={t("What actually happened?")}
 							required
 							htmlFor="fu_outcome"
-							error={touched && !outcome.trim() ? t("Please describe the actual outcome — even if there was no progress.") : undefined}
-							hint={followup.case ? t("This is recorded as a development in the case history.") : undefined}
+							error={
+								touched && !outcome.trim()
+									? t("Please describe the actual outcome — even if there was no progress.")
+									: undefined
+							}
+							hint={
+								followup.case ? t("This is recorded as a development in the case history.") : undefined
+							}
 						>
-							<Textarea id="fu_outcome" rows={4} value={outcome} onChange={(e) => setOutcome(e.target.value)} aria-invalid={touched && !outcome.trim()} autoFocus />
+							<Textarea
+								id="fu_outcome"
+								rows={4}
+								value={outcome}
+								onChange={(e) => setOutcome(e.target.value)}
+								aria-invalid={touched && !outcome.trim()}
+								autoFocus
+							/>
 						</Field>
 						{followup.case && (
 							<>
 								<div className="grid gap-4 sm:grid-cols-2">
 									<Field label={t("Type")} htmlFor="fu_ev_type">
-										<Select id="fu_ev_type" value={eventType} onChange={(e) => setEventType(e.target.value)}>
+										<Select
+											id="fu_ev_type"
+											value={eventType}
+											onChange={(e) => setEventType(e.target.value)}
+										>
 											{boot.options.event_type.map((o) => (
 												<option key={o} value={o}>
 													{tv(o)}
@@ -100,7 +128,11 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 										</Select>
 									</Field>
 									<Field label={t("Communication Method")} htmlFor="fu_ev_method">
-										<Select id="fu_ev_method" value={method} onChange={(e) => setMethod(e.target.value)}>
+										<Select
+											id="fu_ev_method"
+											value={method}
+											onChange={(e) => setMethod(e.target.value)}
+										>
 											<option value="">—</option>
 											{boot.options.communication_method.map((o) => (
 												<option key={o} value={o}>
@@ -115,9 +147,16 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 									{t("This is an important milestone")}
 								</label>
 								<Field label={t("New current situation (optional)")} htmlFor="fu_situation">
-									<Textarea id="fu_situation" rows={2} value={situation} onChange={(e) => setSituation(e.target.value)} />
+									<Textarea
+										id="fu_situation"
+										rows={2}
+										value={situation}
+										onChange={(e) => setSituation(e.target.value)}
+									/>
 								</Field>
-								{followup.land && <AttachDocuments land={followup.land} value={documents} onChange={setDocuments} />}
+								{followup.land && (
+									<AttachDocuments land={followup.land} value={documents} onChange={setDocuments} />
+								)}
 							</>
 						)}
 						<div className="rounded-md border border-border p-3">
@@ -128,13 +167,34 @@ export function CompleteFollowUpDialog({ open, onOpenChange, followup }: { open:
 							{scheduleNext && (
 								<div className="mt-3 grid gap-3 sm:grid-cols-2">
 									<Field label={t("Title")} htmlFor="fu_next_title" className="sm:col-span-2">
-										<Input id="fu_next_title" dir="auto" value={nextTitle} onChange={(e) => setNextTitle(e.target.value)} />
+										<Input
+											id="fu_next_title"
+											dir="auto"
+											value={nextTitle}
+											onChange={(e) => setNextTitle(e.target.value)}
+										/>
 									</Field>
-									<Field label={t("Due Date")} required htmlFor="fu_next_date" error={touched && !nextDate ? t("This field is required.") : undefined}>
-										<Input id="fu_next_date" type="date" min={boot.today} value={nextDate} onChange={(e) => setNextDate(e.target.value)} />
+									<Field
+										label={t("Due Date")}
+										required
+										htmlFor="fu_next_date"
+										error={touched && !nextDate ? t("This field is required.") : undefined}
+									>
+										<Input
+											id="fu_next_date"
+											type="date"
+											min={boot.today}
+											value={nextDate}
+											onChange={(e) => setNextDate(e.target.value)}
+										/>
 									</Field>
 									<Field label={t("Assigned To")} htmlFor="fu_next_assignee">
-										<UserSelect id="fu_next_assignee" value={nextAssignee} onChange={setNextAssignee} clearable={false} />
+										<UserSelect
+											id="fu_next_assignee"
+											value={nextAssignee}
+											onChange={setNextAssignee}
+											clearable={false}
+										/>
 									</Field>
 								</div>
 							)}

@@ -22,8 +22,19 @@ export function TasksPage() {
 	const page = Number(s.page) || 0;
 	const mine = s.mine === "1";
 	const [creating, setCreating] = React.useState(false);
-	const filters: TaskFilters = { scope: s.scope as TaskScope, mine, search: s.search, land: s.land, start: page * PAGE, page_length: PAGE };
-	const query = useQuery({ queryKey: taskKeys.list(filters), queryFn: () => tasksApi.list(filters), placeholderData: keepPreviousData });
+	const filters: TaskFilters = {
+		scope: s.scope as TaskScope,
+		mine,
+		search: s.search,
+		land: s.land,
+		start: page * PAGE,
+		page_length: PAGE,
+	};
+	const query = useQuery({
+		queryKey: taskKeys.list(filters),
+		queryFn: () => tasksApi.list(filters),
+		placeholderData: keepPreviousData,
+	});
 	const counts = useQuery({ queryKey: taskKeys.counts(mine), queryFn: () => tasksApi.counts(mine) });
 	const scopes: { key: TaskScope; label: string; n?: number }[] = [
 		{ key: "open", label: t("Open"), n: counts.data?.open },
@@ -58,12 +69,23 @@ export function TasksPage() {
 								onClick={() => update({ scope: scope.key })}
 								className={cn(
 									"flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium",
-									active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-surface text-muted-foreground hover:text-foreground",
+									active
+										? "border-primary bg-primary text-primary-foreground"
+										: "border-border bg-surface text-muted-foreground hover:text-foreground",
 								)}
 							>
 								{scope.label}
 								{scope.n !== undefined && (
-									<span className={cn("rounded-full px-1.5 text-[11px]", active ? "bg-white/20" : scope.key === "overdue" && scope.n > 0 ? "bg-danger-soft text-danger" : "bg-muted")}>
+									<span
+										className={cn(
+											"rounded-full px-1.5 text-[11px]",
+											active
+												? "bg-white/20"
+												: scope.key === "overdue" && scope.n > 0
+													? "bg-danger-soft text-danger"
+													: "bg-muted",
+										)}
+									>
 										{formatNumber(scope.n)}
 									</span>
 								)}
@@ -73,9 +95,19 @@ export function TasksPage() {
 				</div>
 			</div>
 			<div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-				<SearchInput value={s.search} onChange={(search) => update({ search })} placeholder={t("Search tasks")} className="flex-1" />
+				<SearchInput
+					value={s.search}
+					onChange={(search) => update({ search })}
+					placeholder={t("Search tasks")}
+					className="flex-1"
+				/>
 				<div className="sm:w-64">
-					<LookupSelect doctype="Sijil Land" value={s.land} onChange={(v) => update({ land: v ?? "" })} placeholder={t("Any land / project")} />
+					<LookupSelect
+						doctype="Sijil Land"
+						value={s.land}
+						onChange={(v) => update({ land: v ?? "" })}
+						placeholder={t("Any land / project")}
+					/>
 				</div>
 				<label className="flex items-center gap-2 text-sm">
 					<Checkbox checked={mine} onChange={(e) => update({ mine: e.target.checked ? "1" : "" })} />
@@ -94,7 +126,11 @@ export function TasksPage() {
 				)}
 			</Card>
 			<Pager page={page} onPage={(p) => update({ page: String(p) }, { resetPage: false })} data={query.data} />
-			<TaskFormDialog open={creating} onOpenChange={setCreating} prefill={s.land ? { land: s.land } : undefined} />
+			<TaskFormDialog
+				open={creating}
+				onOpenChange={setCreating}
+				prefill={s.land ? { land: s.land } : undefined}
+			/>
 		</>
 	);
 }

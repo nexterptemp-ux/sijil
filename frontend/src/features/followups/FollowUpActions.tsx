@@ -29,13 +29,13 @@ export function FollowUpActions({ followup, compact }: { followup: FollowUp; com
 	if (followup.status !== "Open") return null;
 	return (
 		<>
-			<Button size="sm" onClick={() => setOpen("complete")}>
+			<Button size="sm" variant="secondary" onClick={() => setOpen("complete")}>
 				<CheckCircle2 />
 				{compact ? t("Record result") : t("Complete")}
 			</Button>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant="outline" size="icon" className="size-8" aria-label={t("More actions")}>
+					<Button variant="ghost" size="icon" className="size-8" aria-label={t("More actions")}>
 						<MoreHorizontal />
 					</Button>
 				</DropdownMenuTrigger>
@@ -72,7 +72,15 @@ export function FollowUpActions({ followup, compact }: { followup: FollowUp; com
 	);
 }
 
-function RescheduleDialog({ open, onOpenChange, followup }: { open: boolean; onOpenChange: (o: boolean) => void; followup: FollowUp }) {
+function RescheduleDialog({
+	open,
+	onOpenChange,
+	followup,
+}: {
+	open: boolean;
+	onOpenChange: (o: boolean) => void;
+	followup: FollowUp;
+}) {
 	const { boot } = useBoot();
 	const [date, setDate] = React.useState(followup.due_date);
 	const [assignee, setAssignee] = React.useState<string | null>(followup.assigned_to);
@@ -82,18 +90,27 @@ function RescheduleDialog({ open, onOpenChange, followup }: { open: boolean; onO
 			setAssignee(followup.assigned_to);
 		}
 	}, [open, followup]);
-	const save = useApiMutation(() => followupsApi.reschedule(followup.name, date, assignee !== followup.assigned_to ? assignee : null), {
-		invalidate: DOMAIN,
-		success: t("Follow-up rescheduled"),
-		onSuccess: () => onOpenChange(false),
-	});
+	const save = useApiMutation(
+		() => followupsApi.reschedule(followup.name, date, assignee !== followup.assigned_to ? assignee : null),
+		{
+			invalidate: DOMAIN,
+			success: t("Follow-up rescheduled"),
+			onSuccess: () => onOpenChange(false),
+		},
+	);
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent size="sm">
 				<DialogHeader title={t("Reschedule follow-up")} description={followup.title} />
 				<DialogBody>
 					<Field label={t("New due date")} required htmlFor="rs_date">
-						<Input id="rs_date" type="date" min={boot.today} value={date} onChange={(e) => setDate(e.target.value)} />
+						<Input
+							id="rs_date"
+							type="date"
+							min={boot.today}
+							value={date}
+							onChange={(e) => setDate(e.target.value)}
+						/>
 					</Field>
 					<Field label={t("Assigned To")} htmlFor="rs_user">
 						<UserSelect id="rs_user" value={assignee} onChange={setAssignee} clearable={false} />
