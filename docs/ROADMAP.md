@@ -17,7 +17,7 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 | F3 | Lands list and land page | F1 | Authorized (2026-10-21) |
 | F4 | Cases list and case workspace (history, record, correct, situation) | F3 | Done |
 | F5 | Follow-ups centre and completion flow | F4 | Done |
-| F6 | Tasks | F3 | Authorized (2026-10-21) |
+| F6 | Tasks | F3 | Done |
 | F7 | Document library, upload, versions, linking | F3, F4 | Authorized (2026-10-21) |
 | F8 | Reports, integrations and settings screens (legacy SPA removal after E1) | F2–F7 | Authorized (2026-10-21) |
 | E1 | Local environment (WSL bench) and first live run | P0 (can move earlier) | Not authorized |

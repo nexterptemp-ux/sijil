@@ -57,13 +57,22 @@ export function isRtl(): boolean {
 	return RTL.has(current);
 }
 
+// First Strong Isolate / Pop Directional Isolate: keep an inserted English name or date from
+// reordering the surrounding Arabic sentence (and vice versa).
+const FSI = String.fromCharCode(0x2068);
+const PDI = String.fromCharCode(0x2069);
+
 /**
  * Translate an English source string. Positional placeholders {0}, {1} … are filled from `args`
- * after translation, exactly like Frappe's __("...", [args]).
+ * after translation, exactly like Frappe's __("...", [args]); each value is bidi-isolated.
  */
 export function t(source: string, ...args: Array<string | number | null | undefined>): string {
 	const text = dictionary[source] ?? source;
-	return args.length ? text.replace(/\{(\d+)\}/g, (m, i: string) => String(args[Number(i)] ?? m)) : text;
+	if (!args.length) return text;
+	return text.replace(/\{(\d+)\}/g, (m, i: string) => {
+		const v = args[Number(i)];
+		return v === undefined || v === null ? m : `${FSI}${v}${PDI}`;
+	});
 }
 
 /** Translate a value that comes from data (status, type, …). Same as t(), named for the scanner. */

@@ -32,7 +32,8 @@ describe("t", () => {
 
 	it("translates and fills positional placeholders after translation", () => {
 		setDictionary("ar", { "{0} of {1}": "{0} من {1}", Overdue: "متأخرة" });
-		expect(t("{0} of {1}", 3, 10)).toBe("3 من 10");
+		const iso = (v: string) => `${String.fromCharCode(0x2068)}${v}${String.fromCharCode(0x2069)}`;
+		expect(t("{0} of {1}", 3, 10)).toBe(`${iso("3")} من ${iso("10")}`);
 		expect(tv("Overdue")).toBe("متأخرة");
 		expect(tv(null)).toBe("");
 	});

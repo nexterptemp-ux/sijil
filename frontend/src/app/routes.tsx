@@ -7,6 +7,8 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { FollowUpsPage } from "@/features/followups/FollowUpsPage";
 import { LandPage } from "@/features/lands/LandPage";
 import { LandsPage } from "@/features/lands/LandsPage";
+import { TaskPage } from "@/features/tasks/TaskPage";
+import { TasksPage } from "@/features/tasks/TasksPage";
 import { t } from "@/i18n";
 import { AppShell } from "./AppShell";
 
@@ -56,7 +58,8 @@ export const routes: RouteObject[] = [
 			{ path: "cases", element: <CasesPage /> },
 			{ path: "cases/:name", element: <CasePage /> },
 			{ path: "followups", element: <FollowUpsPage /> },
-			{ path: "tasks/*", element: <Placeholder title="Tasks" /> },
+			{ path: "tasks", element: <TasksPage /> },
+			{ path: "tasks/:name", element: <TaskPage /> },
 			{ path: "documents/*", element: <Placeholder title="Document Library" /> },
 			{ path: "reports/*", element: <Placeholder title="Reports" /> },
 			{ path: "settings", element: <Placeholder title="Settings" /> },
