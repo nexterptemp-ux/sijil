@@ -109,11 +109,11 @@ export function LibraryPage() {
 			) : !lib ? (
 				<LoadingRows rows={6} />
 			) : (
-				<div className="grid gap-6 lg:grid-cols-4 [&>*]:min-w-0">
+				<Card className="grid gap-5 bg-surface p-4 sm:p-5 lg:grid-cols-4 [&>*]:min-w-0">
 					<aside className={cn("lg:block", treeOpen ? "block" : "hidden")} aria-label={t("Folders")}>
-						<Card className="p-2">
+						<div className="rounded-xl border border-border/80 bg-surface-2 p-2">
 							<FolderTree lib={lib} onSelect={goFolder} />
-						</Card>
+						</div>
 					</aside>
 					<div className="min-w-0 space-y-4 lg:col-span-3">
 						<div className="flex flex-wrap items-center gap-2">
@@ -259,7 +259,7 @@ export function LibraryPage() {
 							data={lib.documents}
 						/>
 					</div>
-				</div>
+				</Card>
 			)}
 			<UploadDocumentDialog open={uploading} onOpenChange={setUploading} land={land} folder={lib?.folder} />
 			{lib && <NewFolderDialog open={newFolder} onOpenChange={setNewFolder} land={land} parent={lib.folder} />}

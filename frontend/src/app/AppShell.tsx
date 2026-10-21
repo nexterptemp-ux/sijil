@@ -42,7 +42,7 @@ export function AppShell() {
 			<Sidebar open={open} onClose={() => setOpen(false)} />
 			<div className="flex min-w-0 flex-1 flex-col">
 				<Topbar onMenu={() => setOpen(true)} />
-				<main id="main" className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+				<main id="main" className="w-full flex-1 px-4 py-5 sm:px-5 lg:px-6 lg:py-6">
 					<Outlet />
 				</main>
 			</div>
@@ -140,7 +140,7 @@ function NavBadge(_props: { kind: "followups" }) {
 function Topbar({ onMenu }: { onMenu: () => void }) {
 	const { boot, lang, setLang } = useBoot();
 	return (
-		<header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border/70 bg-surface/90 px-4 backdrop-blur-md sm:gap-3 sm:px-6 lg:px-10">
+		<header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border/70 bg-surface/90 px-4 backdrop-blur-md sm:gap-3 sm:px-5 lg:px-6">
 			<Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenu} aria-label={t("Menu")}>
 				<Menu />
 			</Button>
