@@ -1,6 +1,8 @@
 import { Link, useRouteError, type RouteObject } from "react-router-dom";
 import { EmptyState, ErrorState } from "@/components/states";
 import { Button } from "@/components/ui/button";
+import { CasePage } from "@/features/cases/CasePage";
+import { CasesPage } from "@/features/cases/CasesPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { LandPage } from "@/features/lands/LandPage";
 import { LandsPage } from "@/features/lands/LandsPage";
@@ -50,7 +52,8 @@ export const routes: RouteObject[] = [
 			{ index: true, element: <DashboardPage /> },
 			{ path: "lands", element: <LandsPage /> },
 			{ path: "lands/:name", element: <LandPage /> },
-			{ path: "cases/*", element: <Placeholder title="Cases" /> },
+			{ path: "cases", element: <CasesPage /> },
+			{ path: "cases/:name", element: <CasePage /> },
 			{ path: "followups", element: <Placeholder title="Follow-ups" /> },
 			{ path: "tasks/*", element: <Placeholder title="Tasks" /> },
 			{ path: "documents/*", element: <Placeholder title="Document Library" /> },

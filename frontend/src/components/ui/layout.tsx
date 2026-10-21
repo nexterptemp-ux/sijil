@@ -62,7 +62,7 @@ export function Skeleton({ className }: { className?: string }) {
 export const Tabs = TabsPrimitive.Root;
 
 export function TabsList({ className, ...props }: React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>) {
-	return <TabsPrimitive.List className={cn("flex gap-1 overflow-x-auto border-b border-border", className)} {...props} />;
+	return <TabsPrimitive.List className={cn("flex gap-1 overflow-x-auto overflow-y-hidden border-b border-border", className)} {...props} />;
 }
 
 export function TabsTrigger({ className, ...props }: React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>) {
