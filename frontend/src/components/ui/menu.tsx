@@ -1,9 +1,12 @@
 import * as Menu from "@radix-ui/react-dropdown-menu";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import * as React from "react";
+import { isRtl } from "@/i18n";
 import { cn } from "@/lib/utils";
 
-export const DropdownMenu = Menu.Root;
+export function DropdownMenu(props: React.ComponentPropsWithoutRef<typeof Menu.Root>) {
+	return <Menu.Root dir={isRtl() ? "rtl" : "ltr"} {...props} />;
+}
 export const DropdownMenuTrigger = Menu.Trigger;
 
 export function DropdownMenuContent({ className, ...props }: React.ComponentPropsWithoutRef<typeof Menu.Content>) {

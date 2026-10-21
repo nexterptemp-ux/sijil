@@ -2,6 +2,7 @@
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { isRtl } from "@/i18n";
 import { cn } from "@/lib/utils";
 
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
@@ -97,7 +98,10 @@ export function Skeleton({ className }: { className?: string }) {
 	return <div className={cn("animate-pulse rounded-lg bg-muted", className)} aria-hidden />;
 }
 
-export const Tabs = TabsPrimitive.Root;
+/** Radix defaults to LTR and sets dir on the whole tab tree; follow the page direction instead. */
+export function Tabs(props: React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>) {
+	return <TabsPrimitive.Root dir={isRtl() ? "rtl" : "ltr"} {...props} />;
+}
 
 export function TabsList({ className, ...props }: React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>) {
 	return (
