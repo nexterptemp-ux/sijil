@@ -8,7 +8,7 @@ describe("app shell", () => {
 	it("loads the boot data and shows the navigation and user", async () => {
 		rememberLang("en");
 		renderApp("/");
-		expect(await screen.findByRole("link", { name: /Cases/ })).toBeInTheDocument();
+		expect(await screen.findByRole("link", { name: "Cases" })).toBeInTheDocument();
 		expect(screen.getAllByText("Sara Al-Harbi").length).toBeGreaterThan(0);
 		expect(document.documentElement.dir).toBe("ltr");
 	});
@@ -18,7 +18,7 @@ describe("app shell", () => {
 		renderApp("/");
 		await userEvent.click(await screen.findByRole("button", { name: "Change language" }));
 		await waitFor(() => expect(document.documentElement.dir).toBe("rtl"));
-		expect(await screen.findByRole("link", { name: /المعاملات/ })).toBeInTheDocument();
+		expect(await screen.findByRole("link", { name: "المعاملات" })).toBeInTheDocument();
 		rememberLang(null);
 	});
 

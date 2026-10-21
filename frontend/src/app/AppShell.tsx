@@ -1,9 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
 import { Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
 import * as React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Avatar } from "@/components/common";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/menu";
+import { followupKeys, followupsApi } from "@/features/followups/api";
+import { GlobalSearch } from "@/features/search/GlobalSearch";
 import { t } from "@/i18n";
 import { logout } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
@@ -90,9 +93,26 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 	);
 }
 
-/** Filled in by the follow-ups feature (overdue + due today for the current user). */
-export function NavBadge(_props: { kind: "followups" }) {
-	return null;
+/** Overdue + due-today follow-ups assigned to the current user. */
+function NavBadge(_props: { kind: "followups" }) {
+	const { data } = useQuery({
+		queryKey: followupKeys.counts(true),
+		queryFn: () => followupsApi.counts(true),
+		staleTime: 60_000,
+	});
+	const n = (data?.overdue ?? 0) + (data?.today ?? 0);
+	if (!n) return null;
+	return (
+		<span
+			className={cn(
+				"min-w-5 rounded-full px-1.5 text-center text-[11px] font-bold leading-5",
+				data?.overdue ? "bg-danger text-white" : "bg-warning text-white",
+			)}
+			aria-label={t("{0} follow-ups need attention", n)}
+		>
+			{n}
+		</span>
+	);
 }
 
 function Topbar({ onMenu }: { onMenu: () => void }) {
@@ -102,7 +122,9 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
 			<Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenu} aria-label={t("Menu")}>
 				<Menu />
 			</Button>
-			<div className="min-w-0 flex-1" />
+			<div className="flex min-w-0 flex-1 justify-end sm:justify-start">
+				<GlobalSearch />
+			</div>
 			<Button
 				variant="ghost"
 				size="sm"

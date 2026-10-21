@@ -161,18 +161,18 @@ export function StatTile({
 	to?: string;
 }) {
 	const body = (
-		<Card className={cn("h-full p-4 transition-colors", to && "hover:border-primary/40")}>
-			<div className="text-xs font-semibold text-muted-foreground">{label}</div>
+		<Card className={cn("h-full p-2.5 transition-colors sm:p-4", to && "hover:border-primary/40")}>
+			<div className="text-[11px] font-semibold leading-tight text-muted-foreground sm:text-xs">{label}</div>
 			<div
 				className={cn(
-					"mt-1 text-2xl font-bold",
+					"mt-1 text-xl font-bold sm:text-2xl",
 					tone === "danger" && value > 0 && "text-danger",
 					tone === "warning" && value > 0 && "text-warning",
 				)}
 			>
 				{formatNumber(value)}
 			</div>
-			{hint && <div className="mt-0.5 text-xs text-muted-foreground">{hint}</div>}
+			{hint && <div className="mt-0.5 text-xs text-muted-foreground max-sm:hidden">{hint}</div>}
 		</Card>
 	);
 	return to ? (

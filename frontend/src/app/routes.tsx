@@ -1,6 +1,7 @@
 import { Link, useRouteError, type RouteObject } from "react-router-dom";
 import { EmptyState, ErrorState } from "@/components/states";
 import { Button } from "@/components/ui/button";
+import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { t } from "@/i18n";
 import { AppShell } from "./AppShell";
 
@@ -44,7 +45,7 @@ export const routes: RouteObject[] = [
 		element: <AppShell />,
 		errorElement: <RouteError />,
 		children: [
-			{ index: true, element: <Placeholder title="Home" /> },
+			{ index: true, element: <DashboardPage /> },
 			{ path: "lands/*", element: <Placeholder title="Lands and Projects" /> },
 			{ path: "cases/*", element: <Placeholder title="Cases" /> },
 			{ path: "followups", element: <Placeholder title="Follow-ups" /> },

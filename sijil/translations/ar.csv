@@ -15,6 +15,7 @@ A reason is required to correct a recorded event.,يلزم ذكر سبب لتص�
 Account,الحساب
 Active,نشط
 Active Lands and Projects,الأراضي والمشاريع النشطة
+Active lands,الأراضي النشطة
 Actual Event Date,التاريخ الفعلي للحدث
 Actual Outcome,النتيجة الفعلية
 Add,إضافة
@@ -39,6 +40,7 @@ Attach an existing document from the library,إرفاق مستند موجود م
 Audit,التدقيق
 Available,متاح
 Awaiting Action,بانتظار إجراء
+Awaiting action,بانتظار إجراء
 Blocks,يعطّل
 Building Permit,رخصة بناء
 Calendar,التقويم
@@ -65,6 +67,7 @@ Cases With No Recent Updates,معاملات بلا تحديث حديث
 Cases Without Recent Update,معاملات بلا تحديث حديث
 Cases by Status,المعاملات حسب الحالة
 "Cases per land, grouped by status",المعاملات لكل أرض مجمّعة حسب الحالة
+Cases without recent updates,معاملات بلا تحديثات حديثة
 Change language,تغيير اللغة
 "Choose a due date for the next follow-up, or untick the option.",اختر تاريخ استحقاق للمتابعة التالية، أو ألغِ تحديد الخيار.
 Choose a file.,اختر ملفاً.
@@ -181,6 +184,7 @@ Event Type,نوع الحدث
 "Every follow-up has an owner, a due date and a case. Completing one records its outcome in the case history.",لكل متابعة مسؤول وموعد ومعاملة. وعند إتمامها تُسجَّل نتيجتها في سجل المعاملة.
 "Every land can be linked to an ERPNext Project (or have one created). Project, Task and Case counts also appear on the Project's dashboard.",يمكن ربط كل أرض بمشروع ERPNext (أو إنشاء مشروع لها)، وتظهر أعداد الأراضي والمعاملات والمهام في لوحة المشروع.
 Every open case has a recent update.,لكل معاملة مفتوحة تحديث حديث.
+Every open case was updated recently,جميع المعاملات المفتوحة حُدّثت مؤخرًا
 Export CSV,تصدير CSV
 Exported,تم التصدير
 External Contact,جهة الاتصال الخارجية
@@ -215,6 +219,7 @@ Follow-up: {0},متابعة: {0}
 Follow-ups,المتابعات
 Follow-ups Due Today,متابعات مستحقة اليوم
 Follow-ups and tasks appear in the assignee's ToDo list and are closed automatically when completed.,تظهر المتابعات والمهام في قائمة ToDo للمكلّف وتُغلق تلقائياً عند اكتمالها.
+Follow-ups due today,متابعات مستحقة اليوم
 Follows,يلي
 General,عام
 General Notes,ملاحظات عامة
@@ -283,10 +288,13 @@ Medium,متوسطة
 Meeting,اجتماع
 Menu,القائمة
 Milestone,مرحلة مهمة
+More than {0} days,أكثر من {0} يومًا
 Municipality,بلدية
 Municipality Approval,موافقة البلدية
 My cases,معاملاتي
 Needs Attention Now,يحتاج اهتماماً الآن
+Needs attention,تحتاج إلى اهتمام
+Never updated,لم تُحدَّث بعد
 New Case,معاملة جديدة
 New Case Status,حالة المعاملة الجديدة
 New Current Situation,الموقف الحالي الجديد
@@ -297,6 +305,7 @@ New Task,مهمة جديدة
 Newer version exists,يوجد إصدار أحدث
 Next,التالي
 Next 7 Days,الأيام السبعة القادمة
+Next 7 days,الأيام السبعة القادمة
 Next Follow-up,المتابعة القادمة
 Next Follow-ups,المتابعات القادمة
 Next Required Action,الإجراء المطلوب التالي
@@ -305,8 +314,10 @@ No Progress,لا تقدّم
 No cases found,لا توجد معاملات
 No data for these filters.,لا توجد بيانات لهذه التصفية.
 No developments have been recorded yet.,لم تُسجَّل أي تطورات بعد.
+No developments recorded yet,لم تُسجَّل أي تطورات بعد
 No developments recorded yet.,لم تُسجَّل أي تطورات بعد.
 No documents are linked directly to this case. Documents attached to developments appear under each development.,لا توجد مستندات مرتبطة مباشرة بهذه المعاملة. المستندات المرفقة بالتطورات تظهر تحت كل تطور.
+No documents yet,لا توجد مستندات بعد
 No documents yet.,لا توجد مستندات بعد.
 No external organizations.,لا توجد جهات خارجية.
 No file was uploaded.,لم يُرفع أي ملف.
@@ -322,6 +333,7 @@ No results,لا توجد نتائج
 No situation recorded yet.,لم يُسجَّل موقف بعد.
 No tasks in this view.,لا توجد مهام في هذا العرض.
 No tasks.,لا توجد مهام.
+No upcoming follow-ups,لا توجد متابعات قادمة
 No upcoming follow-ups.,لا توجد متابعات قادمة.
 No update for {0} days,بلا تحديث منذ {0} يوماً
 No updates yet.,لا توجد تحديثات بعد.
@@ -336,6 +348,7 @@ Notes,ملاحظات
 Notes and Updates,الملاحظات والتحديثات
 Nothing is outstanding.,لا يوجد شيء معلّق.
 Nothing is overdue or due today.,لا يوجد متأخر أو مستحق اليوم.
+Nothing overdue or due today,لا يوجد شيء متأخر أو مستحق اليوم
 Number of Versions,عدد الإصدارات
 Official Letter,خطاب رسمي
 Oldest update,الأقدم تحديثاً
@@ -360,11 +373,14 @@ Open Tasks,المهام المفتوحة
 Open ToDo,فتح ToDo
 Open ToDos,مهام ToDo المفتوحة
 Open and in-progress tasks,المهام المفتوحة والجارية
+Open case,فتح المعاملة
+Open cases,المعاملات المفتوحة
 Open cases not updated for a configurable period,معاملات مفتوحة لم تُحدَّث خلال مدة قابلة للضبط
 Open follow-ups appear in each assignee's Frappe calendar on their due date.,تظهر المتابعات المفتوحة في تقويم كل مكلّف في تاريخ استحقاقها.
 Open follow-ups due in the coming days,متابعات مفتوحة تستحق خلال الأيام القادمة
 Open follow-ups past their due date,متابعات مفتوحة تجاوزت تاريخ استحقاقها
 Open library,فتح المكتبة
+Open tasks,المهام المفتوحة
 "Operational reports. Open a case or a land to print its full history report (Arabic RTL, print and PDF).",تقارير تشغيلية. افتح معاملة أو أرضاً لطباعة تقرير تاريخها الكامل (عربي من اليمين لليسار، طباعة وPDF).
 Operations,العمليات
 Operations Overview,نظرة على العمليات
@@ -386,7 +402,9 @@ Overdue,متأخرة
 Overdue Follow-ups,المتابعات المتأخرة
 Overdue Tasks,المهام المتأخرة
 Overdue follow-up: {0},متابعة متأخرة: {0}
+Overdue follow-ups,المتابعات المتأخرة
 Overdue task: {0},مهمة متأخرة: {0}
+Overdue tasks,المهام المتأخرة
 Overview,نظرة عامة
 Page not found,الصفحة غير موجودة
 Parent Folder,المجلد الأب
@@ -405,6 +423,8 @@ Project created,تم إنشاء المشروع
 Project integration is disabled in Sijil Settings.,تكامل المشاريع معطّل في إعدادات سجل.
 Recent Developments,آخر التطورات
 Recent Documents,آخر المستندات
+Recent developments,أحدث التطورات
+Recent documents,أحدث المستندات
 Record Development,تسجيل التطور
 Record Status,حالة السجل
 Record a Development,تسجيل تطور جديد
@@ -501,6 +521,7 @@ Start Date,تاريخ البدء
 Status,الحالة
 Status changed from {0} to {1},تغيّرت الحالة من {0} إلى {1}
 Submission,تقديم
+Summary,الملخص
 Superseded,مستبدل
 Superseded By,استُبدل بـ
 Supplier,مورد
@@ -562,6 +583,7 @@ Total lands,إجمالي الأراضي
 Total tasks,إجمالي المهام
 Try again,إعادة المحاولة
 Type,النوع
+Type at least two characters.,اكتب حرفين على الأقل.
 Type to search,اكتب للبحث
 Unknown report {0},تقرير غير معروف {0}
 Unknown setting {0},إعداد غير معروف {0}
@@ -570,6 +592,7 @@ Upcoming,قادمة
 Upcoming (7 days),القادمة (7 أيام)
 Upcoming Follow-ups,المتابعات القادمة
 Upcoming follow-up ({0}): {1},متابعة قادمة ({0}): {1}
+Upcoming follow-ups,المتابعات القادمة
 Update,تحديث
 Update Current Situation,تحديث الموقف الحالي
 Updated On,تاريخ التحديث
@@ -593,7 +616,9 @@ Version Notes,ملاحظات الإصدار
 Versions,الإصدارات
 View all,عرض الكل
 "Welcome, {0}",مرحباً، {0}
+Well done — all follow-ups are on schedule.,أحسنت — جميع المتابعات في موعدها.
 What needs your attention across all lands and cases.,ما يحتاج اهتمامك عبر جميع الأراضي والمعاملات.
+What needs your attention today,ما يحتاج إلى اهتمامك اليوم
 WhatsApp,واتساب
 "When enabled, users without the Sijil Manager role only see lands where they are listed as responsible, and records they own or are assigned to.",عند التفعيل، لا يرى المستخدمون الذين ليس لديهم دور مدير سجل إلا الأراضي التي هم مسؤولون عنها والسجلات التي أنشؤوها أو أُسندت إليهم.
 Workload per internal owner,حجم العمل لكل مسؤول داخلي
@@ -616,6 +641,7 @@ synced from ERPNext Task,مزامنة من مهمة ERPNext
 tasks,مهام
 total,الإجمالي
 {0} cannot be edited or deleted once recorded. Use the correction workflow instead.,لا يمكن تعديل {0} أو حذفها بعد تسجيلها. استخدم مسار التصحيح بدلاً من ذلك.
+{0} follow-ups need attention,{0} متابعات تحتاج إلى اهتمام
 {0} tasks synced,تمت مزامنة {0} مهمة
 {0} {1} does not exist.,{0} {1} غير موجود.
 {0}–{1} of {2},{0}–{1} من {2}

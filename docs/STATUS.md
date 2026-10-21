@@ -3,7 +3,7 @@
 Facts only: what exists, what was verified and how, what is known to be wrong. Update in the same change as
 the code. Plans live in [ROADMAP.md](ROADMAP.md).
 
-_Last updated: 2026-10-21 (F1 React scaffold)._
+_Last updated: 2026-10-21 (F2 dashboard)._
 
 ## Summary
 | Area | Implemented | Verified on a live Frappe site |
@@ -24,6 +24,7 @@ E1/E2/E3 prove otherwise.
 | Slice | State | Verified how |
 |---|---|---|
 | F1 scaffold + shell | Done: Vite/TS/Tailwind, API client, i18n (ar.csv), mock backend, shell (sidebar drawer on mobile, language toggle, user menu), 404, `/sijil` serving via `sijil/www/sijil.py` + `website_route_rules`, root `package.json` build hook | typecheck, lint, Vitest, build, browser (mock) at 1280 px and 375 px in en/ar. **Frappe serving (`/sijil`, `bench build` hook) not verified** |
+| F2 dashboard + search | Done: counts (each links to a filtered list), needs-attention and upcoming follow-ups, recent developments/documents, stale cases; global search dialog (Ctrl K, keyboard nav); follow-ups badge in the menu | Vitest (counts, search → navigation), browser (mock) desktop ar + 375 px en |
 
 ## Verification log
 | Date | Command / check | Result |

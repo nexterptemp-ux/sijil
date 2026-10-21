@@ -13,7 +13,7 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 |---|---|---|---|
 | P0 | Foundation: docs, agent config, repo config | — | Done |
 | F1 | React scaffold and app shell | P0 | Done |
-| F2 | Dashboard and global search | F1 | Authorized (2026-10-21) |
+| F2 | Dashboard and global search | F1 | Done |
 | F3 | Lands list and land page | F1 | Authorized (2026-10-21) |
 | F4 | Cases list and case workspace (history, record, correct, situation) | F3 | Authorized (2026-10-21) |
 | F5 | Follow-ups centre and completion flow | F4 | Authorized (2026-10-21) |
