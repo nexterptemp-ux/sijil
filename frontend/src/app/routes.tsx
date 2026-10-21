@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CasePage } from "@/features/cases/CasePage";
 import { CasesPage } from "@/features/cases/CasesPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
+import { FollowUpsPage } from "@/features/followups/FollowUpsPage";
 import { LandPage } from "@/features/lands/LandPage";
 import { LandsPage } from "@/features/lands/LandsPage";
 import { t } from "@/i18n";
@@ -54,7 +55,7 @@ export const routes: RouteObject[] = [
 			{ path: "lands/:name", element: <LandPage /> },
 			{ path: "cases", element: <CasesPage /> },
 			{ path: "cases/:name", element: <CasePage /> },
-			{ path: "followups", element: <Placeholder title="Follow-ups" /> },
+			{ path: "followups", element: <FollowUpsPage /> },
 			{ path: "tasks/*", element: <Placeholder title="Tasks" /> },
 			{ path: "documents/*", element: <Placeholder title="Document Library" /> },
 			{ path: "reports/*", element: <Placeholder title="Reports" /> },

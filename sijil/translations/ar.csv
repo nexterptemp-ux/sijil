@@ -29,6 +29,7 @@ Add organization,إضافة جهة
 Add related case,إضافة معاملة مرتبطة
 Address,العنوان
 All,الكل
+All open,كل المفتوحة
 All statuses,جميع الحالات
 All types,كل الأنواع
 Already Closed,مغلقة بالفعل
@@ -46,6 +47,7 @@ Archived,مؤرشف
 Assigned To,مسند إلى
 Assigned to me,المسندة إليّ
 Attach an existing document from the library,إرفاق مستند موجود من المكتبة
+Attach existing,إرفاق مستند موجود
 Audit,التدقيق
 Available,متاح
 Awaiting Action,بانتظار إجراء
@@ -56,6 +58,7 @@ Calendar,التقويم
 Calendar Event,حدث التقويم
 Calendar events,أحداث التقويم
 Cancel,إلغاء
+Cancel follow-up,إلغاء المتابعة
 Cancelled,ملغاة
 Cannot Delete,تعذّر الحذف
 Cannot add a case to an archived land.,لا يمكن إضافة معاملة إلى أرض مؤرشفة.
@@ -80,7 +83,9 @@ Cases by Status,المعاملات حسب الحالة
 "Cases per land, grouped by status",المعاملات لكل أرض مجمّعة حسب الحالة
 Cases without recent updates,معاملات بلا تحديثات حديثة
 Change language,تغيير اللغة
+Choose a case or a land / project.,اختر معاملة أو أرضًا / مشروعًا.
 "Choose a due date for the next follow-up, or untick the option.",اختر تاريخ استحقاق للمتابعة التالية، أو ألغِ تحديد الخيار.
+Choose a file to upload.,اختر ملفًا لرفعه.
 Choose a file.,اختر ملفاً.
 Choose a land to browse its folders and documents.,اختر أرضاً لتصفّح مجلداتها ومستنداتها.
 Chronological History,السجل الزمني
@@ -95,6 +100,7 @@ Company,الشركة
 Complete,إتمام
 Complete Follow-up,إتمام المتابعة
 Complete and Record,إتمام وتسجيل
+Complete follow-up,إنهاء المتابعة
 Completed,مكتمل
 Completed On,تاريخ الإنجاز
 Completion,الإنجاز
@@ -102,6 +108,7 @@ Completion Date,تاريخ الإتمام
 Completion Notes,ملاحظات الإنجاز
 Confidential,سري
 "Confidential documents are visible only to managers, the uploader and the land's responsible employees.",المستندات السرية يراها المديرون ورافعها والموظفون المسؤولون عن الأرض فقط.
+"Confidential — only managers, the uploader and the land's responsible employees can see it",سري — لا يطّلع عليه إلا المديرون ومن رفعه والموظفون المسؤولون عن الأرض
 Confirm,تأكيد
 Consultant,مكتب استشاري
 Consultant Coordination,التنسيق مع الاستشاري
@@ -167,6 +174,7 @@ Document Link,ربط المستند
 Document Received,استلام مستند
 Document Type,نوع المستند
 Document Version,إصدار المستند
+Document uploaded,تم رفع المستند
 Document versions cannot be deleted individually; this preserves the history of linked records.,لا يمكن حذف إصدارات المستند منفردة؛ للحفاظ على تاريخ السجلات المرتبطة.
 Document versions cannot be edited. Upload a new version instead.,لا يمكن تعديل إصدارات المستند. ارفع إصداراً جديداً بدلاً من ذلك.
 Document {0} does not exist.,المستند {0} غير موجود.
@@ -174,6 +182,7 @@ Documents,المستندات
 Documents are stored as private ERPNext Files attached to their versions; downloads respect SIJIL permissions.,تُحفظ المستندات كملفات خاصة في ERPNext مرتبطة بإصداراتها، ويخضع تنزيلها لصلاحيات سجل.
 Documents cannot be linked to {0}.,لا يمكن ربط المستندات بـ {0}.
 Documents linked to a recorded event can only be unlinked by a manager.,المستندات المرتبطة بحدث مسجّل لا يفكّ ارتباطها إلا المدير.
+Documents linked to the original entry are carried over to the correction.,تُنقل المستندات المرتبطة بالقيد الأصلي إلى التصحيح.
 Due Date,تاريخ الاستحقاق
 Due Date cannot be before Start Date.,لا يجوز أن يسبق تاريخ الاستحقاق تاريخ البدء.
 Due Today,مستحقة اليوم
@@ -194,6 +203,7 @@ Edit Details,تعديل البيانات
 Edit Land / Project,تعديل الأرض / المشروع
 Edit Task,تعديل المهمة
 Edit case details,تعديل بيانات المعاملة
+Edit follow-up,تعديل المتابعة
 Email,البريد الإلكتروني
 Email Queue,قائمة البريد
 Email Reminders,التذكيرات بالبريد
@@ -233,7 +243,9 @@ Follow-up History,سجل المتابعات
 Follow-up Title,عنوان المتابعة
 Follow-up cancelled,تم إلغاء المتابعة
 Follow-up completed,تم إتمام المتابعة
+Follow-up completed and the next one is planned,اكتملت المتابعة وتم تخطيط المتابعة التالية
 Follow-up due today: {0},متابعة مستحقة اليوم: {0}
+Follow-up planned,تم تخطيط المتابعة
 Follow-up rescheduled,تمت إعادة جدولة المتابعة
 Follow-up result: {0},نتيجة المتابعة: {0}
 Follow-up scheduled,تمت جدولة المتابعة
@@ -294,6 +306,7 @@ Leave empty to create one automatically if enabled in settings.,اتركه فا�
 Leave empty to use the file name.,اتركه فارغاً لاستخدام اسم الملف.
 Leave empty to use the generated identifier.,اتركه فارغاً لاستخدام المعرّف المولَّد.
 Legal Office,مكتب قانوني
+Library root,جذر المكتبة
 Link Lands to ERPNext Projects,ربط الأراضي بمشاريع ERPNext
 Linked By,ربطه
 Linked ERPNext Project (optional),مشروع ERPNext المرتبط (اختياري)
@@ -337,6 +350,8 @@ New Follow-up,متابعة جديدة
 New Land / Project,أرض / مشروع جديد
 New Task,مهمة جديدة
 New current situation,الموقف الحالي الجديد
+New current situation (optional),الموقف الحالي الجديد (اختياري)
+New due date,تاريخ الاستحقاق الجديد
 New status,الحالة الجديدة
 Newer version available,توجد نسخة أحدث
 Newer version exists,يوجد إصدار أحدث
@@ -364,6 +379,7 @@ No external organizations.,لا توجد جهات خارجية.
 No file was uploaded.,لم يُرفع أي ملف.
 No follow-up is planned for this case.,لا توجد متابعة مخطط لها لهذه المعاملة.
 No follow-up scheduled.,لا توجد متابعة مجدولة.
+No follow-ups here,لا توجد متابعات هنا
 No follow-ups in this view.,لا توجد متابعات في هذا العرض.
 No follow-ups.,لا توجد متابعات.
 No lands found,لا توجد أراضٍ
@@ -458,8 +474,11 @@ Parent Folder,المجلد الأب
 Parent folder {0} does not exist.,المجلد الأب {0} غير موجود.
 Permit,ترخيص
 Phone,هاتف
+Plan a follow-up,تخطيط متابعة
+Plan follow-up,تخطيط متابعة
 Please allow pop-ups to view the report.,يرجى السماح بالنوافذ المنبثقة لعرض التقرير.
 Please describe the actual outcome of this follow-up.,يرجى وصف النتيجة الفعلية لهذه المتابعة.
+Please describe the actual outcome — even if there was no progress.,يرجى وصف النتيجة الفعلية — حتى لو لم يحدث تقدم.
 Please write a note.,يرجى كتابة ملاحظة.
 Portfolio,المحفظة
 Previous,السابق
@@ -468,6 +487,7 @@ Print,طباعة
 Priority,الأولوية
 Project created,تم إنشاء المشروع
 Project integration is disabled in Sijil Settings.,تكامل المشاريع معطّل في إعدادات سجل.
+Reason,السبب
 Reason for correction,سبب التصحيح
 Recent Developments,آخر التطورات
 Recent Documents,آخر المستندات
@@ -480,6 +500,7 @@ Record a Development,تسجيل تطور جديد
 Record a development,تسجيل تطور
 Record correction,تسجيل التصحيح
 Record development,تسجيل تطور
+Record result,تسجيل النتيجة
 Record the first development to start the history of this case.,سجّل أول تطور لبدء سجل هذه المعاملة.
 Record what actually happened. Use a follow-up for things that still need to happen.,سجّل ما حدث فعلًا. استخدم المتابعة للأمور التي لم تحدث بعد.
 Recorded By,سُجِّل بواسطة
@@ -498,7 +519,9 @@ Relation,العلاقة
 Relation Type,نوع العلاقة
 Relevant External Organization,الجهة الخارجية المعنية
 Remind (Days Before Due Date),التذكير (أيام قبل الاستحقاق)
+Remind days before,التذكير قبل (أيام)
 Remove,إزالة
+Remove {0},إزالة {0}
 Rename,إعادة تسمية
 Rename Folder,إعادة تسمية المجلد
 Reopen,إعادة فتح
@@ -509,6 +532,7 @@ Reporting,التقارير
 Reports,التقارير
 Reschedule,إعادة جدولة
 Reschedule Follow-up,إعادة جدولة المتابعة
+Reschedule follow-up,إعادة جدولة المتابعة
 Responsibility,المسؤولية
 Responsible Employees,الموظفون المسؤولون
 Responsible Employees and External Organizations,الموظفون المسؤولون والجهات الخارجية
@@ -532,11 +556,13 @@ Search,بحث
 Search by title or reference,ابحث بالعنوان أو الرقم المرجعي
 Search cases...,ابحث في المعاملات...
 Search documents...,ابحث في المستندات...
+Search follow-ups,ابحث في المتابعات
 Search follow-ups...,ابحث في المتابعات...
 "Search lands, cases, tasks, documents...",ابحث عن أرض أو معاملة أو مهمة أو مستند...
 Search lands...,ابحث في الأراضي...
 Search results,نتائج البحث
 Search tasks...,ابحث في المهام...
+Search the land's library,ابحث في مكتبة الأرض
 Select...,اختر...
 Send Email Reminders,إرسال التذكيرات بالبريد
 Send System Notifications for Reminders,إرسال إشعارات النظام للتذكيرات
@@ -579,6 +605,7 @@ Situation Updated On,تاريخ تحديث الموقف
 Situation updated,تم تحديث الموقف
 Skip to content,انتقل إلى المحتوى
 Some files were not uploaded,لم تُرفع بعض الملفات
+Something that must be checked or progressed by a date.,أمر يجب التحقق منه أو دفعه قبل تاريخ محدد.
 Something went wrong,حدث خطأ ما
 Something went wrong. Please try again.,حدث خطأ ما. يرجى المحاولة مرة أخرى.
 Sort by,ترتيب حسب
@@ -592,12 +619,14 @@ Superseded By,استُبدل بـ
 Supplier,مورد
 "Suppliers, Customers and Contacts",الموردون والعملاء وجهات الاتصال
 Supporting Documents,المستندات الداعمة
+Supporting documents,المستندات الداعمة
 Survey,مساحة / رفع مساحي
 Sync Existing Tasks,مزامنة المهام الحالية
 Sync Tasks with ERPNext Tasks,مزامنة المهام مع مهام ERPNext
 Synced tasks,المهام المزامنة
 System,النظام
 System Notifications,إشعارات النظام
+Tap to choose a file,اضغط لاختيار ملف
 Target Date,التاريخ المستهدف
 Target Date cannot be before Start Date.,لا يجوز أن يسبق التاريخ المستهدف تاريخ البدء.
 Task,المهمة
@@ -613,7 +642,9 @@ The case does not belong to the selected land.,المعاملة لا تنتمي 
 The change is added to the case history as a development.,يُضاف التغيير إلى سجل المعاملة كتطور.
 The change is recorded as a development so the history shows when and why the situation changed.,يُسجَّل التغيير كتطور ليُظهر السجل متى ولماذا تغيّر الموقف.
 The document and the record it is linked to must belong to the same land.,يجب أن ينتمي المستند والسجل المرتبط به إلى الأرض نفسها.
+The file is stored once in the land's library and can be linked to any record.,يُحفظ الملف مرة واحدة في مكتبة الأرض ويمكن ربطه بأي سجل.
 "The file is stored once in the library and can be linked to cases, events and tasks.",يُحفظ الملف مرة واحدة في المكتبة ويمكن ربطه بالمعاملات والأحداث والمهام.
+The follow-up is closed without a result. This cannot be undone.,تُغلق المتابعة دون نتيجة. لا يمكن التراجع عن ذلك.
 The land was saved but its ERPNext Project could not be created.,تم حفظ الأرض لكن تعذّر إنشاء مشروع ERPNext الخاص بها.
 "The original entry stays in the history, marked as corrected. Explain why it is being corrected.",يبقى القيد الأصلي في السجل مع تمييزه كمصحَّح. وضّح سبب التصحيح.
 "The original entry stays in the history, marked as superseded, and links to this correction.",يبقى الإدخال الأصلي في السجل مُعلَّماً كمستبدل ومرتبطاً بهذا التصحيح.
@@ -640,9 +671,11 @@ This folder does not belong to the selected land.,هذا المجلد لا ين�
 This folder is empty.,هذا المجلد فارغ.
 This follow-up is already {0}.,هذه المتابعة {0} بالفعل.
 This is an important milestone,هذا إنجاز مهم
+This is recorded as a development in the case history.,يُسجَّل هذا كتطور في سجل المعاملة.
 This land has no cases yet.,لا توجد معاملات لهذه الأرض بعد.
 This land still has {0}. Archive it instead of deleting it.,لا تزال لهذه الأرض {0}. أرشِفها بدلاً من حذفها.
 This screen is being built.,هذه الشاشة قيد الإنشاء.
+This week,هذا الأسبوع
 Time,الوقت
 Title,العنوان
 Title Deed,صك ملكية
@@ -675,10 +708,13 @@ Updates,التحديثات
 Upload,رفع
 Upload Document,رفع مستند
 Upload New Version,رفع إصدار جديد
+Upload document,رفع مستند
 Upload failed,فشل الرفع
+Upload new,رفع جديد
 Upload new files (stored once in the library),رفع ملفات جديدة (تُحفظ مرة واحدة في المكتبة)
 Uploaded,تم الرفع
 Uploaded By,رفعه
+Uploading...,جارٍ الرفع...
 Urgent,عاجلة
 "Use / to create nested folders, e.g. Government Approvals/Municipality",استخدم / لإنشاء مجلدات متداخلة، مثل: الاعتمادات الحكومية/البلدية
 Used In,مستخدم في
@@ -694,6 +730,8 @@ View correction,عرض التصحيح
 View original,عرض الأصل
 "Welcome, {0}",مرحباً، {0}
 Well done — all follow-ups are on schedule.,أحسنت — جميع المتابعات في موعدها.
+What actually happened?,ماذا حدث فعلًا؟
+"What needs to be checked, by whom and when",ما الذي يجب متابعته، ومن يتابعه، ومتى
 What needs your attention across all lands and cases.,ما يحتاج اهتمامك عبر جميع الأراضي والمعاملات.
 What needs your attention today,ما يحتاج إلى اهتمامك اليوم
 WhatsApp,واتساب
@@ -710,6 +748,7 @@ cases,معاملات
 days,أيام
 developments,تطورات
 documents,مستندات
+e.g. Follow up on obtaining the formal approval,مثال: متابعة استخراج الموافقة الرسمية
 e.g. Signature obtained,مثال: تم الحصول على التوقيع
 e.g. The approval reached the Mayor's office,مثال: وصلت المعاملة إلى مكتب الأمين
 folders,مجلدات

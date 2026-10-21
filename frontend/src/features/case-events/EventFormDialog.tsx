@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogBody, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog";
 import { Checkbox, Input, Select, Textarea } from "@/components/ui/input";
 import { casesApi, type CaseDetail, type CaseEvent, type EventInput } from "@/features/cases/api";
+import { AttachDocuments, type AttachedDocument } from "@/features/documents/AttachDocuments";
 import { t, tv } from "@/i18n";
 import { useApiMutation } from "@/lib/api/hooks";
 import { DOMAIN } from "@/lib/api/keys";
@@ -48,7 +49,7 @@ export function EventFormDialog({
 }: {
 	open: boolean;
 	onOpenChange: (o: boolean) => void;
-	caseDoc: Pick<CaseDetail, "name" | "external_organization" | "status" | "current_situation">;
+	caseDoc: Pick<CaseDetail, "name" | "land" | "external_organization" | "status" | "current_situation">;
 	correcting?: CaseEvent | null;
 }) {
 	const { boot } = useBoot();
@@ -71,8 +72,12 @@ export function EventFormDialog({
 		[correcting, caseDoc, boot.today],
 	);
 	const form = useForm<Values>({ resolver: zodResolver(schema), defaultValues: initial() });
+	const [documents, setDocuments] = React.useState<AttachedDocument[]>([]);
 	React.useEffect(() => {
-		if (open) form.reset(initial());
+		if (open) {
+			form.reset(initial());
+			setDocuments([]);
+		}
 	}, [open, initial, form]);
 
 	const close = () => onOpenChange(false);
@@ -102,6 +107,7 @@ export function EventFormDialog({
 			is_milestone: v.is_milestone ? 1 : 0,
 			situation_update: v.change_situation ? v.situation_update?.trim() : undefined,
 			status_after: v.change_situation ? v.status_after || undefined : undefined,
+			documents: documents.map((d) => ({ document: d.document, version: d.version })),
 		};
 		if (correcting) {
 			const reason = (v.reason ?? "").trim();
@@ -109,7 +115,7 @@ export function EventFormDialog({
 				form.setError("reason", { message: "required" });
 				return;
 			}
-			const { case: _c, ...changes } = data;
+			const { case: _c, documents: _d, ...changes } = data;
 			correct.mutate({ name: correcting.name, data: changes, reason });
 		} else record.mutate(data);
 	});
@@ -182,6 +188,10 @@ export function EventFormDialog({
 								<Input id="ev_outcome" dir="auto" {...form.register("outcome")} />
 							</Field>
 						</div>
+						{!correcting && <AttachDocuments land={caseDoc.land} value={documents} onChange={setDocuments} />}
+						{correcting && correcting.documents.length > 0 && (
+							<p className="text-xs text-muted-foreground">{t("Documents linked to the original entry are carried over to the correction.")}</p>
+						)}
 						<label className="flex items-center gap-2 text-sm">
 							<Checkbox {...form.register("is_milestone")} />
 							{t("This is an important milestone")}

@@ -33,6 +33,13 @@ export function daysBetween(today: string, value: string): number {
 	return Math.round((b.getTime() - a.getTime()) / 86_400_000);
 }
 
+/** YYYY-MM-DD plus `days` calendar days. */
+export function addDays(iso: string, days: number): string {
+	const [y, m, d] = iso.split("-").map(Number) as [number, number, number];
+	const date = new Date(y, m - 1, d + days);
+	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
 export function relativeDays(today: string, value?: string | null): string {
 	if (!value) return "";
 	const rtf = new Intl.RelativeTimeFormat(locale(), { numeric: "auto" });
