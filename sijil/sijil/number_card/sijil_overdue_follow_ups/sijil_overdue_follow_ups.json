@@ -1,0 +1,22 @@
+{
+ "creation": "2026-10-20 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Sijil Follow Up",
+ "filters_json": "[[\"Sijil Follow Up\", \"status\", \"=\", \"Open\"]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Sijil Overdue Follow Ups",
+ "modified": "2026-10-20 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sijil",
+ "name": "Sijil Overdue Follow Ups",
+ "owner": "Administrator",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Daily",
+ "type": "Document Type",
+ "color": "#de786e",
+ "dynamic_filters_json": "[[\"Sijil Follow Up\", \"due_date\", \"<\", \"frappe.datetime.get_today()\"]]"
+}
