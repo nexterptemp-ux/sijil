@@ -109,6 +109,6 @@ cookie and Frappe checks permission through the version's `has_permission`.
 ## integrations
 | Function | Args | Returns |
 |---|---|---|
-| `get_integrations` | — | Status of each ERPNext integration (`integrations.erpnext.integration_status`) |
+| `get_integrations` | — | `[{key, flag \| null, doctype, icon, enabled, stats: {…}}]` — one item per integration (`integrations.erpnext.integration_status`); `flag: null` = always-on link |
 | `set_integration` | `flag` ∈ Settings integration flags, `value` (manager only) | same as `get_integrations` |
 | `link_pending_tasks` | — (manager only) | `{synced}` |

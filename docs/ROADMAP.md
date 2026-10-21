@@ -12,14 +12,14 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 | ID | Slice | Depends on | Authorization |
 |---|---|---|---|
 | P0 | Foundation: docs, agent config, repo config | — | Done |
-| F1 | React scaffold and app shell | P0 | Not authorized |
-| F2 | Dashboard and global search | F1 | Not authorized |
-| F3 | Lands list and land page | F1 | Not authorized |
-| F4 | Cases list and case workspace (history, record, correct, situation) | F3 | Not authorized |
-| F5 | Follow-ups centre and completion flow | F4 | Not authorized |
-| F6 | Tasks | F3 | Not authorized |
-| F7 | Document library, upload, versions, linking | F3, F4 | Not authorized |
-| F8 | Reports, integrations and settings screens; remove legacy SPA | F2–F7 | Not authorized |
+| F1 | React scaffold and app shell | P0 | Done |
+| F2 | Dashboard and global search | F1 | Authorized (2026-10-21) |
+| F3 | Lands list and land page | F1 | Authorized (2026-10-21) |
+| F4 | Cases list and case workspace (history, record, correct, situation) | F3 | Authorized (2026-10-21) |
+| F5 | Follow-ups centre and completion flow | F4 | Authorized (2026-10-21) |
+| F6 | Tasks | F3 | Authorized (2026-10-21) |
+| F7 | Document library, upload, versions, linking | F3, F4 | Authorized (2026-10-21) |
+| F8 | Reports, integrations and settings screens (legacy SPA removal after E1) | F2–F7 | Authorized (2026-10-21) |
 | E1 | Local environment (WSL bench) and first live run | P0 (can move earlier) | Not authorized |
 | E2 | Backend tests for invariants and permissions | E1 | Not authorized |
 | E3 | Staging acceptance (AC-01…AC-07), Arabic PDF | E1, E2, F8 | Not authorized |
@@ -40,7 +40,7 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
   TanStack Query, typed API client (`call`, `upload`, error mapping, `Page<T>`), i18n bridge to `ar.csv`,
   `<html dir>` switching, app shell (sidebar, top bar, routes, error boundary, 404), ESLint + Prettier,
   Vitest. Build output into `sijil/public/frontend`, `www/sijil.html`, `website_route_rules`, Vite dev proxy.
-  A mock API layer (MSW) with fixtures matching `api.md` for development without a bench.
+  An in-memory mock backend (`src/mocks`) implementing `api.md` for development and tests without a bench.
 - **Acceptance:** `npm run build`, `npm run typecheck`, `npm run lint`, `npm test` pass; the shell renders in
   `ar` (RTL) and `en` with mock data; no hard-coded strings.
 - **Verification:** commands above + browser check of the shell at 1280 px and 420 px.
@@ -79,10 +79,10 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
   `search_documents` picker, attach-existing in event and follow-up dialogs.
 - **Acceptance:** R6; AC-03 against mocks (pinned version, newer-version hint).
 
-## F8 — Reports, integrations, settings; remove legacy SPA
+## F8 — Reports, integrations, settings
 - **Scope:** `reports.available/run`, history HTML preview and PDF download, integrations screen,
-  `set_integration`, `link_pending_tasks`. Delete `sijil/public/js/sijil/`, the `sijil-app` Page and its CSS;
-  point the apps-screen tile to `/sijil`.
+  `set_integration`, `link_pending_tasks`; point the apps-screen tile to `/sijil`. **Deleting the legacy SPA
+  (`sijil/public/js/sijil/`, the `sijil-app` Page and its CSS) is deferred until E1 passes** (owner, 2026-10-21).
 - **Acceptance:** R8, R9; no references to the legacy SPA remain; translation check covers `frontend/src`.
 
 ## E1 — Local environment and first live run

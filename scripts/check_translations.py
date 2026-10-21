@@ -10,6 +10,7 @@ Sources scanned
   * JavaScript:       __("...")
   * DocType / Report / Workspace / Number Card / Chart JSON: names, labels,
     descriptions and Select options
+  * React (frontend/src, excluding mocks/tests): t("...") and `label: "..."` in nav.ts
   * DYNAMIC below:    strings that are translated at runtime through a variable
 """
 import csv
@@ -19,6 +20,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent / "sijil"
+FRONTEND = Path(__file__).resolve().parent.parent / "frontend" / "src"
 CSV = ROOT / "translations" / "ar.csv"
 
 DYNAMIC = [
@@ -38,6 +40,8 @@ DYNAMIC = [
 
 PY_RE = re.compile(r"""\b_\(\s*(?P<q>["'])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)""", re.S)
 JS_RE = re.compile(r"""\b__\(\s*(?P<q>["'`])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)""", re.S)
+TS_RE = re.compile(r"""(?<![\w.])t\(\s*(?P<q>["'`])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)""", re.S)
+NAV_RE = re.compile(r"""\blabel:\s*(?P<q>["'])(?P<s>(?:\\.|(?!(?P=q)).)*)(?P=q)""")
 
 
 def unescape(s):
@@ -53,6 +57,22 @@ def scan_code():
 		for rx in (PY_RE, JS_RE):
 			for m in rx.finditer(text):
 				found.setdefault(unescape(m.group("s")), set()).add(str(path.relative_to(ROOT)))
+	return found
+
+
+def scan_frontend():
+	found = {}
+	if not FRONTEND.exists():
+		return found
+	for path in FRONTEND.rglob("*"):
+		rel = path.relative_to(FRONTEND)
+		if path.suffix not in {".ts", ".tsx"} or rel.parts[0] in ("mocks", "test") or ".test." in path.name:
+			continue
+		text = path.read_text(encoding="utf-8")
+		regexes = (TS_RE, NAV_RE) if path.name == "nav.ts" else (TS_RE,)
+		for rx in regexes:
+			for m in rx.finditer(text):
+				found.setdefault(unescape(m.group("s")), set()).add("frontend/" + rel.as_posix())
 	return found
 
 
@@ -110,7 +130,7 @@ def load_csv():
 
 def main():
 	found = scan_code()
-	for k, v in scan_json().items():
+	for k, v in list(scan_json().items()) + list(scan_frontend().items()):
 		found.setdefault(k, set()).update(v)
 	for s in DYNAMIC:
 		found.setdefault(s, set()).add("(dynamic)")

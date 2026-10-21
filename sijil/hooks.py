@@ -20,6 +20,12 @@ add_to_apps_screen = [
 	}
 ]
 
+# React single-page app (frontend/ -> sijil/public/frontend, page sijil/www/sijil.html)
+# --------------------------------------------------------------------------------------
+website_route_rules = [
+	{"from_route": "/sijil/<path:app_path>", "to_route": "sijil"},
+]
+
 # Install / migrate
 # -----------------
 before_install = "sijil.install.before_install"

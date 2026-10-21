@@ -1,0 +1,8 @@
+{
+	"name": "sijil",
+	"private": true,
+	"description": "Build hook: `bench build --app sijil` runs this build script, which builds the React app into sijil/public/frontend.",
+	"scripts": {
+		"build": "cd frontend && npm ci --no-audit --no-fund && npm run build"
+	}
+}

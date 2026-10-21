@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens — palette taken from the prototype (design/reference/SIJIL_professional_demo.html). */
+@layer base {
+	:root {
+		--background: 220 50% 97%;
+		--surface: 0 0% 100%;
+		--foreground: 218 42% 18%;
+		--muted: 220 40% 96%;
+		--muted-foreground: 218 15% 50%;
+		--border: 217 35% 91%;
+		--input: 217 30% 86%;
+		--ring: 227 79% 57%;
+		--primary: 227 79% 55%;
+		--primary-foreground: 0 0% 100%;
+		--primary-soft: 227 100% 96%;
+		--accent: 227 100% 96%;
+		--accent-foreground: 227 79% 45%;
+		--success: 164 71% 30%;
+		--success-soft: 160 55% 94%;
+		--warning: 36 78% 38%;
+		--warning-soft: 40 90% 93%;
+		--danger: 0 68% 46%;
+		--danger-soft: 0 85% 96%;
+		--destructive: 0 68% 46%;
+		--destructive-foreground: 0 0% 100%;
+		--radius: 12px;
+	}
+
+	html {
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		@apply bg-background font-sans text-foreground antialiased;
+		font-size: 14px;
+	}
+
+	:focus-visible {
+		outline-color: hsl(var(--ring));
+	}
+}
+
+@layer components {
+	/* Rich text from the backend (sanitized before rendering). */
+	.prose-sijil {
+		@apply text-sm leading-7;
+	}
+	.prose-sijil p {
+		@apply my-1;
+	}
+	.prose-sijil ul {
+		@apply my-1 list-disc ps-5;
+	}
+	.prose-sijil ol {
+		@apply my-1 list-decimal ps-5;
+	}
+	.prose-sijil a {
+		@apply text-primary underline;
+	}
+}
