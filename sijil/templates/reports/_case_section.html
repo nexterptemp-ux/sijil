@@ -1,0 +1,63 @@
+{% macro case_section(ctx, fd) %}
+{% set case = ctx.case %}
+<h2>{{ case.title }} <span class="muted">({{ case.name }}{% if case.reference_no %} · {{ case.reference_no }}{% endif %})</span></h2>
+
+<table class="kv">
+	<tr><td>{{ _("Land / Project") }}</td><td>{{ ctx.land.land_name }}{% if ctx.land.land_code %} ({{ ctx.land.land_code }}){% endif %}</td></tr>
+	<tr><td>{{ _("Case Type") }}</td><td>{{ _(case.case_type) if case.case_type else "—" }}</td></tr>
+	<tr><td>{{ _("Status") }}</td><td>{{ _(case.status) }}</td></tr>
+	<tr><td>{{ _("Priority") }}</td><td>{{ _(case.priority) }}</td></tr>
+	<tr><td>{{ _("Internal Owner") }}</td><td>{{ ctx.owner_name }}</td></tr>
+	<tr><td>{{ _("External Responsible Organization") }}</td><td>{{ case.external_organization or "—" }}</td></tr>
+	<tr><td>{{ _("Start Date") }}</td><td>{{ fd(case.start_date) }}</td></tr>
+	<tr><td>{{ _("Target Date") }}</td><td>{{ fd(case.target_date) }}</td></tr>
+	<tr><td>{{ _("Last Meaningful Update") }}</td><td>{{ fd(case.last_update_date) }}</td></tr>
+	<tr><td>{{ _("Next Follow-up") }}</td><td>{{ fd(case.next_followup_date) }}</td></tr>
+</table>
+
+<h3 style="margin-top:12px">{{ _("Current Situation") }}</h3>
+<div class="situation">{{ case.current_situation or "—" }}</div>
+
+<h2>{{ _("Chronological History") }} ({{ ctx.events | length }})</h2>
+{% for e in ctx.events %}
+<div class="event {{ 'superseded' if e.entry_status == 'Superseded' else '' }}">
+	<div><strong>{{ fd(e.event_date) }}</strong>
+		<span class="tag">{{ _(e.event_type) }}</span>
+		{% if e.communication_method %}<span class="tag">{{ _(e.communication_method) }}</span>{% endif %}
+		{% if e.is_milestone %}<span class="tag">{{ _("Milestone") }}</span>{% endif %}
+		{% if e.entry_status == 'Superseded' %}<span class="tag">{{ _("Superseded") }}</span>{% endif %}
+	</div>
+	<h3>{{ e.title }}</h3>
+	{% if e.description %}<div>{{ e.description }}</div>{% endif %}
+	{% if e.outcome %}<div><strong>{{ _("Outcome") }}:</strong> {{ e.outcome }}</div>{% endif %}
+	{% if e.corrects %}<div class="muted">{{ _("Corrects Event") }}: {{ e.corrects }} — {{ e.correction_reason }}</div>{% endif %}
+	{% for d in e.documents %}<div class="doc">▪ {{ d.title }} {% if d.version %}— {{ d.version.file_name }} ({{ _("Version") }} {{ d.version.version_no }}){% endif %}</div>{% endfor %}
+	<div class="muted" style="font-size:10px">{{ _("Recorded By") }}: {{ e.recorded_by_name }} · {{ _("Recorded On") }}: {{ fd(e.recorded_on) }}</div>
+</div>
+{% else %}
+<p class="muted">{{ _("No developments have been recorded yet.") }}</p>
+{% endfor %}
+
+<h2>{{ _("Follow-up History") }} ({{ ctx.followups | length }})</h2>
+{% if ctx.followups %}
+<table>
+	<thead><tr><th>{{ _("Title") }}</th><th>{{ _("Assigned To") }}</th><th>{{ _("Due Date") }}</th><th>{{ _("Status") }}</th><th>{{ _("Actual Outcome") }}</th></tr></thead>
+	<tbody>
+	{% for f in ctx.followups %}
+	<tr><td>{{ f.title }}</td><td>{{ f.assigned_to_name }}</td><td>{{ fd(f.due_date) }}</td><td>{{ _(f.state) }}</td><td>{{ f.outcome or "" }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}<p class="muted">{{ _("No follow-ups.") }}</p>{% endif %}
+
+<h2>{{ _("Outstanding Actions") }}</h2>
+{% if ctx.outstanding or ctx.tasks %}
+<table>
+	<thead><tr><th>{{ _("Type") }}</th><th>{{ _("Title") }}</th><th>{{ _("Assigned To") }}</th><th>{{ _("Due Date") }}</th></tr></thead>
+	<tbody>
+	{% for f in ctx.outstanding %}<tr><td>{{ _("Follow-up") }}</td><td>{{ f.title }}</td><td>{{ f.assigned_to_name }}</td><td>{{ fd(f.due_date) }}</td></tr>{% endfor %}
+	{% for t in ctx.tasks %}<tr><td>{{ _("Task") }}</td><td>{{ t.title }}</td><td>{{ t.assigned_to }}</td><td>{{ fd(t.due_date) }}</td></tr>{% endfor %}
+	</tbody>
+</table>
+{% else %}<p class="muted">{{ _("Nothing is outstanding.") }}</p>{% endif %}
+{% endmacro %}
