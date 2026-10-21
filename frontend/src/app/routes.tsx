@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CasePage } from "@/features/cases/CasePage";
 import { CasesPage } from "@/features/cases/CasesPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
+import { DocumentsHome, LibraryPage } from "@/features/documents/LibraryPage";
 import { FollowUpsPage } from "@/features/followups/FollowUpsPage";
 import { LandPage } from "@/features/lands/LandPage";
 import { LandsPage } from "@/features/lands/LandsPage";
@@ -60,7 +61,8 @@ export const routes: RouteObject[] = [
 			{ path: "followups", element: <FollowUpsPage /> },
 			{ path: "tasks", element: <TasksPage /> },
 			{ path: "tasks/:name", element: <TaskPage /> },
-			{ path: "documents/*", element: <Placeholder title="Document Library" /> },
+			{ path: "documents", element: <DocumentsHome /> },
+			{ path: "documents/:land", element: <LibraryPage /> },
 			{ path: "reports/*", element: <Placeholder title="Reports" /> },
 			{ path: "settings", element: <Placeholder title="Settings" /> },
 			{ path: "*", element: <NotFound /> },
