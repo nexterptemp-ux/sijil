@@ -1,0 +1,16 @@
+[project]
+name = "sijil"
+authors = [
+    { name = "SIJIL", email = "a.shawki@punditnet.com"}
+]
+description = "SIJIL (سجل) - Real estate operations, case follow-up, task and document management for ERPNext"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    # "frappe~=15.0.0" # Installed and managed by bench.
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
