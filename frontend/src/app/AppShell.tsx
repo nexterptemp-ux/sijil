@@ -63,7 +63,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 			aria-label={t("Workspace")}
 		>
 			<div className="flex items-center justify-between px-1.5">
-				<Logo variant="light" className="h-10" />
+				<Logo variant="light" className="h-[52px] max-w-[190px]" />
 				<button
 					type="button"
 					className="rounded-lg p-2 text-sidebar-foreground hover:bg-white/10 lg:hidden"

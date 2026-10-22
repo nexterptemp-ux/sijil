@@ -20,6 +20,7 @@ export function Logo({ variant = "full", className }: { variant?: "full" | "ligh
 	const theme = useTheme();
 	return (
 		<img
+			key={theme}
 			src={LOGOS[theme][variant]}
 			alt="سجل — Sijil"
 			className={cn("block h-9 w-auto select-none", className)}

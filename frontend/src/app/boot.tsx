@@ -6,21 +6,10 @@ import { ErrorState } from "@/components/states";
 import { loadLanguage, normalizeLang, rememberLang, storedLang, type Lang } from "@/i18n";
 import { ApiError } from "@/lib/api/client";
 import { metaApi, metaKeys } from "@/lib/api/meta";
-import type { Bootstrap } from "@/lib/api/types";
+import { BootContext } from "./boot-context";
 
-interface BootValue {
-	boot: Bootstrap;
-	lang: Lang;
-	setLang: (lang: Lang) => void;
-}
+export { useBoot } from "./boot-context";
 
-const BootContext = React.createContext<BootValue | null>(null);
-
-export function useBoot(): BootValue {
-	const value = React.useContext(BootContext);
-	if (!value) throw new Error("useBoot must be used inside <BootGate>");
-	return value;
-}
 
 export function BootGate({ children }: { children: React.ReactNode }) {
 	const query = useQuery({ queryKey: metaKeys.boot, queryFn: metaApi.bootstrap, staleTime: 10 * 60_000, retry: 1 });
