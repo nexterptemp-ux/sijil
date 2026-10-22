@@ -5,7 +5,7 @@ frappe.ui.form.on("Sijil Case", {
 	},
 	refresh(frm) {
 		if (frm.is_new()) return;
-		frm.add_custom_button(__("Open SIJIL"), () => frappe.set_route("sijil-app", "case", frm.doc.name));
+		frm.add_custom_button(__("Open SIJIL"), () => (window.location.href = "/sijil/cases/" + encodeURIComponent(frm.doc.name)));
 		frm.add_custom_button(__("Case History Report"), () => {
 			window.open(`/api/method/sijil.api.reports.case_history_pdf?case=${encodeURIComponent(frm.doc.name)}`);
 		}, __("Reports"));

@@ -1,7 +1,7 @@
 frappe.ui.form.on("Sijil Land", {
 	refresh(frm) {
 		if (frm.is_new()) return;
-		frm.add_custom_button(__("Open SIJIL"), () => frappe.set_route("sijil-app", "land", frm.doc.name));
+		frm.add_custom_button(__("Open SIJIL"), () => (window.location.href = "/sijil/lands/" + encodeURIComponent(frm.doc.name)));
 		frm.add_custom_button(__("History Report"), () => {
 			window.open(
 				`/api/method/sijil.api.reports.land_history_pdf?land=${encodeURIComponent(frm.doc.name)}`

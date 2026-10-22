@@ -56,7 +56,7 @@
  "roles": [],
  "sequence_id": 60.0,
  "shortcuts": [
-  {"color": "Blue", "doc_view": "", "label": "Open SIJIL", "link_to": "sijil-app", "type": "Page"},
+  {"color": "Blue", "doc_view": "", "label": "Open SIJIL", "link_to": "", "type": "URL", "url": "/sijil"},
   {"color": "Grey", "doc_view": "List", "label": "Land / Project", "link_to": "Sijil Land", "type": "DocType"},
   {"color": "Grey", "doc_view": "List", "label": "Case", "link_to": "Sijil Case", "type": "DocType"},
   {"color": "Grey", "doc_view": "List", "label": "Follow-up", "link_to": "Sijil Follow Up", "type": "DocType"}

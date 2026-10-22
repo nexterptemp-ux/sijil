@@ -3,20 +3,20 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#ffffff" />
+		<meta name="theme-color" content="#052e29" />
 		<title>Sijil</title>
 		<link rel="icon" href="/assets/sijil/images/sijil-logo.svg" />
-		{% if built %}
-		<link rel="stylesheet" href="/assets/sijil/frontend/assets/index.css?v={{ asset_version }}" />
-		{% endif %}
+		{% for href in entry_css %}
+		<link rel="stylesheet" href="{{ href }}" />
+		{% endfor %}
 	</head>
 	<body>
 		<div id="root"></div>
 		<script>
 			window.csrf_token = "{{ csrf_token }}";
 		</script>
-		{% if built %}
-		<script type="module" src="/assets/sijil/frontend/assets/index.js?v={{ asset_version }}"></script>
+		{% if entry_js %}
+		<script type="module" src="{{ entry_js }}"></script>
 		{% else %}
 		<p style="font-family: sans-serif; padding: 2rem">
 			The Sijil frontend has not been built. Run <code>bench build --app sijil</code>.

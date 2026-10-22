@@ -1,9 +1,11 @@
 """Serves the React single-page app at /sijil (and /sijil/<path> via website_route_rules).
 
 The app is built by `frontend/` (vite build) into sijil/public/frontend and loaded from
-/assets/sijil/frontend/. See docs/architecture/frontend.md.
+/assets/sijil/frontend/. Vite writes hashed file names and a manifest; this page reads the manifest to
+find the entry script and its CSS. See docs/architecture/frontend.md.
 """
 
+import json
 import os
 from urllib.parse import quote
 
@@ -13,6 +15,21 @@ from frappe import _
 from sijil.permissions import has_app_permission
 
 no_cache = 1
+
+ASSET_BASE = "/assets/sijil/frontend/"
+
+
+def _entry():
+	"""(script_url, [css_urls]) of the built app, or (None, []) if it has not been built."""
+	manifest_path = frappe.get_app_path("sijil", "public", "frontend", ".vite", "manifest.json")
+	if not os.path.exists(manifest_path):
+		return None, []
+	with open(manifest_path, encoding="utf-8") as fh:
+		manifest = json.load(fh)
+	entry = manifest.get("index.html") or next((m for m in manifest.values() if m.get("isEntry")), None)
+	if not entry:
+		return None, []
+	return ASSET_BASE + entry["file"], [ASSET_BASE + css for css in entry.get("css", [])]
 
 
 def get_context(context):
@@ -30,7 +47,5 @@ def get_context(context):
 	context.lang = lang
 	context.dir = "rtl" if lang in ("ar", "he", "fa", "ur") else "ltr"
 
-	entry = frappe.get_app_path("sijil", "public", "frontend", "assets", "index.js")
-	context.built = os.path.exists(entry)
-	context.asset_version = int(os.path.getmtime(entry)) if context.built else 0
+	context.entry_js, context.entry_css = _entry()
 	return context

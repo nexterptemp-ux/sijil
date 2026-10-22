@@ -5,8 +5,6 @@ import { defineConfig, loadEnv } from "vite";
 
 // Production build is served by Frappe from the app's public folder:
 //   sijil/public/frontend  ->  /assets/sijil/frontend/
-// The entry file names are stable (no hash) so sijil/www/sijil.html can reference them;
-// sijil/www/sijil.py appends a cache-busting version.
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "");
 	const bench = env.SIJIL_BENCH_URL || "http://sijil.localhost:8000";
@@ -33,14 +31,10 @@ export default defineConfig(({ mode }) => {
 			outDir: path.resolve(__dirname, "../sijil/public/frontend"),
 			emptyOutDir: true,
 			sourcemap: false,
-			rollupOptions: {
-				output: {
-					entryFileNames: "assets/index.js",
-					assetFileNames: (info) =>
-						info.names?.some((n) => n.endsWith(".css")) ? "assets/index.css" : "assets/[name]-[hash][extname]",
-					chunkFileNames: "assets/[name]-[hash].js",
-				},
-			},
+			// Hashed file names + manifest: sijil/www/sijil.py reads .vite/manifest.json to find the entry.
+			// Never add a ?v= query to the entry script: lazy chunks import it without one and the browser
+			// would load React twice (React error #321).
+			manifest: true,
 		},
 		test: {
 			globals: true,

@@ -1,1 +1,0 @@
-import "./sijil/app.js";

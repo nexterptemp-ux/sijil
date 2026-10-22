@@ -28,10 +28,12 @@ frontend/
 
 ## Serving and build
 - `npm run build` → `sijil/public/frontend/` (git-ignored), served by Frappe as `/assets/sijil/frontend/`.
-  Entry files have stable names (`assets/index.js`, `assets/index.css`); chunks are hashed.
+  All files have hashed names and Vite writes `.vite/manifest.json`.
 - `sijil/www/sijil.html` + `sijil.py` (tracked) serve the SPA at **`/sijil`**: redirect guests to login, check
-  app access, render the CSRF token, set `<html lang dir>` from the user's language, add a cache-busting
-  version (file mtime). `website_route_rules` in `hooks.py` maps `/sijil/<path>` to the same page so deep
+  app access, render the CSRF token, set `<html lang dir>` from the user's language, and read the
+  manifest to link the hashed entry script and CSS. **Never add a `?v=` query to the entry script**: lazy chunks
+  import the entry without it, so the browser would load two copies of React (React error #321, "invalid hook
+  call", followed by `removeChild`/`insertBefore` errors). `website_route_rules` in `hooks.py` maps `/sijil/<path>` to the same page so deep
   links work. This is the pattern Frappe's own SPAs (CRM, Helpdesk) use.
 - `bench build --app sijil` runs the root `package.json` `build` script (`cd frontend && npm ci && npm run
   build`). **Unverified on a bench** (E1).
@@ -77,7 +79,6 @@ One theme, **Evergreen** (sidebar `#052e29`, primary `#00433c`, secondary `#00ae
 Every screen must work at 375 px: the sidebar becomes a slide-in drawer under `lg`, lists render as cards
 on small screens, dialogs are full-width with scrollable bodies, no horizontal page scroll.
 
-## Legacy SPA
-`sijil/public/js/sijil/` bundled as `sijil.bundle.js`, mounted in the Desk page `sijil-app`
-(`/app/sijil-app`). It stays until the React app is verified against a real bench (owner decision: delete
-after E1). Bug fixes only.
+## Desk integration
+The old Desk-page SPA (`/app/sijil-app`) was removed (2026-10-22, owner decision). The "Open SIJIL" buttons on the
+Desk forms, the workspace shortcut and the apps-screen tile all open the React app at `/sijil/...`.

@@ -35,7 +35,6 @@ No microservices, no second backend. The SPA talks only to `sijil.api.*` (and Fr
 | `sijil/services/reports.py`, `sijil/sijil/report/`, `sijil/templates/reports/` | Operational and history reports | [jobs-and-reports.md](jobs-and-reports.md) |
 | `sijil/install.py` | Roles, defaults, demo data | [backend.md](backend.md) |
 | `sijil/translations/ar.csv` | Arabic translations | [frontend.md](frontend.md#i18n) |
-| `sijil/public/js/sijil/`, `sijil/sijil/page/sijil_app/` | **Legacy** Desk-page SPA (remove after E1) | [frontend.md](frontend.md#legacy-spa) |
 | `sijil/www/` | Frappe page that serves the React build at `/sijil` | [frontend.md](frontend.md#serving-and-build) |
 | `frontend/` | React + TypeScript app served at `/sijil` (`sijil/www/sijil.py`) | [frontend.md](frontend.md) |
 | `scripts/` | Dev checks (DocType JSON validation, translation coverage) | [testing/strategy.md](../testing/strategy.md) |

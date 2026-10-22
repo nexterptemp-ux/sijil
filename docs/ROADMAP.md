@@ -19,7 +19,7 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 | F5 | Follow-ups centre and completion flow | F4 | Done |
 | F6 | Tasks | F3 | Done |
 | F7 | Document library, upload, versions, linking | F3, F4 | Done |
-| F8 | Reports, integrations and settings screens (legacy SPA removal after E1) | F2–F7 | Done (removal pending E1) |
+| F8 | Reports, integrations and settings screens; legacy SPA removed | F2–F7 | Done |
 | E1 | Local environment (WSL bench) and first live run | P0 (can move earlier) | Not authorized |
 | E2 | Backend tests for invariants and permissions | E1 | Not authorized |
 | E3 | Staging acceptance (AC-01…AC-07), Arabic PDF | E1, E2, F8 | Not authorized |
@@ -81,8 +81,8 @@ Authorization column: **Done**, **Authorized** (owner asked, in progress), **Not
 
 ## F8 — Reports, integrations, settings
 - **Scope:** `reports.available/run`, history HTML preview and PDF download, integrations screen,
-  `set_integration`, `link_pending_tasks`; point the apps-screen tile to `/sijil`. **Deleting the legacy SPA
-  (`sijil/public/js/sijil/`, the `sijil-app` Page and its CSS) is deferred until E1 passes** (owner, 2026-10-21).
+  `set_integration`, `link_pending_tasks`; point the apps-screen tile to `/sijil`. The legacy SPA
+  (`sijil/public/js/sijil/`, the `sijil-app` Page and its CSS) was removed on 2026-10-22 (owner decision).
 - **Acceptance:** R8, R9; no references to the legacy SPA remain; translation check covers `frontend/src`.
 
 ## E1 — Local environment and first live run

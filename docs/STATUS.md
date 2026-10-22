@@ -9,15 +9,14 @@ _Last updated: 2026-10-21 (F8 reports and settings — F1–F8 complete against 
 | Area | Implemented | Verified on a live Frappe site |
 |---|---|---|
 | Backend: 17 DocTypes, services, API, permissions, ERPNext integration, reminders, reports | Yes (initial build) | **No — never installed or run** |
-| Legacy Desk-page SPA (`/app/sijil-app`) | Yes | Only against a mocked backend by the initial build (not reproducible here) |
-| React frontend (`frontend/`) | F1–F8: every screen of the legacy UI, served at `/sijil` | **No** — runs only against the in-memory mock backend |
+| React frontend (`frontend/`) | F1–F8: every screen, served at `/sijil` (the only UI; the old Desk page was removed) | **No** — runs only against the in-memory mock backend |
 | Tests | Frontend Vitest only; **no Frappe tests** | — |
 | Local dev environment | **Not set up** (WSL Ubuntu 24.04 exists, stopped; no Docker) | — |
 | Docs and agent config (P0) | Yes | Reviewed against the code |
 
 ## Implemented (unverified at runtime)
-Everything in [product/requirements.md](product/requirements.md) R1–R9 has backend code and a legacy UI
-screen, per the initial build. None of it has run on Frappe, so treat each as *written, not working* until
+Everything in [product/requirements.md](product/requirements.md) R1–R9 has backend code (initial build)
+and a React screen. None of it has run on Frappe, so treat each as *written, not working* until
 E1/E2/E3 prove otherwise.
 
 ## React frontend slices
@@ -86,10 +85,14 @@ repeated here.
    `docs/architecture/frontend.md`). Production gets the token from `sijil/www/sijil.html`.
 10. `bench build --app sijil` running the root `package.json` build script, and the `/sijil` page itself
     (`sijil/www/sijil.py`, `website_route_rules`), are unverified on a bench.
-11. Legacy Desk-page SPA (`/app/sijil-app`) still exists and still works the old way; delete it after E1.
+11. ~~Legacy Desk-page SPA~~ removed 2026-10-22; Desk form buttons and the workspace shortcut open `/sijil/...`.
+12. **Fixed 2026-10-22:** on the first server install the app crashed with React error #321 because the page
+    loaded `index.js?v=…` while lazy chunks imported `index.js`, so React loaded twice. The build now uses hashed
+    names + `.vite/manifest.json`, read by `sijil/www/sijil.py`. Verified with a production-style build served
+    from `/assets/sijil/frontend/` (all screens, no failed requests).
 
 ## Current work
 Working branch: `improvements/sijil-v1` (one commit per slice, not pushed). F1–F8 done.
 
 ## Next proposed
-E1 — run locally on a bench (owner), then E2 backend tests. After E1: delete the legacy SPA.
+E1/E3 — verify on the server (install, migrate, build, demo data), then E2 backend tests.

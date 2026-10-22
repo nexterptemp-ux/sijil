@@ -56,8 +56,7 @@ bench --site sijil.localhost install-app sijil && bench --site sijil.localhost m
 bench --site sijil.localhost execute sijil.install.make_demo_data
 bench start
 ```
-Open **`http://sijil.localhost:8000/sijil`** (the React app; `bench build --app sijil` builds it). The legacy
-screen is still at `/app/sijil-app` until E1 is done.
+Open **`http://sijil.localhost:8000/sijil`** (the React app; `bench build --app sijil` builds it). 
 
 React with hot reload against the bench:
 ```bash
@@ -74,7 +73,7 @@ Then open `http://localhost:8080/sijil/` and log in through it. Without a bench 
 | `hooks.py` | Restart `bench start` |
 | DocType JSON, reports, workspace | `bench --site sijil.localhost migrate` |
 | `translations/ar.csv` | `bench --site sijil.localhost clear-cache` |
-| Legacy SPA JS/CSS | `bench start` watches; else `bench build --app sijil`; hard-refresh |
+| React (`frontend/`) for the bench-served `/sijil` page | `bench build --app sijil`, then hard-refresh |
 | React (`frontend/`) | Vite hot reload |
 
 Arabic UI: user menu → My Settings → Language → `ar`.

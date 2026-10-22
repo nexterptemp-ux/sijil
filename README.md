@@ -12,12 +12,12 @@ One Frappe custom app (`sijil/`): DocTypes for lands, cases, an **append-only ca
 tasks and a versioned document library; business workflows in `sijil/services`; a purpose-specific API in
 `sijil/api`; record-level permissions in `sijil/permissions.py`; ERPNext integration (Projects, Tasks, ToDo,
 Calendar, notifications, parties) in `sijil/integrations`. The UI is a **React + TypeScript** app in `frontend/`, served by Frappe at `/sijil`
-(the older Desk-page screen at `/app/sijil-app` stays until the new app is verified on a real site). Details: [docs/architecture/overview.md](docs/architecture/overview.md).
+Details: [docs/architecture/overview.md](docs/architecture/overview.md).
 
 ## Repository
 | Path | What |
 |---|---|
-| `sijil/` | The Frappe app (backend, legacy UI, translations, templates) |
+| `sijil/` | The Frappe app (backend, translations, report templates, `/sijil` page) |
 | `frontend/` | React + TypeScript app (all screens), see [frontend/README.md](frontend/README.md) |
 | `docs/` | Product, architecture, decisions, roadmap, status — start at [docs/README.md](docs/README.md) |
 | `design/reference/` | Original HTML prototype (unchanged) |

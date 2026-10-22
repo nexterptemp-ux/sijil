@@ -30,6 +30,6 @@ frappe.ui.form.on("Sijil Case Event", {
 				d.show();
 			});
 		}
-		frm.add_custom_button(__("Open SIJIL"), () => frappe.set_route("sijil-app", "case", frm.doc.case));
+		frm.add_custom_button(__("Open SIJIL"), () => (window.location.href = "/sijil/cases/" + encodeURIComponent(frm.doc.case)));
 	},
 });
