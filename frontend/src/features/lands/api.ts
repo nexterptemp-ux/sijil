@@ -17,6 +17,22 @@ export interface LandRow {
 	open_followups: number;
 	overdue_followups: number;
 	documents: number;
+	/** Key document types this land has (subset of KEY_DOCUMENT_TYPES). */
+	key_documents: string[];
+}
+
+/** The three documents every land must have, by document type, in display order (matches sijil/utils.py). */
+export const KEY_DOCUMENT_TYPES = ["Title Deed", "Organizational Sketch", "Approved Master Plan"] as const;
+
+export interface KeyDocument {
+	document_type: (typeof KEY_DOCUMENT_TYPES)[number];
+	document: {
+		name: string;
+		title: string;
+		document_date?: string | null;
+		reference_no?: string | null;
+		version_count: number;
+	} | null;
 }
 
 export interface Land {
@@ -43,6 +59,7 @@ export interface Land {
 		documents: number;
 		events: number;
 	};
+	key_documents: KeyDocument[];
 	can_write: boolean;
 	modified?: string;
 }

@@ -55,7 +55,7 @@
    "label": "Document Type",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "options": "\nTitle Deed\nSurvey\nMaster Plan\nApproved Plan\nGovernment Approval\nPermit\nOfficial Letter\nContract\nConsultant Document\nReport\nOther"
+   "options": "\nTitle Deed\nOrganizational Sketch\nApproved Master Plan\nSurvey\nMaster Plan\nApproved Plan\nGovernment Approval\nPermit\nOfficial Letter\nContract\nConsultant Document\nReport\nOther"
   },
   {
    "fieldname": "reference_no",

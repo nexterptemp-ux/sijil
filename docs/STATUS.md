@@ -39,6 +39,15 @@ recursive folder counts, and a library root that lists all of the land's documen
 (with a few English records to keep mixed text tested). All 14 main pages verified at 375 px with no horizontal
 scroll; 36 tests pass.
 
+### Key documents
+Every land's three key documents — Title Deed (صك الملكية), Organizational Sketch (الكروكي التنظيمي, new
+document type), Approved Master Plan (المخطط المعتمد, new document type) — defined once in
+`sijil/utils.py:KEY_DOCUMENT_TYPES`. `lands.list_lands` returns which exist per land; `lands.get_land` returns
+the latest non-archived document of each (permission-aware). Land cards show have/missing chips and n/3; the land
+page shows a "Key documents" card first in the side column, linked to each document or offering an upload with
+the type pre-selected. Sidebar "Workspace" label removed. Verified: typecheck, lint, 36 tests, browser (mock).
+**Backend not run on Frappe** (new Select options need `bench migrate`).
+
 ## Verification log
 | Date | Command / check | Result |
 |---|---|---|

@@ -38,8 +38,8 @@ update this file and the frontend types in the same change.
 ## lands
 | Function | Args | Returns |
 |---|---|---|
-| `list_lands` | `search?`, `status?`, `start`, `page_length`=24 | `Page<{name, land_name, land_code, status, city, company, project, modified, open_cases, total_cases, open_followups, overdue_followups, documents}>` |
-| `get_land` | `name` | Land fields + `responsibles: [{user, full_name, responsibility}]`, `organizations: [{organization, role, organization_type}]`, `stats: {cases_total, cases_open, cases_stale, followups_open, followups_overdue, tasks_open, documents, events}`, `can_write` |
+| `list_lands` | `search?`, `status?`, `start`, `page_length`=24 | `Page<{name, land_name, land_code, status, city, company, project, modified, open_cases, total_cases, open_followups, overdue_followups, documents, key_documents: string[]}>` — `key_documents` = key document types the land has |
+| `get_land` | `name` | Land fields + `responsibles: [{user, full_name, responsibility}]`, `organizations: [{organization, role, organization_type}]`, `stats: {cases_total, cases_open, cases_stale, followups_open, followups_overdue, tasks_open, documents, events}`, `key_documents: [{document_type, document: {name, title, document_date, reference_no, version_count} \| null}]` (always the 3 key types, in order), `can_write` |
 | `land_activity` | `land`, `start`, `page_length`=15 | `Page<{name, title, case, case_title, event_date, event_type, recorded_by, recorded_by_name, is_milestone}>` |
 | `save_land` | `data: {name?, land_name, land_code, status, city, company, location, description, notes, project, responsibles: [{user, responsibility}], organizations: [{organization, role}], create_project?}` | `{name}` |
 | `create_project` | `land` | `{project}` |

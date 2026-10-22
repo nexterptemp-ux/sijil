@@ -21,6 +21,7 @@ export function UploadDocumentDialog({
 	folder,
 	linkTo,
 	onUploaded,
+	defaultType,
 }: {
 	open: boolean;
 	onOpenChange: (o: boolean) => void;
@@ -28,6 +29,8 @@ export function UploadDocumentDialog({
 	folder?: string | null;
 	linkTo?: { doctype: LinkableDoctype; name: string };
 	onUploaded?: (result: { document: string; version: string; title: string }) => void;
+	/** Pre-selected document type (e.g. a missing key document). */
+	defaultType?: string;
 }) {
 	const { boot } = useBoot();
 	const [file, setFile] = React.useState<File | null>(null);
@@ -51,14 +54,14 @@ export function UploadDocumentDialog({
 		if (!open) return;
 		setFile(null);
 		setTitle("");
-		setType("");
+		setType(defaultType ?? "");
 		setReference("");
 		setDate("");
 		setConfidential(false);
 		setDescription("");
 		setTouched(false);
 		setTarget(folder ?? "");
-	}, [open, folder]);
+	}, [open, folder, defaultType]);
 
 	const save = useApiMutation(documentsApi.upload, {
 		invalidate: DOMAIN,

@@ -14,6 +14,7 @@ import { formatNumber } from "@/lib/format";
 import { useUrlState } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 import { landKeys, landsApi, type LandRow } from "./api";
+import { KeyDocumentsIndicator } from "./KeyDocuments";
 import { LandFormDialog } from "./LandFormDialog";
 
 const PAGE = 24;
@@ -131,6 +132,9 @@ function LandCard({ land }: { land: LandRow }) {
 							)}
 						</div>
 					</div>
+				</div>
+				<div className="px-4 pb-3">
+					<KeyDocumentsIndicator have={land.key_documents ?? []} />
 				</div>
 				<dl className="mt-auto grid grid-cols-3 divide-x divide-border/70 border-t border-border/70 bg-surface-2 rtl:divide-x-reverse">
 					<Metric icon={<Briefcase />} label={t("Open cases")} value={land.open_cases} />

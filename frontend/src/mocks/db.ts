@@ -547,6 +547,25 @@ export function seed(): MockDb {
 		document_date: d(-7),
 	});
 	mkDoc(abraj, "المراسلات/الوارد", "خطاب ملاحظات الأمانة", { document_type: "Official Letter" });
+	// Key documents (صك الملكية، الكروكي، المخطط المعتمد) — complete on some lands, partial on others.
+	mkDoc(konooz, "الاعتمادات الحكومية/الأمانة", "الكروكي التنظيمي المعتمد", {
+		document_type: "Organizational Sketch",
+		reference_no: "KR-2231",
+	});
+	for (const [land, deed, sketch, plan] of [
+		[abraj, true, true, true],
+		[north, true, true, false],
+		[makkah, true, false, false],
+		[riyadh, true, false, false],
+		[db.lands[6]!, true, true, true],
+	] as [Row, boolean, boolean, boolean][]) {
+		if (deed) mkDoc(land, "مستندات الملكية/الصكوك", `صك ملكية ${land.land_name}`, { document_type: "Title Deed" });
+		if (sketch) mkDoc(land, "الاعتمادات الحكومية/الأمانة", `كروكي ${land.land_name}`, { document_type: "Organizational Sketch" });
+		if (plan)
+			mkDoc(land, "المخططات/المخططات المعتمدة", `المخطط المعتمد – ${land.land_name}`, {
+				document_type: "Approved Master Plan",
+			});
+	}
 	mkDoc(konooz, "مستندات الاستشاري", "عقد تكليف المكتب الاستشاري", { document_type: "Contract" });
 	mkDoc(konooz, "مستندات الملكية/الرفع المساحي", "الرفع المساحي للأرض", { document_type: "Survey" });
 

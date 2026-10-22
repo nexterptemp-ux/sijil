@@ -21,6 +21,7 @@ type Args = Record<string, any>;
 type Handler = (db: MockDb, args: Args) => unknown;
 
 const CLOSED = ["Completed", "Cancelled"];
+const KEY_TYPES = ["Title Deed", "Organizational Sketch", "Approved Master Plan"];
 const OPEN_TASK = ["Open", "In Progress"];
 
 const fail = (message: string, status = 417, exc = "ValidationError"): never => {
@@ -506,6 +507,8 @@ export const handlers: Record<string, Handler> = {
 			task_status: ["Open", "In Progress", "Completed", "Cancelled"],
 			document_type: [
 				"Title Deed",
+				"Organizational Sketch",
+				"Approved Master Plan",
 				"Survey",
 				"Master Plan",
 				"Approved Plan",
@@ -664,6 +667,9 @@ export const handlers: Record<string, Handler> = {
 					(f) => f.land === l.name && f.status === "Open" && f.due_date < today(),
 				).length,
 				documents: db.documents.filter((d) => d.land === l.name).length,
+				key_documents: KEY_TYPES.filter((ty) =>
+					db.documents.some((d) => d.land === l.name && d.document_type === ty && !d.archived),
+				),
 			}));
 		return page(rows, start, len);
 	},
@@ -690,6 +696,15 @@ export const handlers: Record<string, Handler> = {
 				documents: db.documents.filter((d) => d.land === l.name).length,
 				events: db.events.filter((e) => e.land === l.name && e.entry_status === "Active").length,
 			},
+			key_documents: KEY_TYPES.map((ty) => {
+				const d = db.documents
+					.filter((x) => x.land === l.name && x.document_type === ty && !x.archived)
+					.sort(byDesc("modified"))[0];
+				return {
+					document_type: ty,
+					document: d ? pick(d, ["name", "title", "document_date", "reference_no", "version_count"]) : null,
+				};
+			}),
 			can_write: db.manager,
 		};
 	},

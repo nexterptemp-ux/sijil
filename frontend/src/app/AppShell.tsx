@@ -73,9 +73,6 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 				</button>
 			</div>
 			<nav className="flex flex-1 flex-col gap-1 overflow-y-auto">
-				<div className="px-3 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-sidebar-foreground/50">
-					{t("Workspace")}
-				</div>
 				{NAV.map((item) => (
 					<NavLink
 						key={item.to}

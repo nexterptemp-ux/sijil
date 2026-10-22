@@ -33,6 +33,7 @@ import { t, tv } from "@/i18n";
 import { useApiMutation } from "@/lib/api/hooks";
 import { formatDate } from "@/lib/format";
 import { landKeys, landsApi, type Land } from "./api";
+import { KeyDocumentsCard } from "./KeyDocuments";
 import { LandFormDialog } from "./LandFormDialog";
 import { LandExtras } from "./LandExtras";
 
@@ -190,6 +191,7 @@ function LandView({ land }: { land: Land }) {
 					<LandActivity land={land.name} />
 				</div>
 				<div className="space-y-6">
+					<KeyDocumentsCard land={land} />
 					<Card>
 						<CardHeader icon={<Info />} title={t("Details")} />
 						<CardBody>

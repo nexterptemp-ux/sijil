@@ -5,6 +5,8 @@ from frappe import _
 from frappe.utils import cint, getdate, nowdate
 
 CASE_CLOSED_STATUSES = ("Completed", "Cancelled")
+# The three documents every land must have, by Sijil Document.document_type, in display order.
+KEY_DOCUMENT_TYPES = ("Title Deed", "Organizational Sketch", "Approved Master Plan")
 MANAGER_ROLES = ("System Manager", "Sijil Manager")
 USER_ROLES = ("Sijil User", "Sijil Manager", "System Manager")
 

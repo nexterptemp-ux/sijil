@@ -31,6 +31,7 @@ Add organization,إضافة جهة
 Add related case,إضافة معاملة مرتبطة
 Address,العنوان
 All,الكل
+All available,مكتملة
 All documents in this folder,كل المستندات في هذا المجلد
 All open,كل المفتوحة
 All settings in Desk,جميع الإعدادات في Desk
@@ -48,7 +49,9 @@ Any priority,أي أولوية
 Any status,أي حالة
 Anyone,أي شخص
 Approval,اعتماد
+Approved Master Plan,المخطط المعتمد
 Approved Plan,مخطط معتمد
+Approved plan,مخطط معتمد
 Archive,أرشفة
 Archived,مؤرشف
 Assigned To,مسند إلى
@@ -168,6 +171,7 @@ Days Left,الأيام المتبقية
 Days Overdue,أيام التأخير
 Days Since Update,أيام منذ آخر تحديث
 Days Without Update Before a Case Is Stale,عدد الأيام بلا تحديث قبل اعتبار المعاملة متوقفة
+Deed,صك
 Default Company,الشركة الافتراضية
 Default Document Folders,مجلدات المستندات الافتراضية
 Default Reminder (Days Before Due Date),التذكير الافتراضي (أيام قبل الاستحقاق)
@@ -321,6 +325,7 @@ How SIJIL works together with the rest of ERPNext. Managers can switch each inte
 In Progress,جارٍ المتابعة
 In {0} days,بعد {0} أيام
 Include subfolders,تضمين المجلدات الفرعية
+Incomplete,غير مكتملة
 "Independent work items, optionally tied to a land or case. Tasks of lands with an ERPNext Project are mirrored to ERPNext Tasks.",مهام مستقلة يمكن ربطها بأرض أو معاملة. مهام الأراضي المرتبطة بمشروع ERPNext تُنسخ إلى مهام ERPNext.
 Integration updated,تم تحديث التكامل
 Integrations,التكاملات
@@ -329,6 +334,8 @@ Invalid Event Date,تاريخ حدث غير صالح
 Is Current Version,هو الإصدار الحالي
 Is Root,مجلد جذري
 Keep {0},إبقاء {0}
+Key documents,المستندات الأساسية
+Key documents: {0} of {1},المستندات الأساسية: {0} من {1}
 Land / Project,الأرض / المشروع
 Land / Project History Report,تقرير تاريخ الأرض / المشروع
 Land / Project Name,اسم الأرض / المشروع
@@ -384,6 +391,7 @@ Medium,متوسطة
 Meeting,اجتماع
 Menu,القائمة
 Milestone,مرحلة مهمة
+Missing,غير متوفر
 More actions,إجراءات أخرى
 More than {0} days,أكثر من {0} يومًا
 Move,نقل
@@ -462,6 +470,7 @@ No updates yet.,لا توجد تحديثات بعد.
 Not Started,لم يبدأ
 Not available,غير متاح
 Not found,غير موجود
+Not in the library yet,غير موجود في المكتبة بعد
 Not linked,غير مرتبط
 Not linked to any record yet.,غير مرتبط بأي سجل بعد.
 Not permitted,غير مسموح
@@ -526,6 +535,7 @@ Ordinary work — with or without a case,الأعمال اليومية — مر�
 Organization,الجهة
 Organization Name,اسم الجهة
 Organization Type,نوع الجهة
+Organizational Sketch,الكروكي التنظيمي
 Organizational Sketch Approval,اعتماد الكروكي التنظيمي
 Organizations,الجهات
 Originating Event,الحدث المنشئ
@@ -688,6 +698,7 @@ Sijil Upcoming Follow Ups,المتابعات القادمة
 Site Visit,زيارة ميدانية
 Situation Updated On,تاريخ تحديث الموقف
 Situation updated,تم تحديث الموقف
+Sketch,كروكي
 Skip to content,انتقل إلى المحتوى
 Some files were not uploaded,لم تُرفع بعض الملفات
 Something that must be checked or progressed by a date.,أمر يجب التحقق منه أو دفعه قبل تاريخ محدد.
@@ -870,6 +881,7 @@ v{0},نسخة {0}
 "{0} entries, newest first",{0} قيد، الأحدث أولًا
 {0} follow-ups need attention,{0} متابعات تحتاج إلى اهتمام
 {0} lands and projects,{0} من الأراضي والمشاريع
+{0} of {1} available,متوفر {0} من {1}
 {0} overdue follow-ups,{0} متابعات متأخرة
 {0} rows,{0} صفوف
 {0} tasks synced,تمت مزامنة {0} مهمة

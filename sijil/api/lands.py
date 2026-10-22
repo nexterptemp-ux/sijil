@@ -3,7 +3,7 @@ from frappe.utils import add_days, cint, nowdate
 
 from sijil.api.common import count, labels, page_response, paging, parse, user_names
 from sijil.integrations import erpnext as erp
-from sijil.utils import CASE_CLOSED_STATUSES, get_settings
+from sijil.utils import CASE_CLOSED_STATUSES, KEY_DOCUMENT_TYPES, get_settings
 
 LAND_FIELDS = ["name", "land_name", "land_code", "status", "city", "company", "project", "modified"]
 
@@ -34,12 +34,21 @@ def list_lands(search=None, status=None, start=0, page_length=24):
 		all_cases = _grouped("Sijil Case", "land", names)
 		followups = _grouped("Sijil Follow Up", "land", names, {"status": "Open"})
 		documents = _grouped("Sijil Document", "land", names)
+		# Which key documents exist per land (permission-aware, archived excluded).
+		key_docs = {}
+		for d in frappe.get_list(
+			"Sijil Document",
+			filters={"land": ["in", names], "document_type": ["in", list(KEY_DOCUMENT_TYPES)], "archived": 0},
+			fields=["land", "document_type"], group_by="land, document_type", limit_page_length=0,
+		):
+			key_docs.setdefault(d.land, set()).add(d.document_type)
 		overdue = _grouped("Sijil Follow Up", "land", names, {"status": "Open", "due_date": ["<", nowdate()]})
 		for r in rows:
 			r.update(
 				open_cases=open_cases.get(r.name, 0), total_cases=all_cases.get(r.name, 0),
 				open_followups=followups.get(r.name, 0), overdue_followups=overdue.get(r.name, 0),
 				documents=documents.get(r.name, 0),
+				key_documents=sorted(key_docs.get(r.name, set()), key=KEY_DOCUMENT_TYPES.index),
 			)
 	return page_response(total, rows, start, page_length)
 
@@ -72,6 +81,7 @@ def get_land(name):
 		"documents": count("Sijil Document", {"land": name}),
 		"events": count("Sijil Case Event", {"land": name, "entry_status": "Active"}),
 	}
+	data["key_documents"] = key_documents(name)
 	data["can_write"] = bool(doc.has_permission("write"))
 	return data
 
@@ -130,3 +140,16 @@ def create_project(land):
 	doc = frappe.get_doc("Sijil Land", land)
 	doc.check_permission("write")
 	return {"project": erp.create_project_for_land(doc)}
+
+
+def key_documents(land):
+	"""The three key documents of a land in fixed order; the latest non-archived one of each type, or None."""
+	latest = {}
+	for d in frappe.get_list(
+		"Sijil Document",
+		filters={"land": land, "document_type": ["in", list(KEY_DOCUMENT_TYPES)], "archived": 0},
+		fields=["name", "title", "document_type", "document_date", "reference_no", "version_count", "modified"],
+		order_by="modified desc", limit_page_length=50,
+	):
+		latest.setdefault(d.document_type, d)
+	return [{"document_type": t, "document": latest.get(t)} for t in KEY_DOCUMENT_TYPES]
