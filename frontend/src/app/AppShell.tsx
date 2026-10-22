@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Check, Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
+import { Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
 import * as React from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Avatar } from "@/components/common";
@@ -18,7 +18,6 @@ import { t } from "@/i18n";
 import { logout } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import { useBoot } from "./boot";
-import { setTheme, THEMES, useTheme } from "./theme";
 import { NAV } from "./nav";
 
 export function AppShell() {
@@ -133,7 +132,6 @@ function NavBadge(_props: { kind: "followups" }) {
 
 function Topbar({ onMenu }: { onMenu: () => void }) {
 	const { boot, lang, setLang } = useBoot();
-	const theme = useTheme();
 	return (
 		<header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border/70 bg-surface/90 px-4 backdrop-blur-md sm:gap-3 sm:px-5 lg:px-6">
 			<Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenu} aria-label={t("Menu")}>
@@ -167,21 +165,6 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent>
 					<div className="px-2 py-1.5 text-xs text-muted-foreground">{boot.user.name}</div>
-					<DropdownMenuSeparator />
-					<div className="px-2 pb-1 pt-1.5 text-[11px] font-semibold text-muted-foreground">{t("Theme")}</div>
-					{THEMES.map((th) => (
-						<DropdownMenuItem key={th} onSelect={() => setTheme(th)}>
-							<span
-								className={cn(
-									"size-4 rounded-full ring-2 ring-offset-1",
-									th === "navy" ? "bg-[#07132b] ring-[#1fc8c8]" : "bg-[#052e29] ring-[#d3a870]",
-								)}
-								aria-hidden
-							/>
-							<span className="flex-1">{th === "navy" ? t("Navy") : t("Evergreen")}</span>
-							{theme === th && <Check className="text-primary" />}
-						</DropdownMenuItem>
-					))}
 					<DropdownMenuSeparator />
 					<DropdownMenuItem onSelect={() => (window.location.href = "/app")}>
 						<MonitorCog />

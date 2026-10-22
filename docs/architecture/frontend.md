@@ -67,14 +67,11 @@ Language = user's Frappe language, overridable with the top-bar toggle. `<html d
 logical utilities (`ms-/me-/ps-/pe-/start-/end-`), directional icons flip. `scripts/check_translations.py`
 scans `frontend/src` for `t("...")`.
 
-## Themes and logos
-Two colour themes, **Evergreen** (default) and **Navy**, defined as CSS variables in `src/styles/index.css`
-(`:root[data-theme=...]`). `src/app/theme.ts` keeps the choice in `localStorage` (`sijil.theme`) and sets
-`<html data-theme>` before the first paint; users switch it from the user menu. Logos live in
-`src/assets/brand/<theme>/` with the same names in each folder: `logo.svg` (dark text, light backgrounds),
-`logo-light.svg` (light text, sidebar), `mark.svg` (icon only). `components/Logo.tsx` picks the file for the
-active theme. `sijil/public/images/sijil-logo.svg` (Evergreen mark) is the fixed browser/apps-screen icon.
-Status colours (overdue, warning, done) are shared by both themes.
+## Brand and logos
+One theme, **Evergreen** (sidebar `#052e29`, primary `#00433c`, secondary `#00aea3`, accent `#d3a870`, neutral
+`#dfe3e7`), defined as CSS variables in `src/styles/index.css`. Logos are in `src/assets/brand/evergreen/`:
+`logo.svg` (dark text, light backgrounds), `logo-light.svg` (light text, sidebar), `mark.svg` (icon only);
+`components/Logo.tsx` renders them. `sijil/public/images/sijil-logo.svg` is the browser/apps-screen icon.
 
 ## Mobile
 Every screen must work at 375 px: the sidebar becomes a slide-in drawer under `lg`, lists render as cards

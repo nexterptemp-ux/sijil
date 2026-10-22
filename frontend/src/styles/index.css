@@ -2,11 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens. Calm enterprise palette: cool neutrals, one confident blue, colour only for meaning. */
+/* Design tokens — the Evergreen brand palette. Colour only for meaning. */
 @layer base {
-	/* Evergreen (default) — sidebar #052e29, primary #00433c, secondary #00aea3, accent #d3a870, neutral #dfe3e7 */
-	:root,
-	:root[data-theme="evergreen"] {
+	/* Evergreen — sidebar #052e29, primary #00433c, secondary #00aea3, accent #d3a870, neutral #dfe3e7 */
+	:root {
 		--background: 160 14% 96.5%;
 		--surface: 0 0% 100%;
 		--surface-2: 150 18% 98.3%;
@@ -35,27 +34,6 @@
 		--destructive: 357 68% 48%;
 		--destructive-foreground: 0 0% 100%;
 		--radius: 14px;
-	}
-
-	/* Navy — sidebar #07132b, ink #07142c, interactive #1866f4, accent #1fc8c8, neutral #eaedef */
-	:root[data-theme="navy"] {
-		--background: 210 25% 96.8%;
-		--surface-2: 210 30% 98.5%;
-		--foreground: 219 73% 12%;
-		--muted: 210 20% 95%;
-		--muted-foreground: 215 12% 44%;
-		--border: 204 13% 89%;
-		--input: 210 12% 83%;
-		--ring: 219 91% 52%;
-		--primary: 219 91% 52%;
-		--primary-soft: 219 100% 96%;
-		--brand-2: 180 73% 45%;
-		--accent: 180 73% 45%;
-		--accent-foreground: 182 75% 26%;
-		--accent-soft: 180 60% 93%;
-		--sidebar: 220 72% 10%;
-		--sidebar-foreground: 218 25% 78%;
-		--sidebar-active: 220 55% 20%;
 	}
 
 	html {
