@@ -63,11 +63,11 @@ function LandView({ land }: { land: Land }) {
 				{t("Lands and Projects")}
 			</Link>
 			<Card className="mb-6 overflow-hidden">
-				<div className="h-1.5 bg-gradient-to-l from-[#4f74f0] via-[#6d8ff5] to-[#a9bdfb]" aria-hidden />
+				<div className="h-1.5 bg-gradient-to-l from-primary via-brand2 to-accent" aria-hidden />
 				<div className="flex flex-col gap-5 p-5 lg:flex-row lg:items-start lg:justify-between">
 					<div className="flex min-w-0 gap-4">
 						<span
-							className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-[#dfe7ff] text-primary"
+							className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-accent-soft text-primary"
 							aria-hidden
 						>
 							<Building2 className="size-7" />

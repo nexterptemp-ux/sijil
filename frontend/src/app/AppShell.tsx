@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
+import { Check, Globe, LogOut, Menu, MonitorCog, X } from "lucide-react";
 import * as React from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { Avatar } from "@/components/common";
+import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -17,6 +18,7 @@ import { t } from "@/i18n";
 import { logout } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 import { useBoot } from "./boot";
+import { setTheme, THEMES, useTheme } from "./theme";
 import { NAV } from "./nav";
 
 export function AppShell() {
@@ -34,7 +36,7 @@ export function AppShell() {
 			</a>
 			{open && (
 				<div
-					className="fixed inset-0 z-30 bg-[#0b1430]/50 backdrop-blur-[2px] lg:hidden"
+					className="fixed inset-0 z-30 bg-sidebar/60 backdrop-blur-[2px] lg:hidden"
 					onClick={() => setOpen(false)}
 					aria-hidden
 				/>
@@ -61,15 +63,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 			aria-label={t("Workspace")}
 		>
 			<div className="flex items-center justify-between px-1.5">
-				<div className="flex items-center gap-3">
-					<div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#4f74f0] to-[#2a49c4] text-xl font-extrabold text-white shadow-[0_6px_16px_-4px_rgba(56,92,230,.6),inset_0_1px_0_rgba(255,255,255,.25)]">
-						{t("Sijil").slice(0, 1)}
-					</div>
-					<div className="leading-tight">
-						<div className="text-[17px] font-extrabold text-white">{t("Sijil")}</div>
-						<div className="text-[11px] text-sidebar-foreground/70">{t("Land and case follow-up")}</div>
-					</div>
-				</div>
+				<Logo variant="light" className="h-10" />
 				<button
 					type="button"
 					className="rounded-lg p-2 text-sidebar-foreground hover:bg-white/10 lg:hidden"
@@ -92,7 +86,7 @@ function Sidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
 							cn(
 								"relative flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[14px] font-semibold text-sidebar-foreground transition-colors hover:bg-white/[.06] hover:text-white",
 								isActive &&
-									"bg-sidebar-active text-white shadow-[inset_0_1px_0_rgba(255,255,255,.06)] before:absolute before:inset-y-2 before:start-0 before:w-[3px] before:rounded-full before:bg-[#6e8ff5] hover:bg-sidebar-active",
+									"bg-sidebar-active text-white shadow-[inset_0_1px_0_rgba(255,255,255,.06)] before:absolute before:inset-y-2 before:start-0 before:w-[3px] before:rounded-full before:bg-accent hover:bg-sidebar-active",
 							)
 						}
 					>
@@ -139,16 +133,14 @@ function NavBadge(_props: { kind: "followups" }) {
 
 function Topbar({ onMenu }: { onMenu: () => void }) {
 	const { boot, lang, setLang } = useBoot();
+	const theme = useTheme();
 	return (
 		<header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-border/70 bg-surface/90 px-4 backdrop-blur-md sm:gap-3 sm:px-5 lg:px-6">
 			<Button variant="ghost" size="icon" className="lg:hidden" onClick={onMenu} aria-label={t("Menu")}>
 				<Menu />
 			</Button>
 			<Link to="/" className="flex items-center gap-2 lg:hidden" aria-label={t("Home")}>
-				<span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#4f74f0] to-[#2a49c4] text-base font-extrabold text-white">
-					{t("Sijil").slice(0, 1)}
-				</span>
-				<span className="text-base font-extrabold max-[360px]:hidden">{t("Sijil")}</span>
+				<Logo variant="full" className="h-8" />
 			</Link>
 			<div className="flex min-w-0 flex-1 justify-end sm:justify-start">
 				<GlobalSearch />
@@ -175,6 +167,21 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent>
 					<div className="px-2 py-1.5 text-xs text-muted-foreground">{boot.user.name}</div>
+					<DropdownMenuSeparator />
+					<div className="px-2 pb-1 pt-1.5 text-[11px] font-semibold text-muted-foreground">{t("Theme")}</div>
+					{THEMES.map((th) => (
+						<DropdownMenuItem key={th} onSelect={() => setTheme(th)}>
+							<span
+								className={cn(
+									"size-4 rounded-full ring-2 ring-offset-1",
+									th === "navy" ? "bg-[#07132b] ring-[#1fc8c8]" : "bg-[#052e29] ring-[#d3a870]",
+								)}
+								aria-hidden
+							/>
+							<span className="flex-1">{th === "navy" ? t("Navy") : t("Evergreen")}</span>
+							{theme === th && <Check className="text-primary" />}
+						</DropdownMenuItem>
+					))}
 					<DropdownMenuSeparator />
 					<DropdownMenuItem onSelect={() => (window.location.href = "/app")}>
 						<MonitorCog />

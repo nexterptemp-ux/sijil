@@ -102,7 +102,7 @@ function LandCard({ land }: { land: LandRow }) {
 			<Card className="flex h-full flex-col overflow-hidden transition-all group-hover:-translate-y-px group-hover:border-primary/30 group-hover:shadow-raised">
 				<div className="flex items-start gap-3 p-4 pb-3">
 					<span
-						className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-soft to-[#dfe7ff] text-lg font-extrabold text-primary"
+						className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-soft to-accent-soft text-lg font-extrabold text-primary"
 						aria-hidden
 					>
 						<Building2 className="size-5" />

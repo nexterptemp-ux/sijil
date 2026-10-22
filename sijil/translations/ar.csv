@@ -245,6 +245,7 @@ Employees,الموظفون
 Event Time,وقت الحدث
 Event Title,عنوان الحدث
 Event Type,نوع الحدث
+Evergreen,الأخضر الدائم
 "Every development of one case by actual date, with who recorded it, documents, follow-ups and outstanding actions.",كل تطورات معاملة واحدة حسب التاريخ الفعلي، مع من سجّلها والمستندات والمتابعات والإجراءات المعلّقة.
 Every document version is a private ERPNext file ({0} versions).,كل نسخة مستند هي ملف خاص في ERPNext ({0} نسخة).
 "Every follow-up has an owner, a due date and a case. Completing one records its outcome in the case history.",لكل متابعة مسؤول وموعد ومعاملة. وعند إتمامها تُسجَّل نتيجتها في سجل المعاملة.
@@ -392,6 +393,7 @@ Move into,النقل إلى
 Municipality,بلدية
 Municipality Approval,موافقة البلدية
 My cases,معاملاتي
+Navy,الكحلي
 Needs Attention Now,يحتاج اهتماماً الآن
 Needs attention,تحتاج إلى اهتمام
 Never updated,لم تُحدَّث بعد
@@ -751,6 +753,7 @@ The selected version does not belong to this document.,الإصدار المحد
 The specific version preserved by this link.,الإصدار المحدد الذي يحفظه هذا الربط.
 The uploaded file could not be found.,تعذّر العثور على الملف المرفوع.
 The uploaded file is empty.,الملف المرفوع فارغ.
+Theme,المظهر
 These and the default folder template are edited in Sijil Settings in Desk.,تُعدَّل هذه الإعدادات وقالب المجلدات الافتراضي من إعدادات سجل في Desk.
 These folders are created automatically inside every new land.,تُنشأ هذه المجلدات تلقائياً داخل كل أرض جديدة.
 This case has recorded developments and cannot be deleted. Set its status to Cancelled instead.,لهذه المعاملة تطورات مسجّلة ولا يمكن حذفها. غيّر حالتها إلى «ملغاة» بدلاً من ذلك.

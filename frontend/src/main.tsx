@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Toaster } from "sonner";
 import { BootGate } from "@/app/boot";
+import { applyTheme } from "@/app/theme";
 import { BASENAME, ROUTER_FUTURE, routes } from "@/app/routes";
 import { ApiError } from "@/lib/api/client";
 import "@fontsource-variable/cairo/wght.css";
@@ -21,6 +22,8 @@ const queryClient = new QueryClient({
 });
 
 const router = createBrowserRouter(routes, { basename: BASENAME, future: ROUTER_FUTURE });
+
+applyTheme();
 
 async function start() {
 	if (import.meta.env.MODE === "mock") {

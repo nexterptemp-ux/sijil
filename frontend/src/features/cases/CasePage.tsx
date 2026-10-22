@@ -68,7 +68,7 @@ function CaseWorkspace({ caseDoc: c }: { caseDoc: CaseDetail }) {
 				<div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
 					<div className="flex min-w-0 gap-4">
 						<span
-							className="hidden size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-[#dfe7ff] text-primary sm:flex"
+							className="hidden size-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-soft to-accent-soft text-primary sm:flex"
 							aria-hidden
 						>
 							<Briefcase className="size-6" />
@@ -146,7 +146,7 @@ function CaseWorkspace({ caseDoc: c }: { caseDoc: CaseDetail }) {
 			<div className="grid gap-6 lg:grid-cols-3 [&>*]:min-w-0">
 				<div className="space-y-6 lg:col-span-2">
 					{/* 1. Current situation — the most prominent element of the page. */}
-					<Card className="relative overflow-hidden border-primary/25 bg-gradient-to-br from-[#f3f6ff] via-surface to-surface">
+					<Card className="relative overflow-hidden border-primary/25 bg-gradient-to-br from-primary-soft/70 via-surface to-surface">
 						<div className="absolute inset-y-0 start-0 w-1 bg-primary" aria-hidden />
 						<CardBody className="space-y-3 ps-6">
 							<div className="flex items-center justify-between gap-2">

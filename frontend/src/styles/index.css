@@ -4,21 +4,28 @@
 
 /* Design tokens. Calm enterprise palette: cool neutrals, one confident blue, colour only for meaning. */
 @layer base {
-	:root {
-		--background: 220 27% 97%;
+	/* Evergreen (default) — sidebar #052e29, primary #00433c, secondary #00aea3, accent #d3a870, neutral #dfe3e7 */
+	:root,
+	:root[data-theme="evergreen"] {
+		--background: 160 14% 96.5%;
 		--surface: 0 0% 100%;
-		--surface-2: 220 30% 98.5%;
-		--foreground: 224 39% 14%;
-		--muted: 220 24% 95.5%;
-		--muted-foreground: 220 12% 46%;
-		--border: 220 18% 90%;
-		--input: 220 16% 85%;
-		--ring: 226 76% 54%;
-		--primary: 226 71% 50%;
+		--surface-2: 150 18% 98.3%;
+		--foreground: 173 55% 12%;
+		--muted: 180 12% 94.5%;
+		--muted-foreground: 175 9% 40%;
+		--border: 210 14% 89%;
+		--input: 200 10% 82%;
+		--ring: 176 100% 34%;
+		--primary: 174 100% 13%;
 		--primary-foreground: 0 0% 100%;
-		--primary-soft: 226 90% 96.5%;
-		--accent: 226 90% 96.5%;
-		--accent-foreground: 226 71% 42%;
+		--primary-soft: 168 45% 93.5%;
+		--brand-2: 176 100% 34%;
+		--accent: 34 53% 63%;
+		--accent-foreground: 34 48% 32%;
+		--accent-soft: 36 60% 93%;
+		--sidebar: 173 80% 10%;
+		--sidebar-foreground: 160 14% 80%;
+		--sidebar-active: 174 65% 17%;
 		--success: 158 64% 32%;
 		--success-soft: 152 54% 94%;
 		--warning: 32 88% 40%;
@@ -27,10 +34,28 @@
 		--danger-soft: 357 90% 96.5%;
 		--destructive: 357 68% 48%;
 		--destructive-foreground: 0 0% 100%;
-		--sidebar: 225 45% 13%;
-		--sidebar-foreground: 222 24% 78%;
-		--sidebar-active: 226 60% 24%;
 		--radius: 14px;
+	}
+
+	/* Navy — sidebar #07132b, ink #07142c, interactive #1866f4, accent #1fc8c8, neutral #eaedef */
+	:root[data-theme="navy"] {
+		--background: 210 25% 96.8%;
+		--surface-2: 210 30% 98.5%;
+		--foreground: 219 73% 12%;
+		--muted: 210 20% 95%;
+		--muted-foreground: 215 12% 44%;
+		--border: 204 13% 89%;
+		--input: 210 12% 83%;
+		--ring: 219 91% 52%;
+		--primary: 219 91% 52%;
+		--primary-soft: 219 100% 96%;
+		--brand-2: 180 73% 45%;
+		--accent: 180 73% 45%;
+		--accent-foreground: 182 75% 26%;
+		--accent-soft: 180 60% 93%;
+		--sidebar: 220 72% 10%;
+		--sidebar-foreground: 218 25% 78%;
+		--sidebar-active: 220 55% 20%;
 	}
 
 	html {

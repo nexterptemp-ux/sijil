@@ -1,6 +1,7 @@
 // Loads meta.bootstrap and the user's language before anything else renders.
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
+import { Logo } from "@/components/Logo";
 import { ErrorState } from "@/components/states";
 import { loadLanguage, normalizeLang, rememberLang, storedLang, type Lang } from "@/i18n";
 import { ApiError } from "@/lib/api/client";
@@ -57,9 +58,7 @@ function Splash() {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background" role="status" aria-label="Loading">
 			<div className="flex flex-col items-center gap-5">
-				<div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#4f74f0] to-[#2a49c4] text-2xl font-extrabold text-white shadow-[0_10px_30px_-8px_rgba(56,92,230,.6)]">
-					س
-				</div>
+				<Logo variant="mark" className="h-16" />
 				<div className="h-1 w-28 overflow-hidden rounded-full bg-muted">
 					<div className="h-full w-1/2 animate-[sijil-load_1.1s_ease-in-out_infinite] rounded-full bg-primary" />
 				</div>

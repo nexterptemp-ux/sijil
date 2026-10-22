@@ -43,7 +43,7 @@ export function EventCard({
 				className={cn(
 					"rounded-[var(--radius)] border bg-surface p-4 shadow-card sm:p-5",
 					event.is_milestone && !superseded
-						? "border-warning/30 bg-gradient-to-br from-[#fffaf0] to-surface"
+						? "border-warning/30 bg-gradient-to-br from-warning-soft/50 to-surface"
 						: "border-border/80",
 					superseded && "border-dashed bg-surface-2 shadow-none",
 				)}
